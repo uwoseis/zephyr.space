@@ -7,4 +7,16 @@ copyright: © 2014 Brendan Smithyman
 pages:
 - Intro: index.md
 - About: about.md
-theme: united
+theme: flatly
+markdown_extensions:
+- abbr
+- codehilite
+- def_list
+- footnotes
+- markdown_include.include:
+    base_path: docs/
+- math:
+    enable_dollar_delimiter: True
+extra_javascript:
+- 'https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML'
+- 'mathjaxhelper.js'
