@@ -12,12 +12,12 @@
         }, 
         {
             "location": "/about/", 
-            "text": "About\n\n\nThis is the About page!", 
+            "text": "About\n\n\nZephyr\n is the product of research at the \nUniversity of Western Ontario\n, with funding through a \nNSERC\n Postdoctoral Fellowship to Brendan Smithyman and an \nNSERC\n Discovery Grant to R. Gerhard Pratt. In addition, \nZephyr\n interoperates tightly with \nSimPEG\n, a flexible tool for designing and executing geophysical inversion problems. In turn, both \nZephyr\n and \nSimPEG\n are dependent on the \nPython\n programming language, \nNumPy\n, \nSciPy\n and \nJupyter\n/\nIPython\n. Please check out and support these open-source projects.", 
             "title": "About"
         }, 
         {
             "location": "/about/#about", 
-            "text": "This is the About page!", 
+            "text": "Zephyr  is the product of research at the  University of Western Ontario , with funding through a  NSERC  Postdoctoral Fellowship to Brendan Smithyman and an  NSERC  Discovery Grant to R. Gerhard Pratt. In addition,  Zephyr  interoperates tightly with  SimPEG , a flexible tool for designing and executing geophysical inversion problems. In turn, both  Zephyr  and  SimPEG  are dependent on the  Python  programming language,  NumPy ,  SciPy  and  Jupyter / IPython . Please check out and support these open-source projects.", 
             "title": "About"
         }
     ]
