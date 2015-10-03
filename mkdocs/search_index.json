@@ -2,12 +2,12 @@
     "docs": [
         {
             "location": "/", 
-            "text": "Intro\n\n\nWelcome to the documentation and development site for \nZephyr: an open-source seismic FWI toolkit\n. \nZephyr\n is designed to offer a convenient, easy-to-use set of tools and components that enable seismic Full-Waveform Inversion. Most importantly, \nZephyr\n is free and open-source, so you can use it for your own projects and/or contribute to its development. \nZephyr\n continues to gain features and improve daily.", 
+            "text": "Intro\n\n\nWelcome to the documentation and development site for \nZephyr\n: an open-source seismic FWI toolkit. \nZephyr\n is designed to offer a convenient, easy-to-use set of tools and components that enable seismic Full-Waveform Inversion. Most importantly, \nZephyr\n is free and open-source, so you can use it for your own projects and/or contribute to its development. \nZephyr\n continues to gain features and improve daily.", 
             "title": "Intro"
         }, 
         {
             "location": "/#intro", 
-            "text": "Welcome to the documentation and development site for  Zephyr: an open-source seismic FWI toolkit .  Zephyr  is designed to offer a convenient, easy-to-use set of tools and components that enable seismic Full-Waveform Inversion. Most importantly,  Zephyr  is free and open-source, so you can use it for your own projects and/or contribute to its development.  Zephyr  continues to gain features and improve daily.", 
+            "text": "Welcome to the documentation and development site for  Zephyr : an open-source seismic FWI toolkit.  Zephyr  is designed to offer a convenient, easy-to-use set of tools and components that enable seismic Full-Waveform Inversion. Most importantly,  Zephyr  is free and open-source, so you can use it for your own projects and/or contribute to its development.  Zephyr  continues to gain features and improve daily.", 
             "title": "Intro"
         }, 
         {
