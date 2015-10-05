@@ -6,6 +6,7 @@ site_author: Brendan Smithyman
 copyright: © 2014 Brendan Smithyman
 pages:
 - Intro: index.md
+- Background: background.md
 - About: about.md
 theme: flatly
 markdown_extensions:
