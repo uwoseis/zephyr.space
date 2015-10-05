@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        
+        <meta name="author" content="Brendan Smithyman">
+        <link rel="canonical" href="https://zephyr.space/background/">
+        <link rel="shortcut icon" href="../img/favicon.ico">
+
+	<title>Background - zephyr.space</title>
+
+        <link href="../css/bootstrap-custom.min.css" rel="stylesheet">
+        <link href="../css/font-awesome-4.0.3.css" rel="stylesheet">
+        <link rel="stylesheet" href="../css/highlight.css">
+        <link href="../css/base.css" rel="stylesheet">
+
+        <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+        <!--[if lt IE 9]>
+            <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+            <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+        <![endif]-->
+
+        
+    </head>
+
+    <body>
+
+        <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+
+        <!-- Collapsed navigation -->
+        <div class="navbar-header">
+            <!-- Expander button -->
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+
+            <!-- Main title -->
+            <a class="navbar-brand" href="..">zephyr.space</a>
+        </div>
+
+        <!-- Expanded navigation -->
+        <div class="navbar-collapse collapse">
+            <!-- Main navigation -->
+            <ul class="nav navbar-nav">
+            
+            
+                <li >
+                    <a href="..">Intro</a>
+                </li>
+            
+            
+            
+                <li class="active">
+                    <a href="./">Background</a>
+                </li>
+            
+            
+            
+                <li >
+                    <a href="../about/">About</a>
+                </li>
+            
+            
+            </ul>
+
+            <!-- Search, Navigation and Repo links -->
+            <ul class="nav navbar-nav navbar-right">
+                <li >
+                    <a rel="next" href="..">
+                        <i class="fa fa-arrow-left"></i> Previous
+                    </a>
+                </li>
+                <li >
+                    <a rel="prev" href="../about/">
+                        Next <i class="fa fa-arrow-right"></i>
+                    </a>
+                </li>
+                
+                <li>
+                    <a href="https://github.com/bsmithyman/zephyr/">
+                        
+                            <i class="fa fa-github"></i>
+                        
+                        GitHub
+                    </a>
+                </li>
+                
+            </ul>
+        </div>
+    </div>
+</div>
+
+        <div class="container">
+            <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
+    <ul class="nav bs-sidenav">
+    
+        <li class="main active"><a href="#background">Background</a></li>
+        
+            <li><a href="#forward-modelling">Forward modelling</a></li>
+        
+            <li><a href="#inversion">Inversion</a></li>
+        
+    
+    </ul>
+</div></div>
+            <div class="col-md-9" role="main">
+
+<h1 id="background">Background</h1>
+<p>Exploration seismology involves applying seismic imaging and inversion techniques to build physical property models for the Earth and to delineate subsurface features. Seismic Full-Waveform Inversion (<abbr title="Full-Waveform Inversion">FWI</abbr>) is concerned with iteratively improving on a prexisting model of the Earth, in order to better fit seismic measurements recorded in the field. Field measurements (data) are digital recordings of pressure (with hydrophones) or particle velocity (with geophones) at a number of different locations (receivers). In exploration seismology, source enegry typically comes from vibroseis and/or dynamite (onland), or airguns (offshore). One trace exists for each pair of source and receiver.</p>
+<h2 id="forward-modelling">Forward modelling</h2>
+<p>Seismic data are expressions of signals being propagated as waves, and wave equations describe (simplified) physics that model the behaviour of these waves. The constant-density 3D acoustic wave equation takes the form:</p>
+<p>
+<script type="math/tex; mode=display">\left[\nabla^2 - \frac{1}{\mathbf{c}\left(x,y,z\right)}\frac{\partial^2}{\partial t^2}\right]\mathbf{p}\left(x,y,z;t\right) = \mathbf{s}\left(x,y,z;t\right)</script>
+</p>
+<p>where <script type="math/tex">\mathbf{p}</script> is the pressure wavefield arising from a source distribution <script type="math/tex">\mathbf{s}</script> in a model described by the propagation velocity <script type="math/tex">\mathbf{c}</script>. All three quantities are scalar fields that may vary in all three spatial dimensions <script type="math/tex">(x,y,z)</script>; both <script type="math/tex">\mathbf{s}</script> and <script type="math/tex">\mathbf{p}</script> also vary with time <script type="math/tex">t</script>. In many cases, it may be convenient to work in the temporal <em>frequency domain</em>, which requires taking the Fourier transform of the wave equation above. The resulting 3D acoustic Helmholtz equation,</p>
+<p>
+<script type="math/tex; mode=display">\left[\nabla^2 + \frac{\omega^2}{\mathbf{c}^2\left(x,y,z\right)}\right]\mathbf{P}\left(x,y,z; \omega\right) = \mathbf{S}\left(x,y,z; \omega\right),</script>
+</p>
+<p>describes the behaviour of a <em>time-harmonic</em> wavefield <script type="math/tex">\mathbf{P}</script> as a function of the angular frequency <script type="math/tex">\omega = 2\pi f</script>, with temporal frequency <script type="math/tex">f</script>.</p>
+<h3 id="analytical-case">Analytical case</h3>
+<p>In the case of a constant velocity <script type="math/tex">c</script> for all locations <script type="math/tex">(x,y,z)</script>, the analytical response of this system is straightforwardly written. We may simplify by choosing to make <script type="math/tex">\mathbf{s}</script> a point source, in which case</p>
+<p>
+<script type="math/tex; mode=display">\mathbf{s} = s\left(t\right) \delta\left(x,x_\text{s}\right) \delta\left(y,y_\text{s}\right) \delta\left(z,z_\text{s}\right), \text{and}</script>
+<script type="math/tex; mode=display">\mathbf{S} = \mathscr{F}\mathbf{s} = -S\left(\omega\right) \delta\left(x,x_\text{s}\right) \delta\left(y,y_\text{s}\right) \delta\left(z,z_\text{s}\right).</script>
+</p>
+<p>In response to such a point source at location <script type="math/tex">\mathbf{x}_\text{s} = \left(x_\text{s}, y_\text{s}, z_\text{s}\right)</script>, the wavefield <script type="math/tex">\mathbf{P}</script> evaluated at a receiver location <script type="math/tex">\mathbf{x}_\text{r}</script> is described by the Green's function <script type="math/tex">P\left(\mathbf{x}_\text{s},\mathbf{x}_\text{r}\right) = G\left(\mathbf{x}_\text{s},\mathbf{x}_\text{r}\right)S\left(t\right)</script>, with</p>
+<p>
+<script type="math/tex; mode=display">G\left(\mathbf{x}_\text{s},\mathbf{x}_\text{r}\right) = \frac{e^{\pm i \omega t \frac{\omega}{c}\|\mathbf{x}_\text{r}-\mathbf{x}_\text{s}\|}}{4\pi \|\mathbf{x}_\text{r}-\mathbf{x}_\text{s}\|}</script>
+</p>
+<p>in the case of the 3D acoustic Helmholtz equation.</p>
+<h3 id="discrete-case">Discrete case</h3>
+<p>The system of equations above can be straightforwardly discretized in the form</p>
+<p>
+<script type="math/tex; mode=display">A_\mathbf{m}\mathbf{u} = \mathbf{q},</script>
+</p>
+<p>where <script type="math/tex">A_\mathbf{m}</script> is the system matrix representing the physics of the problem, <script type="math/tex">\mathbf{u}</script> is the field vector (discretized <script type="math/tex">\mathbf{P}</script>) and <script type="math/tex">\mathbf{q}</script> is the <abbr title="Right Hand Side">RHS</abbr> source vector (discretized <script type="math/tex">\mathbf{S}</script>). The vector <script type="math/tex">\mathbf{m}</script> represents discretized heterogenous model of velocity <script type="math/tex">\mathbf{c}</script>, upon which <script type="math/tex">A_\mathbf{m}</script> is nonlinearly dependent. The task of solving system of equations for the field vector <script type="math/tex">\mathbf{u}</script> requires inverting the matrix <script type="math/tex">A_\mathbf{m}</script>, such that <script type="math/tex">\mathbf{u} = A_\mathbf{m}^{-1}\mathbf{q}</script>.</p>
+<h3 id="data-synthesis">Data synthesis</h3>
+<p>Once we are equipped with a scheme to form the system of equations <script type="math/tex">A_\mathbf{m}</script> and invert it to solve for the field vector <script type="math/tex">\mathbf{u}</script>, we can go about the task of computing <em>synthetic data</em> to simulate the response of the field experiment. We describe a data restriction operator <script type="math/tex">\mathcal{R}: \mathscr{C}^3 \to \mathscr{C^1}</script>, which maps from the complex 3D wavefield to the responses at a series of receiver locations. The action of this operator is a good conceptual model to understand how the observed data <script type="math/tex">\mathbf{d}_\text{obs}</script> arise from the field experiment. The equivalent matrix <script type="math/tex">R</script> extracts a 1D vector of synthetic data <script type="math/tex">\mathbf{d}_\text{syn}</script> from the field vector <script type="math/tex">\mathbf{u}</script>,</p>
+<p>
+<script type="math/tex; mode=display">\mathbf{d}_\text{syn} = R\mathbf{u} = RA_\mathbf{m}^{-1}\mathbf{q}.</script>
+</p>
+<h2 id="inversion">Inversion</h2>
+<p>In an ideal world, the synthetic data <script type="math/tex">\mathbf{d}_\text{syn}</script> would match the observed data <script type="math/tex">\mathbf{d}_\text{obs}</script>. This perfect correspondence between the experimental results and the results of the computer model would indicate that the earth model <script type="math/tex">\mathbf{m}</script> is correct (within the resolving ability of the experiment).<sup id="fnref:ButDontForgetNoise"><a class="footnote-ref" href="#fn:ButDontForgetNoise" rel="footnote">1</a></sup> In order to quantify the errors in the model <script type="math/tex">\mathbf{m}</script>, we define an <em>objective function</em>,</p>
+<p>
+<script type="math/tex; mode=display">\phi\left(\mathbf{m}\right) = \frac{1}{2} \|\mathbf{d}_\text{syn} - \mathbf{d}_\text{obs}\|_2^2 = \frac{1}{2} \|R A_\mathbf{m}^-1 \mathbf{q} - \mathbf{d}_\text{obs}\|_2^2,</script>
+</p>
+<p>which measures the error between the data arising from the field experiment (<script type="math/tex">\mathbf{d}_\text{obs}</script>) and the data arising from the numerical simulation (<script type="math/tex">\mathbf{d}_\text{syn}</script>) under the <script type="math/tex">L_2</script>-norm. Then, we define an inverse problem</p>
+<p>
+<script type="math/tex; mode=display">\mathbf{m}_\text{opt} = \underset{\mathbf{m}}{\operatorname{argmin}} \phi\left(\mathbf{m}\right),</script>
+</p>
+<p>with the purpose of finding the optimal model <script type="math/tex">\mathbf{m}_\text{opt}</script>. If we were in possession of infinite computer resources, we could employ a global search over all feasible models <script type="math/tex">\mathbf{m}_k</script> to find the best <script type="math/tex">\phi_{\mathbf{m}_k} = \phi\left(\mathbf{m}_k\right)</script> to fit the data<sup id="fnref:NonUniqueness"><a class="footnote-ref" href="#fn:NonUniqueness" rel="footnote">2</a></sup>; however, in practice the solution of the forward problem <script type="math/tex">\mathbf{u} = A_\mathbf{m}^{-1}\mathbf{q}</script> is quite costly, and we must employ a more efficient method for finding (something close to) <script type="math/tex">\mathbf{m}_\text{opt}</script>.</p>
+<h3 id="local-optimization">Local optimization</h3>
+<p>Rather than search over all possible <script type="math/tex">\mathbf{m}_k</script>, we can take advantage of the fact that we often have a good estimate of <script type="math/tex">\mathbf{m}_\text{opt}</script> to begin with.<sup id="fnref:InitialModel"><a class="footnote-ref" href="#fn:InitialModel" rel="footnote">3</a></sup> In this case, we might consider implementing a <em>local optimization</em> method. The simplest example is the <em>steepest descent</em> or <em>gradient</em> algorigthm, which uses a first-order approximation to the rate of change of the data misfit with respect to each model parameter. The gradient is</p>
+<p>
+<script type="math/tex; mode=display">\nabla_{\mathbf{m}_k} \phi\left(\mathbf{m}\right) = J_{\mathbf{m}_k}^T\delta\mathbf{d}^* = J_{\mathbf{m}_k}^T \left[\mathbf{d}_\text{syn} - \mathbf{d}_\text{obs}\right]^*,</script>
+</p>
+<p>where <script type="math/tex">J</script> is the Jacobian matrix of partial derivatives <script type="math/tex">J_{\mathbf{m}_k;i,j} = \frac{\partial u_i}{\partial m_j}</script> evaluated at the present model; <script type="math/tex">\cdot^T</script> indicates transposition and <script type="math/tex">\cdot^*</script> complex conjugation. The steepest descent algorithm is an iterative process, in which the model iterate <script type="math/tex">\mathbf{m}_k</script> is updated in an attempt to go "downhill" in the space of the objective function <script type="math/tex">\mathbf{\phi}</script>.</p>
+<p>
+<script type="math/tex; mode=display">\mathbf{m}_{k+1} = \mathbf{m}_k - \alpha_k \nabla_{\mathbf{m}_k} \delta\mathbf{d}^*</script>
+</p>
+<p>For appropriate choices of the scalar steplength <script type="math/tex">\alpha</script> at each iteration, <script type="math/tex">\mathbf{m}_k</script> will converge towards a model that finds a reduced value of <script type="math/tex">\phi</script>.<sup id="fnref:ButStationaryPoint"><a class="footnote-ref" href="#fn:ButStationaryPoint" rel="footnote">4</a></sup> Various schemes exist to improve on the steepest descent algorithm, including projection methods, conjugate gradient approaches, and higher-order methods including Newton, Gauss-Newton and quasi-Newton (l-BFGS) schemes.</p>
+<h3 id="model-regularization">Model regularization</h3>
+<p>In the introduction to the <a href="#inversion">Inversion</a> section, we define the inverse problem that involves finding <script type="math/tex">\mathbf{m}_\text{opt}</script> to minimize the misfit function <script type="math/tex">\phi\left(m\right)</script>. However, we put no other <em>constraints</em> on the solution. In many practical cases, we know additional information about the sorts of models that can exist, or are most feasible. Therefore, it may make sense to solve a different problem, such as</p>
+<p>
+<script type="math/tex; mode=display">\mathbf{m}_\text{opt} = \underset{\mathbf{m}}{\operatorname{argmin}} \phi\left(\mathbf{m}\right) \text{ subject to } \mathbf{m} \in \mathcal{C},</script>
+</p>
+<p>which additionally requires that <script type="math/tex">\mathbf{m}</script> sits inside some (convex) constraint set <script type="math/tex">\mathcal{C}</script>. This set could include all models that have velocities within a feasible range, or all models that are sufficiently smooth, etc. All of these criteria represent types of <em>model regularization</em>.</p>
+<p>In order to find models that fit this new problem, there are various approaches that may be used:</p>
+<dl>
+<dt>Projection methods</dt>
+<dd>Define a projector <script type="math/tex">\mathcal{P}</script> such that <script type="math/tex">\text{range}\left(\mathcal{P}\right) \in \mathcal{C}</script>.<sup id="fnref:Projector"><a class="footnote-ref" href="#fn:Projector" rel="footnote">5</a></sup> Then, the projector is applied to the candidate model terates to ensure that <script type="math/tex">\mathbf{m}_k</script> continues to satisfy <script type="math/tex">\mathcal{C}</script>, e.g., <script type="math/tex; mode=display">\mathbf{m}_{k+1} = \mathcal{P} \left[\mathbf{m}_k - \alpha_k \nabla_{\mathbf{m}_k} \delta\mathbf{d}^*\right].</script>
+</dd>
+<dt>Penalty methods</dt>
+<dd>Redefine the objective function <script type="math/tex; mode=display">\phi\left(\mathbf{m}\right) = \frac{1}{2} \|R A_\mathbf{m}^-1 \mathbf{q} - \mathbf{d}_\text{obs}\|_2^2 + \frac{\lambda_R}{2}\|R\mathbf{m}\|_2^2 + \frac{\lambda_D}{2} \|D\left(\mathbf{m}-\mathbf{m}_\text{ref}\right)\|_2^2,</script> with <script type="math/tex">R</script> and <script type="math/tex">D</script> chosen to penalize certain model properties. Typical choices might be for <script type="math/tex">R</script> to be a discrete representation of <script type="math/tex">\nabla</script> (i.e., first spatial derivative) and <script type="math/tex">D</script> to be diagonal by construction.</dd>
+</dl>
+<div class="footnote">
+<hr />
+<ol>
+<li id="fn:ButDontForgetNoise">
+<p>Of course, in practice <script type="math/tex">\mathbf{d}_\text{obs} = \mathcal{R}\mathbf{P} + \epsilon</script>, where <script type="math/tex">\epsilon</script> is some distribution of noise in the recordings, so a perfect match between <script type="math/tex">\mathbf{d}_\text{obs}</script> and <script type="math/tex">\mathbf{d}_\text{syn}</script> would be quite suspicious.&#160;<a class="footnote-backref" href="#fnref:ButDontForgetNoise" rev="footnote" title="Jump back to footnote 1 in the text">&#8617;</a></p>
+</li>
+<li id="fn:NonUniqueness">
+<p>It is also important to point out that, in general, there is no single <script type="math/tex">\mathbf{m}_\text{opt}</script> with minimum misfit as measured under <script type="math/tex">\phi_\mathbf{m}</script>. Rather, there are usually an infinite number of models that can give rise to a particular misfit <script type="math/tex">\phi_{\mathbf{m}_k}</script>. This is an expression of nonuniqueness, and is one of the motivations for properly implementing <a href="#model-regularization">Model regularization</a>.&#160;<a class="footnote-backref" href="#fnref:NonUniqueness" rev="footnote" title="Jump back to footnote 2 in the text">&#8617;</a></p>
+</li>
+<li id="fn:InitialModel">
+<p>In practice, this estimate typically comes from from another geophysical method (e.g., traveltime inversion), in combination with <em>a priori</em> knowledge of geology and rock physics information.&#160;<a class="footnote-backref" href="#fnref:InitialModel" rev="footnote" title="Jump back to footnote 3 in the text">&#8617;</a></p>
+</li>
+<li id="fn:ButStationaryPoint">
+<p>NB: This is true as long as the initial model iterate is not a stationary point, in which case <script type="math/tex">\nabla_\mathbf{m}</script> is zero.&#160;<a class="footnote-backref" href="#fnref:ButStationaryPoint" rev="footnote" title="Jump back to footnote 4 in the text">&#8617;</a></p>
+</li>
+<li id="fn:Projector">
+<p>A projector is a linear operator <script type="math/tex">\mathcal{P}</script> that is <em>idempotent</em>, meaning <script type="math/tex">\mathcal{PP}\mathbf{x} = \mathcal{P}\mathbf{x}</script>.&#160;<a class="footnote-backref" href="#fnref:Projector" rev="footnote" title="Jump back to footnote 5 in the text">&#8617;</a></p>
+</li>
+</ol>
+</div></div>
+        </div>
+
+        <footer class="col-md-12">
+            <hr>
+            
+                <center>© 2014 Brendan Smithyman</center>
+            
+            <center>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a>.</center>
+        </footer>
+
+        <script src="../js/jquery-1.10.2.min.js"></script>
+        <script src="../js/bootstrap-3.0.3.min.js"></script>
+        <script src="../js/highlight.pack.js"></script>
+        <script src="../js/base.js"></script>
+        <script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML"></script>
+        <script src="../mathjaxhelper.js"></script>
+    </body>
+</html>
