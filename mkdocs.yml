@@ -20,4 +20,4 @@ markdown_extensions:
     enable_dollar_delimiter: True
 extra_javascript:
 - 'https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML'
-- 'mathjaxhelper.js'
+- 'scripts/mathjaxhelper.js'
