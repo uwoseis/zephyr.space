@@ -2,7 +2,7 @@
     "docs": [
         {
             "location": "/", 
-            "text": "Intro\n\n\nWelcome to the documentation and development site for \nZephyr\n: an open-source seismic full-waveform inversion toolkit. \nZephyr\n is designed to offer a convenient, easy-to-use set of tools and components that enable seismic \nFWI\n. Most importantly, \nZephyr\n is free and open-source, so you can use it for your own projects and/or contribute to its development. \nZephyr\n continues to gain features and improve daily.\n\n\nDownload\n\n\nTo download the source code for the \nZephyr\n project, please visit the \nproject page on GitHub\n.\n\n\nBranches\n\n\nCurrent development tree: \nsimpeg-integration\n\n\n\n\nmaster\n\n\nself-contained\n\n\nendpoint-integration\n\n\nsimpeg-integration\n\n\n\n\nDependencies\n\n\nZephyr\n depends on \nSimPEG\n, which is a flexible toolkit for solving geophysical inversion problems, written in \nPython\n. Visit the \nSimPEG\n GitHub page\n to download the project.", 
+            "text": "Intro\n\n\nWelcome to the documentation and development site for \nZephyr\n: an open-source seismic full-waveform inversion toolkit. \nZephyr\n is designed to offer a convenient, easy-to-use set of tools and components that enable seismic \nFWI\n. Most importantly, \nZephyr\n is free and open-source, so you can use it for your own projects and/or contribute to its development. \nZephyr\n continues to gain features and improve daily.\n\n\nDownload\n\n\nTo download the source code for the \nZephyr\n project, please visit the \nproject page on GitHub\n.\n\n\nBranches\n\n\n\n\nmaster\n\n\n\n\nDependencies\n\n\nZephyr\n depends on \nSimPEG\n, which is a flexible toolkit for solving geophysical inversion problems, written in \nPython\n. Visit the \nSimPEG\n GitHub page\n to download the project.", 
             "title": "Intro"
         }, 
         {
@@ -12,7 +12,7 @@
         }, 
         {
             "location": "/#download", 
-            "text": "To download the source code for the  Zephyr  project, please visit the  project page on GitHub .  Branches  Current development tree:  simpeg-integration   master  self-contained  endpoint-integration  simpeg-integration", 
+            "text": "To download the source code for the  Zephyr  project, please visit the  project page on GitHub .  Branches   master", 
             "title": "Download"
         }, 
         {
