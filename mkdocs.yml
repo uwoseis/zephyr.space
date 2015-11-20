@@ -1,9 +1,9 @@
 site_name: zephyr.space
 site_url: https://zephyr.space/
-repo_url: https://github.com/bsmithyman/zephyr/
+repo_url: https://github.com/uwoseis/zephyr/
 site_description: an open-source seismic FWI toolkit
 site_author: Brendan Smithyman
-copyright: © 2014 Brendan Smithyman
+copyright: © 2014–2015 Brendan Smithyman
 pages:
 - Intro: index.md
 - Background: background.md

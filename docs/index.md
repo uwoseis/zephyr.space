@@ -4,16 +4,11 @@ Welcome to the documentation and development site for Zephyr: an open-source sei
 
 ## Download
 
-To download the source code for the Zephyr project, please visit the [project page on GitHub](https://github.com/bsmithyman/zephyr).
+To download the source code for the Zephyr project, please visit the [project page on GitHub](https://github.com/uwoseis/zephyr).
 
 ### Branches
 
-Current development tree: [simpeg-integration](https://github.com/bsmithyman/zephyr/tree/simpeg-integration)
-
-- [master](https://github.com/bsmithyman/zephyr)
-- [self-contained](https://github.com/bsmithyman/zephyr/tree/self-contained)
-- [endpoint-integration](https://github.com/bsmithyman/zephyr/tree/endpoint-integration)
-- [simpeg-integration](https://github.com/bsmithyman/zephyr/tree/simpeg-integration)
+- [master](https://github.com/uwoseis/zephyr)
 
 ## Dependencies
 
