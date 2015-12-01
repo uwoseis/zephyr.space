@@ -63,6 +63,12 @@
             
             
                 <li >
+                    <a href="usage/">Usage</a>
+                </li>
+            
+            
+            
+                <li >
                     <a href="about/">About</a>
                 </li>
             
@@ -104,6 +110,8 @@
         
             <li><a href="#download">Download</a></li>
         
+            <li><a href="#branches">Branches</a></li>
+        
             <li><a href="#dependencies">Dependencies</a></li>
         
     
@@ -115,12 +123,29 @@
 <p>Welcome to the documentation and development site for <abbr title="an open-source seismic FWI toolkit">Zephyr</abbr>: an open-source seismic full-waveform inversion toolkit. <abbr title="an open-source seismic FWI toolkit">Zephyr</abbr> is designed to offer a convenient, easy-to-use set of tools and components that enable seismic <abbr title="Full-Waveform Inversion">FWI</abbr>. Most importantly, <abbr title="an open-source seismic FWI toolkit">Zephyr</abbr> is free and open-source, so you can use it for your own projects and/or contribute to its development. <abbr title="an open-source seismic FWI toolkit">Zephyr</abbr> continues to gain features and improve daily.</p>
 <h2 id="download">Download</h2>
 <p>To download the source code for the <abbr title="an open-source seismic FWI toolkit">Zephyr</abbr> project, please visit the <a href="https://github.com/uwoseis/zephyr">project page on GitHub</a>.</p>
-<h3 id="branches">Branches</h3>
-<ul>
-<li><a href="https://github.com/uwoseis/zephyr">master</a></li>
-</ul>
+<h2 id="branches">Branches</h2>
+<dl>
+<dt><a href="https://github.com/uwoseis/zephyr/tree/master">master</a></dt>
+<dd>The current main branch of development for the <abbr title="an open-source seismic FWI toolkit">Zephyr</abbr> project.</dd>
+<dt><a href="https://github.com/uwoseis/zephyr/tree/ani_testing">ani_testing</a></dt>
+<dd>Ongoing work testing anisotropic modelling code</dd>
+<dt><a href="https://github.com/uwoseis/zephyr/tree/distributor">distributor</a></dt>
+<dd>Ongoing work on distributed computing schedulers for composite problems.</dd>
+<dt><a href="https://github.com/uwoseis/zephyr/tree/disctests">disctests</a></dt>
+<dd>Ongoing work to write tests for the discretizations.</dd>
+<dt><a href="https://github.com/uwoseis/zephyr/tree/inversion">inversion</a></dt>
+<dd>Ongoing work to implement a full-featured waveform inversion workflow</dd>
+<dt><a href="https://github.com/uwoseis/zephyr/tree/oldzephyr_simpeg-integration">oldzephyr_simpeg-integration</a></dt>
+<dd>Development from 2014 and early 2015, which is still being laboriously merged into <a href="https://github.com/uwoseis/zephyr/tree/master">master</a>. This includes some of the more advanced work on distributed computing, which is gradually being included in <code>zephyr.middleware.distributors</code>.</dd>
+</dl>
 <h2 id="dependencies">Dependencies</h2>
-<p><abbr title="an open-source seismic FWI toolkit">Zephyr</abbr> depends on <a href="http://www.simpeg.xyz"><abbr title="Simulation and Parameter Estimation in Geophysics">SimPEG</abbr></a>, which is a flexible toolkit for solving geophysical inversion problems, written in <abbr title="a programming language that lets you work quickly and integrate systems more effectively">Python</abbr>. Visit the <a href="https://github.com/simpeg/simpeg"><abbr title="Simulation and Parameter Estimation in Geophysics">SimPEG</abbr> GitHub page</a> to download the project.</p></div>
+<p><abbr title="an open-source seismic FWI toolkit">Zephyr</abbr> is written in <abbr title="a programming language that lets you work quickly and integrate systems more effectively">Python</abbr>, and tested using the CPython implementation on Mac OS and Linux (at present the authors know of no reason that it wouldn't work on Windows, but this is untested).</p>
+<p><abbr title="an open-source seismic FWI toolkit">Zephyr</abbr> makes extensive use of <a href="http://www.numpy.org"><abbr title="the fundamental package for scientific computing with Python">NumPy</abbr></a> and <a href="http://scipy.org"><abbr title="a Python-based ecosystem of open-source software for mathematics, science, and engineering">SciPy</abbr></a> in order to support numerical operations. At present (and by design), <code>zephyr.backend</code> depends only on <abbr title="the fundamental package for scientific computing with Python">NumPy</abbr>, <abbr title="a Python-based ecosystem of open-source software for mathematics, science, and engineering">SciPy</abbr> and the <abbr title="a programming language that lets you work quickly and integrate systems more effectively">Python</abbr> standard library.</p>
+<p>The <code>frontend</code> and <code>middleware</code> layers of <abbr title="an open-source seismic FWI toolkit">Zephyr</abbr> depend on <a href="http://ipython.org"><abbr title="Interactive computing">IPython</abbr></a> for some of the parallel computing functionality.</p>
+<p>The <code>frontend</code> and <code>middleware</code> layers of <abbr title="an open-source seismic FWI toolkit">Zephyr</abbr> depend on <a href="http://www.simpeg.xyz"><abbr title="Simulation and Parameter Estimation in Geophysics">SimPEG</abbr></a>, which is a flexible toolkit for solving geophysical inversion problems, written in <abbr title="a programming language that lets you work quickly and integrate systems more effectively">Python</abbr>. Visit the <a href="https://github.com/simpeg/simpeg"><abbr title="Simulation and Parameter Estimation in Geophysics">SimPEG</abbr> GitHub page</a> to download the project, or install with pip.</p>
+<p>The <code>frontend</code> command-line interface depends on <a href="http://click.pocoo.org/"><abbr title="A Python package for creating beautiful command line interfaces">Click</abbr></a>.</p>
+<p><abbr title="an open-source seismic FWI toolkit">Zephyr</abbr> aims to be compatible with <a href="http://mumps.enseeiht.fr/"><abbr title="A MUltifrontal Massively Parallel sparse direct Solver">MUMPS</abbr></a>, and a corresponding <abbr title="a programming language that lets you work quickly and integrate systems more effectively">Python</abbr>-based wrapper called <a href="https://github.com/rowanc1/pymatsolver">pymatsolver</a>, but this functionality is experimental.</p>
+<p>Plotting and analysis tools make use of <a href="http://matplotlib.org/"><abbr title="A Python 2D plotting library which produces publication quality figures">matplotlib</abbr></a>.</p></div>
         </div>
 
         <footer class="col-md-12">
