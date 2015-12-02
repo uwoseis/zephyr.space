@@ -1,3 +1,5 @@
+.PHONY: all build serve install deploy api clean
+
 all: build
 
 build: api 
