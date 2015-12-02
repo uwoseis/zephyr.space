@@ -31,3 +31,5 @@
 [inversion]: https://github.com/uwoseis/zephyr/tree/inversion
 [oldzephyr_simpeg-integration]: https://github.com/uwoseis/zephyr/tree/oldzephyr_simpeg-integration
 [ani_testing]: https://github.com/uwoseis/zephyr/tree/ani_testing
+
+[API]: /api/html/zephyr.html

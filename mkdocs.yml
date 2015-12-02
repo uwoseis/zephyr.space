@@ -22,3 +22,13 @@ markdown_extensions:
 extra_javascript:
 - 'https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML'
 - 'scripts/mathjaxhelper.js'
+extra_templates:
+- 'api/html/genindex.html'
+- 'api/html/modules.html'
+- 'api/html/py-modindex.html'
+- 'api/html/search.html'
+- 'api/html/zephyr.backend.Tests.html'
+- 'api/html/zephyr.backend.html'
+- 'api/html/zephyr.frontend.html'
+- 'api/html/zephyr.html'
+- 'api/html/zephyr.middleware.html'
