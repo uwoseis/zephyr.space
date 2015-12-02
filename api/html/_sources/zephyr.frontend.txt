@@ -1,0 +1,22 @@
+zephyr.frontend package
+=======================
+
+Submodules
+----------
+
+zephyr.frontend.cli module
+--------------------------
+
+.. automodule:: zephyr.frontend.cli
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+
+Module contents
+---------------
+
+.. automodule:: zephyr.frontend
+    :members:
+    :undoc-members:
+    :show-inheritance:
