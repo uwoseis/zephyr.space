@@ -1,0 +1,190 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>zephyr package &mdash; Zephyr devel documentation</title>
+    
+    <link rel="stylesheet" href="_static/classic.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     'devel',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="Zephyr devel documentation" href="zephyr.html" /> 
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="zephyr.html">Zephyr devel documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="zephyr-package">
+<h1>zephyr package<a class="headerlink" href="#zephyr-package" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="inheritance-diagram-for-attributemapper">
+<h2>Inheritance Diagram for AttributeMapper<a class="headerlink" href="#inheritance-diagram-for-attributemapper" title="Permalink to this headline">¶</a></h2>
+<p class="graphviz">
+<img src="_images/inheritance-a07c74c83e6db12ddc67c1e1ceb56384a8d0a646.png" alt="Inheritance diagram of zephyr.backend.analytical, zephyr.backend.discretization, zephyr.backend.distributors, zephyr.backend.eurus, zephyr.backend.meta, zephyr.backend.minizephyr, zephyr.backend.solver, zephyr.backend.source" usemap="#inheritance32fcf7bcbf" class="inheritance"/>
+<map id="inheritance32fcf7bcbf" name="inheritance32fcf7bcbf">
+<area shape="rect" id="node1" href="zephyr.backend.html#zephyr.backend.analytical.AnalyticalHelmholtz" title="An implementation of the analytical Helmholtz system," alt="" coords="2,86,100,94"/>
+<area shape="rect" id="node2" href="zephyr.backend.html#zephyr.backend.discretization.BaseDiscretization" title="Base class for all discretizations." alt="" coords="231,58,334,66"/>
+<area shape="rect" id="node12" href="zephyr.backend.html#zephyr.backend.eurus.Eurus" title="zephyr.backend.eurus.Eurus" alt="" coords="368,58,432,66"/>
+<area shape="rect" id="node17" href="zephyr.backend.html#zephyr.backend.minizephyr.MiniZephyr" title="Implements 2D (visco)acoustic frequency&#45;domain wave physics, with" alt="" coords="358,42,442,50"/>
+<area shape="rect" id="node18" href="zephyr.backend.html#zephyr.backend.minizephyr.MiniZephyr25D" title="Implements 2.5D (visco)acoustic frequency&#45;domain wave physics," alt="" coords="354,74,446,82"/>
+<area shape="rect" id="node3" href="zephyr.backend.html#zephyr.backend.meta.BaseModelDependent" title="AttributeMapper subclass that implements model&#45;dependent properties," alt="" coords="116,58,211,66"/>
+<area shape="rect" id="node20" href="zephyr.backend.html#zephyr.backend.source.BaseSource" title="Trivial base class for sources" alt="" coords="243,26,322,34"/>
+<area shape="rect" id="node4" href="zephyr.backend.html#zephyr.backend.discretization.DiscretizationWrapper" title="Base class for objects that wrap around discretizations, for example" alt="" coords="227,86,338,94"/>
+<area shape="rect" id="node6" href="zephyr.backend.html#zephyr.backend.discretization.MultiFreq" title="Wrapper to carry out forward&#45;modelling using the stored" alt="" coords="357,106,443,114"/>
+<area shape="rect" id="node5" href="zephyr.backend.html#zephyr.backend.meta.BaseSCCache" title="Subclass of AttributeMapper that caches (a filtered version of) the" alt="" coords="124,78,204,86"/>
+<area shape="rect" id="node13" href="zephyr.backend.html#zephyr.backend.meta.AMMetaClass" title="Meta class that enables AttributeMapper functionality, including inheritance" alt="" coords="12,54,90,62"/>
+<area shape="rect" id="node14" href="zephyr.backend.html#zephyr.backend.meta.AttributeMapper" title="An AttributeMapper subclass defines a dictionary initMap, which" alt="" coords="10,70,92,78"/>
+<area shape="rect" id="node15" href="zephyr.backend.html#zephyr.backend.meta.ClassProperty" title="Class decorator to enable property behaviour in classes" alt="" coords="12,38,90,46"/>
+<area shape="rect" id="node16" href="zephyr.backend.html#zephyr.backend.meta.SCFilter" title="A SCFilter class is initialized with a list of classes as arguments." alt="" coords="18,22,84,30"/>
+<area shape="rect" id="node19" href="zephyr.backend.html#zephyr.backend.solver.DirectSolver" title="Wrapper around a direct sparse system solver." alt="" coords="13,6,89,14"/>
+<area shape="rect" id="node21" href="zephyr.backend.html#zephyr.backend.source.FakeSource" title="Source that does nothing (for use with analytical systems)" alt="" coords="361,26,439,34"/>
+<area shape="rect" id="node24" href="zephyr.backend.html#zephyr.backend.source.SimpleSource" title="A basic source&#45;implementing class. This takes configuration" alt="" coords="359,10,441,18"/>
+<area shape="rect" id="node22" href="zephyr.backend.html#zephyr.backend.source.KaiserSource" title="A simple wrapper class that generates dense sources" alt="" coords="576,2,657,10"/>
+<area shape="rect" id="node23" href="zephyr.backend.html#zephyr.backend.source.SparseKaiserSource" title="A source&#45;implementing class suitable for use in production codes." alt="" coords="464,2,559,10"/>
+<area shape="rect" id="node25" href="zephyr.backend.html#zephyr.backend.source.StackedSimpleSource" title="A SimpleSource subclass that returns source vectors twice the size," alt="" coords="462,18,560,26"/>
+</map>
+</p>
+</div>
+<div class="section" id="subpackages">
+<h2>Subpackages<a class="headerlink" href="#subpackages" title="Permalink to this headline">¶</a></h2>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="zephyr.backend.html">zephyr.backend package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="zephyr.backend.html#subpackages">Subpackages</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="zephyr.backend.Tests.html">zephyr.backend.Tests package</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="zephyr.backend.Tests.html#submodules">Submodules</a></li>
+<li class="toctree-l4"><a class="reference internal" href="zephyr.backend.Tests.html#module-zephyr.backend.Tests.test_Analytical">zephyr.backend.Tests.test_Analytical module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="zephyr.backend.Tests.html#module-zephyr.backend.Tests.test_Eurus">zephyr.backend.Tests.test_Eurus module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="zephyr.backend.Tests.html#module-zephyr.backend.Tests.test_Meta">zephyr.backend.Tests.test_Meta module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="zephyr.backend.Tests.html#module-zephyr.backend.Tests.test_MiniZephyr">zephyr.backend.Tests.test_MiniZephyr module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="zephyr.backend.Tests.html#module-zephyr.backend.Tests.test_Sources">zephyr.backend.Tests.test_Sources module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="zephyr.backend.Tests.html#module-zephyr.backend.Tests">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="zephyr.backend.html#submodules">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="zephyr.backend.html#module-zephyr.backend.analytical">zephyr.backend.analytical module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="zephyr.backend.html#module-zephyr.backend.discretization">zephyr.backend.discretization module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="zephyr.backend.html#module-zephyr.backend.eurus">zephyr.backend.eurus module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="zephyr.backend.html#module-zephyr.backend.meta">zephyr.backend.meta module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="zephyr.backend.html#module-zephyr.backend.minizephyr">zephyr.backend.minizephyr module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="zephyr.backend.html#module-zephyr.backend.solver">zephyr.backend.solver module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="zephyr.backend.html#module-zephyr.backend.source">zephyr.backend.source module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="zephyr.backend.html#module-zephyr.backend">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="zephyr.middleware.html">zephyr.middleware package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="zephyr.middleware.html#subpackages">Subpackages</a><ul class="simple">
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="zephyr.middleware.html#submodules">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="zephyr.middleware.html#module-zephyr.middleware.fields">zephyr.middleware.fields module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="zephyr.middleware.html#module-zephyr.middleware.problem">zephyr.middleware.problem module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="zephyr.middleware.html#module-zephyr.middleware.survey">zephyr.middleware.survey module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="zephyr.middleware.html#zephyr-middleware-util-module">zephyr.middleware.util module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="zephyr.middleware.html#module-zephyr.middleware">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="zephyr.frontend.html">zephyr.frontend package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="zephyr.frontend.html#submodules">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="zephyr.frontend.html#module-zephyr.frontend.cli">zephyr.frontend.cli module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="zephyr.frontend.html#module-zephyr.frontend">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<div class="section" id="module-zephyr">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-zephyr" title="Permalink to this headline">¶</a></h2>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="zephyr.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">zephyr package</a><ul>
+<li><a class="reference internal" href="#inheritance-diagram-for-attributemapper">Inheritance Diagram for AttributeMapper</a></li>
+<li><a class="reference internal" href="#subpackages">Subpackages</a></li>
+<li><a class="reference internal" href="#module-zephyr">Module contents</a></li>
+</ul>
+</li>
+</ul>
+
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/index.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="zephyr.html">Zephyr devel documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &copy; Copyright 2015, Brendan Smithyman.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.3.1.
+    </div>
+  </body>
+</html>

@@ -1,0 +1,8 @@
+<map id="inheritance0aeb9fb1a7" name="inheritance0aeb9fb1a7">
+<area shape="rect" id="node1" href="zephyr.backend.html#zephyr.backend.meta.AMMetaClass" title="Meta class that enables AttributeMapper functionality, including inheritance" alt="" coords="11,149,246,173"/>
+<area shape="rect" id="node2" href="zephyr.backend.html#zephyr.backend.meta.AttributeMapper" title="An AttributeMapper subclass defines a dictionary initMap, which" alt="" coords="5,101,252,125"/>
+<area shape="rect" id="node3" href="zephyr.backend.html#zephyr.backend.meta.BaseModelDependent" title="AttributeMapper subclass that implements model&#45;dependent properties," alt="" coords="300,77,584,101"/>
+<area shape="rect" id="node4" href="zephyr.backend.html#zephyr.backend.meta.BaseSCCache" title="Subclass of AttributeMapper that caches (a filtered version of) the" alt="" coords="322,125,561,149"/>
+<area shape="rect" id="node5" href="zephyr.backend.html#zephyr.backend.meta.ClassProperty" title="Class decorator to enable property behaviour in classes" alt="" coords="11,53,246,77"/>
+<area shape="rect" id="node6" href="zephyr.backend.html#zephyr.backend.meta.SCFilter" title="A SCFilter class is initialized with a list of classes as arguments." alt="" coords="29,5,229,29"/>
+</map>

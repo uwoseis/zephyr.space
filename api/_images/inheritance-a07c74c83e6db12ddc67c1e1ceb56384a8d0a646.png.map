@@ -1,0 +1,22 @@
+<map id="inheritance32fcf7bcbf" name="inheritance32fcf7bcbf">
+<area shape="rect" id="node1" href="zephyr.backend.html#zephyr.backend.analytical.AnalyticalHelmholtz" title="An implementation of the analytical Helmholtz system," alt="" coords="2,86,100,94"/>
+<area shape="rect" id="node2" href="zephyr.backend.html#zephyr.backend.discretization.BaseDiscretization" title="Base class for all discretizations." alt="" coords="231,58,334,66"/>
+<area shape="rect" id="node12" href="zephyr.backend.html#zephyr.backend.eurus.Eurus" title="zephyr.backend.eurus.Eurus" alt="" coords="368,58,432,66"/>
+<area shape="rect" id="node17" href="zephyr.backend.html#zephyr.backend.minizephyr.MiniZephyr" title="Implements 2D (visco)acoustic frequency&#45;domain wave physics, with" alt="" coords="358,42,442,50"/>
+<area shape="rect" id="node18" href="zephyr.backend.html#zephyr.backend.minizephyr.MiniZephyr25D" title="Implements 2.5D (visco)acoustic frequency&#45;domain wave physics," alt="" coords="354,74,446,82"/>
+<area shape="rect" id="node3" href="zephyr.backend.html#zephyr.backend.meta.BaseModelDependent" title="AttributeMapper subclass that implements model&#45;dependent properties," alt="" coords="116,58,211,66"/>
+<area shape="rect" id="node20" href="zephyr.backend.html#zephyr.backend.source.BaseSource" title="Trivial base class for sources" alt="" coords="243,26,322,34"/>
+<area shape="rect" id="node4" href="zephyr.backend.html#zephyr.backend.discretization.DiscretizationWrapper" title="Base class for objects that wrap around discretizations, for example" alt="" coords="227,86,338,94"/>
+<area shape="rect" id="node6" href="zephyr.backend.html#zephyr.backend.discretization.MultiFreq" title="Wrapper to carry out forward&#45;modelling using the stored" alt="" coords="357,106,443,114"/>
+<area shape="rect" id="node5" href="zephyr.backend.html#zephyr.backend.meta.BaseSCCache" title="Subclass of AttributeMapper that caches (a filtered version of) the" alt="" coords="124,78,204,86"/>
+<area shape="rect" id="node13" href="zephyr.backend.html#zephyr.backend.meta.AMMetaClass" title="Meta class that enables AttributeMapper functionality, including inheritance" alt="" coords="12,54,90,62"/>
+<area shape="rect" id="node14" href="zephyr.backend.html#zephyr.backend.meta.AttributeMapper" title="An AttributeMapper subclass defines a dictionary initMap, which" alt="" coords="10,70,92,78"/>
+<area shape="rect" id="node15" href="zephyr.backend.html#zephyr.backend.meta.ClassProperty" title="Class decorator to enable property behaviour in classes" alt="" coords="12,38,90,46"/>
+<area shape="rect" id="node16" href="zephyr.backend.html#zephyr.backend.meta.SCFilter" title="A SCFilter class is initialized with a list of classes as arguments." alt="" coords="18,22,84,30"/>
+<area shape="rect" id="node19" href="zephyr.backend.html#zephyr.backend.solver.DirectSolver" title="Wrapper around a direct sparse system solver." alt="" coords="13,6,89,14"/>
+<area shape="rect" id="node21" href="zephyr.backend.html#zephyr.backend.source.FakeSource" title="Source that does nothing (for use with analytical systems)" alt="" coords="361,26,439,34"/>
+<area shape="rect" id="node24" href="zephyr.backend.html#zephyr.backend.source.SimpleSource" title="A basic source&#45;implementing class. This takes configuration" alt="" coords="359,10,441,18"/>
+<area shape="rect" id="node22" href="zephyr.backend.html#zephyr.backend.source.KaiserSource" title="A simple wrapper class that generates dense sources" alt="" coords="576,2,657,10"/>
+<area shape="rect" id="node23" href="zephyr.backend.html#zephyr.backend.source.SparseKaiserSource" title="A source&#45;implementing class suitable for use in production codes." alt="" coords="464,2,559,10"/>
+<area shape="rect" id="node25" href="zephyr.backend.html#zephyr.backend.source.StackedSimpleSource" title="A SimpleSource subclass that returns source vectors twice the size," alt="" coords="462,18,560,26"/>
+</map>

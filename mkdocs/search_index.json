@@ -46,6 +46,26 @@
             "title": "Inversion"
         }, 
         {
+            "location": "/design/", 
+            "text": "Design\n\n\nSubmodules\n\n\n\n\nClasses", 
+            "title": "Design"
+        }, 
+        {
+            "location": "/design/#design", 
+            "text": "", 
+            "title": "Design"
+        }, 
+        {
+            "location": "/design/#submodules", 
+            "text": "", 
+            "title": "Submodules"
+        }, 
+        {
+            "location": "/design/#classes", 
+            "text": "", 
+            "title": "Classes"
+        }, 
+        {
             "location": "/usage/", 
             "text": "Usage\n\n\nThe Zephyr project aims to fulfill two main goals:\n\n\n\n\nTo support interactive research computing and designing new algorithms, with a focus on seismic waveform inversion, and\n\n\nto provide a flexible interface to run waveform inversion computations on parallel computing environments.\n\n\n\n\nFurthermore, Zephyr makes use of distributed computing tools from IPython, which are leveraged in both operating modes. IPython (and Jupyter) combine to produce the notebook interface that is quickly becoming the standard for interactive scientific computing in Python and other interpreted languages.\n\n\nCommand-line interface (\nzephyr.frontend.CLI\n)\n\n\nNB: Work in progress\n\n\nIn order to provide a lightweight, non-interactive batch-mode for production and cluster computations, we have implemented a command-line based frontend to Zephyr. This command-line interface presents several sub commands that control the different functions.\n\n\nUsage\n:\n \nzephyr\n \n[\nOPTIONS\n]\n \nCOMMAND\n \n[\nARGS\n]...\n\n\n  \nA\n \ncommand\n-\nline\n \ninterface\n \nfor\n \nZephyr\n\n\n\nOptions\n:\n\n  \n--\nversion\n  \nShow\n \nthe\n \nversion\n \nand\n \nexit\n.\n\n  \n--\nhelp\n     \nShow\n \nthis\n \nmessage\n \nand\n \nexit\n.\n\n\n\nCommands\n:\n\n  \nclean\n    \nClean\n \nup\n \nproject\n \nresults\n \n/\n \noutputs\n\n  \ninit\n     \nSet\n \nup\n \na\n \nnew\n \nmodelling\n \nor\n \ninversion\n \nproject\n\n  \ninspect\n  \nPrint\n \ninformation\n \nabout\n \nan\n \nexisting\n \nproject\n\n  \ninvert\n   \nRun\n \nan\n \ninversion\n \nproject\n\n  \nmigrate\n  \nRun\n \na\n \nmigration\n\n  \nmodel\n    \nRun\n \na\n \nforward\n \nmodel\n\n  \npack\n     \nCollect\n \nconfiguration\n \ninto\n \nan\n \nHDF5\n \ndatafile\n\n  \nunpack\n   \nExtract\n \nconfiguration\n \nfrom\n \nan\n \nHDF5\n \ndatafile\n\n\n\n\n\n\nzephyr clean\n\n\nClean up project results / outputs\n\n\nThe purpose of the \nclean\n command is to remove output files from the working directory and prepare to restart / relaunch the one of the commands \ninvert\n, \nmigrate\n or \nmodel\n. The \nclean\n command will always prompt with a list of files to delete.\n\n\nzephyr init\n\n\nSet up a new modelling or inversion project\n\n\nThe purpose of the \ninit\n command is to generate the required files to run \ninvert\n, \nmigrate\n or \nmodel\n. These files and configurations may then be modified to configure the inversion.\n\n\nzephyr inspect\n\n\nPrint information about an existing project", 
             "title": "Usage"

@@ -1,0 +1,24 @@
+zephyr package
+==============
+
+Inheritance Diagram for AttributeMapper
+---------------------------------------
+
+.. inheritance-diagram:: zephyr.backend.analytical zephyr.backend.discretization zephyr.backend.distributors zephyr.backend.eurus zephyr.backend.meta zephyr.backend.minizephyr zephyr.backend.solver zephyr.backend.source
+
+Subpackages
+-----------
+
+.. toctree::
+
+    zephyr.backend
+    zephyr.middleware
+    zephyr.frontend
+
+Module contents
+---------------
+
+.. automodule:: zephyr
+    :members:
+    :undoc-members:
+    :show-inheritance:

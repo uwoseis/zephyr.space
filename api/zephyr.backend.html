@@ -77,115 +77,175 @@
 </div>
 <div class="section" id="module-zephyr.backend.analytical">
 <span id="zephyr-backend-analytical-module"></span><h2>zephyr.backend.analytical module<a class="headerlink" href="#module-zephyr.backend.analytical" title="Permalink to this headline">¶</a></h2>
+<p>A set of classes that implement analytical responses to
+simple systems (mainly used in testing the discrete cases).</p>
 <dl class="class">
 <dt id="zephyr.backend.analytical.AnalyticalHelmholtz">
-<em class="property">class </em><code class="descclassname">zephyr.backend.analytical.</code><code class="descname">AnalyticalHelmholtz</code><span class="sig-paren">(</span><em>systemConfig</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/zephyr/backend/analytical.html#AnalyticalHelmholtz"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zephyr.backend.analytical.AnalyticalHelmholtz" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="descclassname">zephyr.backend.analytical.</code><code class="descname">AnalyticalHelmholtz</code><span class="sig-paren">(</span><em>systemConfig</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/uwoseis/zephyr/blob/master/zephyr/backend/analytical.py"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zephyr.backend.analytical.AnalyticalHelmholtz" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">object</span></code></p>
+<p>An implementation of the analytical Helmholtz system,
+with additional support for the tilted elliptical case
+by way of coordinate stretching.</p>
 <dl class="method">
 <dt id="zephyr.backend.analytical.AnalyticalHelmholtz.Green2D">
-<code class="descname">Green2D</code><span class="sig-paren">(</span><em>r</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/zephyr/backend/analytical.html#AnalyticalHelmholtz.Green2D"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zephyr.backend.analytical.AnalyticalHelmholtz.Green2D" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<code class="descname">Green2D</code><span class="sig-paren">(</span><em>r</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/uwoseis/zephyr/blob/master/zephyr/backend/analytical.py"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zephyr.backend.analytical.AnalyticalHelmholtz.Green2D" title="Permalink to this definition">¶</a></dt>
+<dd><p>Model the 2D Green&#8217;s function</p>
+</dd></dl>
 
 <dl class="method">
 <dt id="zephyr.backend.analytical.AnalyticalHelmholtz.Green3D">
-<code class="descname">Green3D</code><span class="sig-paren">(</span><em>r</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/zephyr/backend/analytical.html#AnalyticalHelmholtz.Green3D"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zephyr.backend.analytical.AnalyticalHelmholtz.Green3D" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<code class="descname">Green3D</code><span class="sig-paren">(</span><em>r</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/uwoseis/zephyr/blob/master/zephyr/backend/analytical.py"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zephyr.backend.analytical.AnalyticalHelmholtz.Green3D" title="Permalink to this definition">¶</a></dt>
+<dd><p>Model the 3D Green&#8217;s function</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="zephyr.backend.analytical.AnalyticalHelmholtz.__call__">
+<code class="descname">__call__</code><span class="sig-paren">(</span><em>q</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/uwoseis/zephyr/blob/master/zephyr/backend/analytical.py"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zephyr.backend.analytical.AnalyticalHelmholtz.__call__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Model the appropriate Green&#8217;s function, given a source location</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="zephyr.backend.analytical.AnalyticalHelmholtz.__mul__">
+<code class="descname">__mul__</code><span class="sig-paren">(</span><em>q</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/uwoseis/zephyr/blob/master/zephyr/backend/analytical.py"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zephyr.backend.analytical.AnalyticalHelmholtz.__mul__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Pretend to be a matrix</p>
+</dd></dl>
 
 </dd></dl>
 
 </div>
 <div class="section" id="module-zephyr.backend.discretization">
 <span id="zephyr-backend-discretization-module"></span><h2>zephyr.backend.discretization module<a class="headerlink" href="#module-zephyr.backend.discretization" title="Permalink to this headline">¶</a></h2>
+<p>Discretization base classes for Zephyr</p>
 <dl class="class">
 <dt id="zephyr.backend.discretization.BaseDiscretization">
-<em class="property">class </em><code class="descclassname">zephyr.backend.discretization.</code><code class="descname">BaseDiscretization</code><span class="sig-paren">(</span><em>systemConfig</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/zephyr/backend/discretization.html#BaseDiscretization"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zephyr.backend.discretization.BaseDiscretization" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="descclassname">zephyr.backend.discretization.</code><code class="descname">BaseDiscretization</code><span class="sig-paren">(</span><em>systemConfig</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/uwoseis/zephyr/blob/master/zephyr/backend/discretization.py"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zephyr.backend.discretization.BaseDiscretization" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="#zephyr.backend.meta.BaseModelDependent" title="zephyr.backend.meta.BaseModelDependent"><code class="xref py py-class docutils literal"><span class="pre">zephyr.backend.meta.BaseModelDependent</span></code></a></p>
+<p>Base class for all discretizations.</p>
 <dl class="attribute">
 <dt id="zephyr.backend.discretization.BaseDiscretization.Ainv">
-<code class="descname">Ainv</code><a class="headerlink" href="#zephyr.backend.discretization.BaseDiscretization.Ainv" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<code class="descname">Ainv</code><a class="reference external" href="https://github.com/uwoseis/zephyr/blob/master/zephyr/backend/discretization.py"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zephyr.backend.discretization.BaseDiscretization.Ainv" title="Permalink to this definition">¶</a></dt>
+<dd><p>Instance of a Solver class that implements forward modelling</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="zephyr.backend.discretization.BaseDiscretization.__mul__">
+<code class="descname">__mul__</code><span class="sig-paren">(</span><em>rhs</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/uwoseis/zephyr/blob/master/zephyr/backend/discretization.py"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zephyr.backend.discretization.BaseDiscretization.__mul__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Action of multiplying the inverted system by a right-hand side</p>
+</dd></dl>
 
 <dl class="attribute">
 <dt id="zephyr.backend.discretization.BaseDiscretization.c">
-<code class="descname">c</code><a class="headerlink" href="#zephyr.backend.discretization.BaseDiscretization.c" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<code class="descname">c</code><a class="reference external" href="https://github.com/uwoseis/zephyr/blob/master/zephyr/backend/discretization.py"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zephyr.backend.discretization.BaseDiscretization.c" title="Permalink to this definition">¶</a></dt>
+<dd><p>Complex wave velocity</p>
+</dd></dl>
 
 <dl class="attribute">
 <dt id="zephyr.backend.discretization.BaseDiscretization.initMap">
-<code class="descname">initMap</code><em class="property"> = {'freeSurf': (False, '_freeSurf', &lt;type 'tuple'&gt;), 'dx': (False, '_dx', &lt;type 'numpy.float64'&gt;), 'Solver': (False, '_Solver', None), 'zorig': (False, '_zorig', &lt;type 'numpy.float64'&gt;), 'c': (True, '_c', &lt;type 'numpy.complex128'&gt;), 'nx': (True, None, &lt;type 'numpy.int64'&gt;), 'ny': (False, None, &lt;type 'numpy.int64'&gt;), 'nz': (True, None, &lt;type 'numpy.int64'&gt;), 'dz': (False, '_dz', &lt;type 'numpy.float64'&gt;), 'xorig': (False, '_xorig', &lt;type 'numpy.float64'&gt;), 'dy': (False, '_dx', &lt;type 'numpy.float64'&gt;), 'rho': (False, '_rho', &lt;type 'numpy.float64'&gt;), 'freq': (True, None, &lt;type 'numpy.complex128'&gt;), 'yorig': (False, '_xorig', &lt;type 'numpy.float64'&gt;)}</em><a class="headerlink" href="#zephyr.backend.discretization.BaseDiscretization.initMap" title="Permalink to this definition">¶</a></dt>
+<code class="descname">initMap</code><em class="property"> = {'freeSurf': (False, '_freeSurf', &lt;type 'tuple'&gt;), 'dx': (False, '_dx', &lt;type 'numpy.float64'&gt;), 'Solver': (False, '_Solver', None), 'zorig': (False, '_zorig', &lt;type 'numpy.float64'&gt;), 'c': (True, '_c', &lt;type 'numpy.complex128'&gt;), 'nx': (True, None, &lt;type 'numpy.int64'&gt;), 'ny': (False, None, &lt;type 'numpy.int64'&gt;), 'nz': (True, None, &lt;type 'numpy.int64'&gt;), 'dz': (False, '_dz', &lt;type 'numpy.float64'&gt;), 'xorig': (False, '_xorig', &lt;type 'numpy.float64'&gt;), 'dy': (False, '_dx', &lt;type 'numpy.float64'&gt;), 'rho': (False, '_rho', &lt;type 'numpy.float64'&gt;), 'freq': (True, None, &lt;type 'numpy.complex128'&gt;), 'yorig': (False, '_xorig', &lt;type 'numpy.float64'&gt;)}</em><a class="reference external" href="https://github.com/uwoseis/zephyr/blob/master/zephyr/backend/discretization.py"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zephyr.backend.discretization.BaseDiscretization.initMap" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="attribute">
 <dt id="zephyr.backend.discretization.BaseDiscretization.rho">
-<code class="descname">rho</code><a class="headerlink" href="#zephyr.backend.discretization.BaseDiscretization.rho" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<code class="descname">rho</code><a class="reference external" href="https://github.com/uwoseis/zephyr/blob/master/zephyr/backend/discretization.py"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zephyr.backend.discretization.BaseDiscretization.rho" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bulk density</p>
+</dd></dl>
 
 <dl class="attribute">
 <dt id="zephyr.backend.discretization.BaseDiscretization.shape">
-<code class="descname">shape</code><a class="headerlink" href="#zephyr.backend.discretization.BaseDiscretization.shape" title="Permalink to this definition">¶</a></dt>
+<code class="descname">shape</code><a class="reference external" href="https://github.com/uwoseis/zephyr/blob/master/zephyr/backend/discretization.py"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zephyr.backend.discretization.BaseDiscretization.shape" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
 
 <dl class="class">
 <dt id="zephyr.backend.discretization.DiscretizationWrapper">
-<em class="property">class </em><code class="descclassname">zephyr.backend.discretization.</code><code class="descname">DiscretizationWrapper</code><span class="sig-paren">(</span><em>systemConfig</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/zephyr/backend/discretization.html#DiscretizationWrapper"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zephyr.backend.discretization.DiscretizationWrapper" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="descclassname">zephyr.backend.discretization.</code><code class="descname">DiscretizationWrapper</code><span class="sig-paren">(</span><em>systemConfig</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/uwoseis/zephyr/blob/master/zephyr/backend/discretization.py"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zephyr.backend.discretization.DiscretizationWrapper" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="#zephyr.backend.meta.BaseSCCache" title="zephyr.backend.meta.BaseSCCache"><code class="xref py py-class docutils literal"><span class="pre">zephyr.backend.meta.BaseSCCache</span></code></a></p>
+<p>Base class for objects that wrap around discretizations, for example
+in order to model multiple subproblems and distribute configurations
+to different systems.</p>
 <dl class="attribute">
 <dt id="zephyr.backend.discretization.DiscretizationWrapper.cacheItems">
-<code class="descname">cacheItems</code><em class="property"> = ['_subProblems']</em><a class="headerlink" href="#zephyr.backend.discretization.DiscretizationWrapper.cacheItems" title="Permalink to this definition">¶</a></dt>
+<code class="descname">cacheItems</code><em class="property"> = ['_subProblems']</em><a class="reference external" href="https://github.com/uwoseis/zephyr/blob/master/zephyr/backend/discretization.py"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zephyr.backend.discretization.DiscretizationWrapper.cacheItems" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="attribute">
 <dt id="zephyr.backend.discretization.DiscretizationWrapper.initMap">
-<code class="descname">initMap</code><em class="property"> = {'scaleTerm': (False, '_scaleTerm', &lt;type 'numpy.complex128'&gt;), 'disc': (True, None, None)}</em><a class="headerlink" href="#zephyr.backend.discretization.DiscretizationWrapper.initMap" title="Permalink to this definition">¶</a></dt>
+<code class="descname">initMap</code><em class="property"> = {'scaleTerm': (False, '_scaleTerm', &lt;type 'numpy.complex128'&gt;), 'disc': (True, None, None)}</em><a class="reference external" href="https://github.com/uwoseis/zephyr/blob/master/zephyr/backend/discretization.py"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zephyr.backend.discretization.DiscretizationWrapper.initMap" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="attribute">
 <dt id="zephyr.backend.discretization.DiscretizationWrapper.scaleTerm">
-<code class="descname">scaleTerm</code><a class="headerlink" href="#zephyr.backend.discretization.DiscretizationWrapper.scaleTerm" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<code class="descname">scaleTerm</code><a class="reference external" href="https://github.com/uwoseis/zephyr/blob/master/zephyr/backend/discretization.py"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zephyr.backend.discretization.DiscretizationWrapper.scaleTerm" title="Permalink to this definition">¶</a></dt>
+<dd><p>A scaling term to apply to the output wavefield.</p>
+</dd></dl>
 
 <dl class="attribute">
 <dt id="zephyr.backend.discretization.DiscretizationWrapper.spUpdates">
-<code class="descname">spUpdates</code><a class="headerlink" href="#zephyr.backend.discretization.DiscretizationWrapper.spUpdates" title="Permalink to this definition">¶</a></dt>
+<code class="descname">spUpdates</code><a class="reference external" href="https://github.com/uwoseis/zephyr/blob/master/zephyr/backend/discretization.py"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zephyr.backend.discretization.DiscretizationWrapper.spUpdates" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="attribute">
 <dt id="zephyr.backend.discretization.DiscretizationWrapper.subProblems">
-<code class="descname">subProblems</code><a class="headerlink" href="#zephyr.backend.discretization.DiscretizationWrapper.subProblems" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<code class="descname">subProblems</code><a class="reference external" href="https://github.com/uwoseis/zephyr/blob/master/zephyr/backend/discretization.py"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zephyr.backend.discretization.DiscretizationWrapper.subProblems" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns subProblem instances based on the discretization.</p>
+</dd></dl>
 
 </dd></dl>
 
 <dl class="class">
 <dt id="zephyr.backend.discretization.MultiFreq">
-<em class="property">class </em><code class="descclassname">zephyr.backend.discretization.</code><code class="descname">MultiFreq</code><span class="sig-paren">(</span><em>systemConfig</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/zephyr/backend/discretization.html#MultiFreq"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zephyr.backend.discretization.MultiFreq" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="descclassname">zephyr.backend.discretization.</code><code class="descname">MultiFreq</code><span class="sig-paren">(</span><em>systemConfig</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/uwoseis/zephyr/blob/master/zephyr/backend/discretization.py"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zephyr.backend.discretization.MultiFreq" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="#zephyr.backend.discretization.DiscretizationWrapper" title="zephyr.backend.discretization.DiscretizationWrapper"><code class="xref py py-class docutils literal"><span class="pre">zephyr.backend.discretization.DiscretizationWrapper</span></code></a></p>
+<p>Wrapper to carry out forward-modelling using the stored
+discretization over a series of frequencies.</p>
+<dl class="method">
+<dt id="zephyr.backend.discretization.MultiFreq.__mul__">
+<code class="descname">__mul__</code><span class="sig-paren">(</span><em>rhs</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/uwoseis/zephyr/blob/master/zephyr/backend/discretization.py"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zephyr.backend.discretization.MultiFreq.__mul__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Carries out the multiplication of the composite system
+by the right-hand-side vector(s).</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>rhs</strong> (<em>array-like or list thereof</em>) &#8211; Source vectors</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><strong>u</strong> &#8211;
+Wavefields</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">iterator over np.ndarrays</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
 <dl class="attribute">
 <dt id="zephyr.backend.discretization.MultiFreq.disc">
-<code class="descname">disc</code><a class="headerlink" href="#zephyr.backend.discretization.MultiFreq.disc" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<code class="descname">disc</code><a class="reference external" href="https://github.com/uwoseis/zephyr/blob/master/zephyr/backend/discretization.py"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zephyr.backend.discretization.MultiFreq.disc" title="Permalink to this definition">¶</a></dt>
+<dd><p>The discretization to instantiate</p>
+</dd></dl>
 
 <dl class="attribute">
 <dt id="zephyr.backend.discretization.MultiFreq.initMap">
-<code class="descname">initMap</code><em class="property"> = {'scaleTerm': (False, '_scaleTerm', &lt;type 'numpy.complex128'&gt;), 'disc': (True, '_disc', None), 'freqs': (True, None, &lt;type 'list'&gt;), 'parallel': (False, '_parallel', &lt;type 'bool'&gt;)}</em><a class="headerlink" href="#zephyr.backend.discretization.MultiFreq.initMap" title="Permalink to this definition">¶</a></dt>
+<code class="descname">initMap</code><em class="property"> = {'scaleTerm': (False, '_scaleTerm', &lt;type 'numpy.complex128'&gt;), 'disc': (True, '_disc', None), 'freqs': (True, None, &lt;type 'list'&gt;), 'parallel': (False, '_parallel', &lt;type 'bool'&gt;)}</em><a class="reference external" href="https://github.com/uwoseis/zephyr/blob/master/zephyr/backend/discretization.py"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zephyr.backend.discretization.MultiFreq.initMap" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="attribute">
 <dt id="zephyr.backend.discretization.MultiFreq.maskKeys">
-<code class="descname">maskKeys</code><em class="property"> = ['disc', 'freqs', 'parallel']</em><a class="headerlink" href="#zephyr.backend.discretization.MultiFreq.maskKeys" title="Permalink to this definition">¶</a></dt>
+<code class="descname">maskKeys</code><em class="property"> = ['disc', 'freqs', 'parallel']</em><a class="reference external" href="https://github.com/uwoseis/zephyr/blob/master/zephyr/backend/discretization.py"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zephyr.backend.discretization.MultiFreq.maskKeys" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="attribute">
 <dt id="zephyr.backend.discretization.MultiFreq.parallel">
-<code class="descname">parallel</code><a class="headerlink" href="#zephyr.backend.discretization.MultiFreq.parallel" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<code class="descname">parallel</code><a class="reference external" href="https://github.com/uwoseis/zephyr/blob/master/zephyr/backend/discretization.py"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zephyr.backend.discretization.MultiFreq.parallel" title="Permalink to this definition">¶</a></dt>
+<dd><p>Determines whether to operate in parallel</p>
+</dd></dl>
 
 <dl class="attribute">
 <dt id="zephyr.backend.discretization.MultiFreq.spUpdates">
-<code class="descname">spUpdates</code><a class="headerlink" href="#zephyr.backend.discretization.MultiFreq.spUpdates" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<code class="descname">spUpdates</code><a class="reference external" href="https://github.com/uwoseis/zephyr/blob/master/zephyr/backend/discretization.py"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zephyr.backend.discretization.MultiFreq.spUpdates" title="Permalink to this definition">¶</a></dt>
+<dd><p>Updates for frequency subProblems</p>
+</dd></dl>
 
 </dd></dl>
 
@@ -194,51 +254,51 @@
 <span id="zephyr-backend-eurus-module"></span><h2>zephyr.backend.eurus module<a class="headerlink" href="#module-zephyr.backend.eurus" title="Permalink to this headline">¶</a></h2>
 <dl class="class">
 <dt id="zephyr.backend.eurus.Eurus">
-<em class="property">class </em><code class="descclassname">zephyr.backend.eurus.</code><code class="descname">Eurus</code><span class="sig-paren">(</span><em>systemConfig</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/zephyr/backend/eurus.html#Eurus"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zephyr.backend.eurus.Eurus" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="descclassname">zephyr.backend.eurus.</code><code class="descname">Eurus</code><span class="sig-paren">(</span><em>systemConfig</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/uwoseis/zephyr/blob/master/zephyr/backend/eurus.py"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zephyr.backend.eurus.Eurus" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="#zephyr.backend.discretization.BaseDiscretization" title="zephyr.backend.discretization.BaseDiscretization"><code class="xref py py-class docutils literal"><span class="pre">zephyr.backend.discretization.BaseDiscretization</span></code></a></p>
 <dl class="attribute">
 <dt id="zephyr.backend.eurus.Eurus.A">
-<code class="descname">A</code><a class="headerlink" href="#zephyr.backend.eurus.Eurus.A" title="Permalink to this definition">¶</a></dt>
+<code class="descname">A</code><a class="reference external" href="https://github.com/uwoseis/zephyr/blob/master/zephyr/backend/eurus.py"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zephyr.backend.eurus.Eurus.A" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="attribute">
 <dt id="zephyr.backend.eurus.Eurus.cPML">
-<code class="descname">cPML</code><a class="headerlink" href="#zephyr.backend.eurus.Eurus.cPML" title="Permalink to this definition">¶</a></dt>
+<code class="descname">cPML</code><a class="reference external" href="https://github.com/uwoseis/zephyr/blob/master/zephyr/backend/eurus.py"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zephyr.backend.eurus.Eurus.cPML" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="attribute">
 <dt id="zephyr.backend.eurus.Eurus.dampcoeff">
-<code class="descname">dampcoeff</code><a class="headerlink" href="#zephyr.backend.eurus.Eurus.dampcoeff" title="Permalink to this definition">¶</a></dt>
+<code class="descname">dampcoeff</code><a class="reference external" href="https://github.com/uwoseis/zephyr/blob/master/zephyr/backend/eurus.py"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zephyr.backend.eurus.Eurus.dampcoeff" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="attribute">
 <dt id="zephyr.backend.eurus.Eurus.delta">
-<code class="descname">delta</code><a class="headerlink" href="#zephyr.backend.eurus.Eurus.delta" title="Permalink to this definition">¶</a></dt>
+<code class="descname">delta</code><a class="reference external" href="https://github.com/uwoseis/zephyr/blob/master/zephyr/backend/eurus.py"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zephyr.backend.eurus.Eurus.delta" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="attribute">
 <dt id="zephyr.backend.eurus.Eurus.eps">
-<code class="descname">eps</code><a class="headerlink" href="#zephyr.backend.eurus.Eurus.eps" title="Permalink to this definition">¶</a></dt>
+<code class="descname">eps</code><a class="reference external" href="https://github.com/uwoseis/zephyr/blob/master/zephyr/backend/eurus.py"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zephyr.backend.eurus.Eurus.eps" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="attribute">
 <dt id="zephyr.backend.eurus.Eurus.initMap">
-<code class="descname">initMap</code><em class="property"> = {'tau': (False, '_tau', &lt;type 'numpy.float64'&gt;), 'rho': (False, '_rho', &lt;type 'numpy.float64'&gt;), 'Solver': (False, '_Solver', None), 'delta': (False, '_delta', &lt;type 'numpy.float64'&gt;), 'zorig': (False, '_zorig', &lt;type 'numpy.float64'&gt;), 'c': (True, '_c', &lt;type 'numpy.complex128'&gt;), 'dz': (False, '_dz', &lt;type 'numpy.float64'&gt;), 'dx': (False, '_dx', &lt;type 'numpy.float64'&gt;), 'dy': (False, '_dx', &lt;type 'numpy.float64'&gt;), 'freq': (True, None, &lt;type 'numpy.complex128'&gt;), 'yorig': (False, '_xorig', &lt;type 'numpy.float64'&gt;), 'freeSurf': (False, '_freeSurf', &lt;type 'tuple'&gt;), 'eps': (False, '_eps', &lt;type 'numpy.float64'&gt;), 'nPML': (False, '_nPML', &lt;type 'numpy.int64'&gt;), 'nx': (True, None, &lt;type 'numpy.int64'&gt;), 'ny': (False, None, &lt;type 'numpy.int64'&gt;), 'nz': (True, None, &lt;type 'numpy.int64'&gt;), 'xorig': (False, '_xorig', &lt;type 'numpy.float64'&gt;), 'theta': (False, '_theta', &lt;type 'numpy.float64'&gt;), 'cPML': (False, '_cPML', &lt;type 'numpy.float64'&gt;), 'mord': (False, '_mord', &lt;type 'tuple'&gt;)}</em><a class="headerlink" href="#zephyr.backend.eurus.Eurus.initMap" title="Permalink to this definition">¶</a></dt>
+<code class="descname">initMap</code><em class="property"> = {'tau': (False, '_tau', &lt;type 'numpy.float64'&gt;), 'rho': (False, '_rho', &lt;type 'numpy.float64'&gt;), 'Solver': (False, '_Solver', None), 'delta': (False, '_delta', &lt;type 'numpy.float64'&gt;), 'zorig': (False, '_zorig', &lt;type 'numpy.float64'&gt;), 'c': (True, '_c', &lt;type 'numpy.complex128'&gt;), 'dz': (False, '_dz', &lt;type 'numpy.float64'&gt;), 'dx': (False, '_dx', &lt;type 'numpy.float64'&gt;), 'dy': (False, '_dx', &lt;type 'numpy.float64'&gt;), 'freq': (True, None, &lt;type 'numpy.complex128'&gt;), 'yorig': (False, '_xorig', &lt;type 'numpy.float64'&gt;), 'freeSurf': (False, '_freeSurf', &lt;type 'tuple'&gt;), 'eps': (False, '_eps', &lt;type 'numpy.float64'&gt;), 'nPML': (False, '_nPML', &lt;type 'numpy.int64'&gt;), 'nx': (True, None, &lt;type 'numpy.int64'&gt;), 'ny': (False, None, &lt;type 'numpy.int64'&gt;), 'nz': (True, None, &lt;type 'numpy.int64'&gt;), 'xorig': (False, '_xorig', &lt;type 'numpy.float64'&gt;), 'theta': (False, '_theta', &lt;type 'numpy.float64'&gt;), 'cPML': (False, '_cPML', &lt;type 'numpy.float64'&gt;), 'mord': (False, '_mord', &lt;type 'tuple'&gt;)}</em><a class="reference external" href="https://github.com/uwoseis/zephyr/blob/master/zephyr/backend/eurus.py"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zephyr.backend.eurus.Eurus.initMap" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="attribute">
 <dt id="zephyr.backend.eurus.Eurus.mord">
-<code class="descname">mord</code><a class="headerlink" href="#zephyr.backend.eurus.Eurus.mord" title="Permalink to this definition">¶</a></dt>
+<code class="descname">mord</code><a class="reference external" href="https://github.com/uwoseis/zephyr/blob/master/zephyr/backend/eurus.py"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zephyr.backend.eurus.Eurus.mord" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="attribute">
 <dt id="zephyr.backend.eurus.Eurus.nPML">
-<code class="descname">nPML</code><a class="headerlink" href="#zephyr.backend.eurus.Eurus.nPML" title="Permalink to this definition">¶</a></dt>
+<code class="descname">nPML</code><a class="reference external" href="https://github.com/uwoseis/zephyr/blob/master/zephyr/backend/eurus.py"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zephyr.backend.eurus.Eurus.nPML" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="attribute">
 <dt id="zephyr.backend.eurus.Eurus.theta">
-<code class="descname">theta</code><a class="headerlink" href="#zephyr.backend.eurus.Eurus.theta" title="Permalink to this definition">¶</a></dt>
+<code class="descname">theta</code><a class="reference external" href="https://github.com/uwoseis/zephyr/blob/master/zephyr/backend/eurus.py"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zephyr.backend.eurus.Eurus.theta" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
@@ -246,15 +306,24 @@
 </div>
 <div class="section" id="module-zephyr.backend.meta">
 <span id="zephyr-backend-meta-module"></span><h2>zephyr.backend.meta module<a class="headerlink" href="#module-zephyr.backend.meta" title="Permalink to this headline">¶</a></h2>
+<p>Low-level programming constructs for Zephyr</p>
 <dl class="class">
 <dt id="zephyr.backend.meta.AMMetaClass">
-<em class="property">class </em><code class="descclassname">zephyr.backend.meta.</code><code class="descname">AMMetaClass</code><a class="reference internal" href="_modules/zephyr/backend/meta.html#AMMetaClass"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zephyr.backend.meta.AMMetaClass" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="descclassname">zephyr.backend.meta.</code><code class="descname">AMMetaClass</code><a class="reference external" href="https://github.com/uwoseis/zephyr/blob/master/zephyr/backend/meta.py"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zephyr.backend.meta.AMMetaClass" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">type</span></code></p>
+<p>Meta class that enables AttributeMapper functionality, including inheritance
+in the dictionary &#8216;initMap&#8217;.</p>
+<dl class="method">
+<dt id="zephyr.backend.meta.AMMetaClass.__call__">
+<code class="descname">__call__</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/uwoseis/zephyr/blob/master/zephyr/backend/meta.py"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zephyr.backend.meta.AMMetaClass.__call__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Instantiate a subsclass of AttributeMapper</p>
+</dd></dl>
+
 </dd></dl>
 
 <dl class="class">
 <dt id="zephyr.backend.meta.AttributeMapper">
-<em class="property">class </em><code class="descclassname">zephyr.backend.meta.</code><code class="descname">AttributeMapper</code><span class="sig-paren">(</span><em>systemConfig</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/zephyr/backend/meta.html#AttributeMapper"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zephyr.backend.meta.AttributeMapper" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="descclassname">zephyr.backend.meta.</code><code class="descname">AttributeMapper</code><span class="sig-paren">(</span><em>systemConfig</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/uwoseis/zephyr/blob/master/zephyr/backend/meta.py"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zephyr.backend.meta.AttributeMapper" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">object</span></code></p>
 <p>An AttributeMapper subclass defines a dictionary initMap, which
 includes keys for mappable inputs expected from the systemConfig
@@ -289,250 +358,381 @@ the value is kept and the imaginary part is discarded when they are
 typecast to a float.</p>
 <dl class="attribute">
 <dt id="zephyr.backend.meta.AttributeMapper.initMap">
-<code class="descname">initMap</code><em class="property"> = {}</em><a class="headerlink" href="#zephyr.backend.meta.AttributeMapper.initMap" title="Permalink to this definition">¶</a></dt>
+<code class="descname">initMap</code><em class="property"> = {}</em><a class="reference external" href="https://github.com/uwoseis/zephyr/blob/master/zephyr/backend/meta.py"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zephyr.backend.meta.AttributeMapper.initMap" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="attribute">
 <dt id="zephyr.backend.meta.AttributeMapper.optional">
-<code class="descname">optional</code><em class="property"> = set([])</em><a class="headerlink" href="#zephyr.backend.meta.AttributeMapper.optional" title="Permalink to this definition">¶</a></dt>
+<code class="descname">optional</code><em class="property"> = set([])</em><a class="reference external" href="https://github.com/uwoseis/zephyr/blob/master/zephyr/backend/meta.py"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zephyr.backend.meta.AttributeMapper.optional" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="attribute">
 <dt id="zephyr.backend.meta.AttributeMapper.required">
-<code class="descname">required</code><em class="property"> = set([])</em><a class="headerlink" href="#zephyr.backend.meta.AttributeMapper.required" title="Permalink to this definition">¶</a></dt>
+<code class="descname">required</code><em class="property"> = set([])</em><a class="reference external" href="https://github.com/uwoseis/zephyr/blob/master/zephyr/backend/meta.py"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zephyr.backend.meta.AttributeMapper.required" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
 
 <dl class="class">
 <dt id="zephyr.backend.meta.BaseModelDependent">
-<em class="property">class </em><code class="descclassname">zephyr.backend.meta.</code><code class="descname">BaseModelDependent</code><span class="sig-paren">(</span><em>systemConfig</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/zephyr/backend/meta.html#BaseModelDependent"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zephyr.backend.meta.BaseModelDependent" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="descclassname">zephyr.backend.meta.</code><code class="descname">BaseModelDependent</code><span class="sig-paren">(</span><em>systemConfig</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/uwoseis/zephyr/blob/master/zephyr/backend/meta.py"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zephyr.backend.meta.BaseModelDependent" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="#zephyr.backend.meta.AttributeMapper" title="zephyr.backend.meta.AttributeMapper"><code class="xref py py-class docutils literal"><span class="pre">zephyr.backend.meta.AttributeMapper</span></code></a></p>
+<p>AttributeMapper subclass that implements model-dependent properties,
+such as grid coordinates and free-surface conditions.</p>
 <dl class="attribute">
 <dt id="zephyr.backend.meta.BaseModelDependent.dx">
-<code class="descname">dx</code><a class="headerlink" href="#zephyr.backend.meta.BaseModelDependent.dx" title="Permalink to this definition">¶</a></dt>
+<code class="descname">dx</code><a class="reference external" href="https://github.com/uwoseis/zephyr/blob/master/zephyr/backend/meta.py"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zephyr.backend.meta.BaseModelDependent.dx" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="attribute">
 <dt id="zephyr.backend.meta.BaseModelDependent.dy">
-<code class="descname">dy</code><a class="headerlink" href="#zephyr.backend.meta.BaseModelDependent.dy" title="Permalink to this definition">¶</a></dt>
+<code class="descname">dy</code><a class="reference external" href="https://github.com/uwoseis/zephyr/blob/master/zephyr/backend/meta.py"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zephyr.backend.meta.BaseModelDependent.dy" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="attribute">
 <dt id="zephyr.backend.meta.BaseModelDependent.dz">
-<code class="descname">dz</code><a class="headerlink" href="#zephyr.backend.meta.BaseModelDependent.dz" title="Permalink to this definition">¶</a></dt>
+<code class="descname">dz</code><a class="reference external" href="https://github.com/uwoseis/zephyr/blob/master/zephyr/backend/meta.py"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zephyr.backend.meta.BaseModelDependent.dz" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="attribute">
 <dt id="zephyr.backend.meta.BaseModelDependent.freeSurf">
-<code class="descname">freeSurf</code><a class="headerlink" href="#zephyr.backend.meta.BaseModelDependent.freeSurf" title="Permalink to this definition">¶</a></dt>
+<code class="descname">freeSurf</code><a class="reference external" href="https://github.com/uwoseis/zephyr/blob/master/zephyr/backend/meta.py"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zephyr.backend.meta.BaseModelDependent.freeSurf" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="attribute">
 <dt id="zephyr.backend.meta.BaseModelDependent.initMap">
-<code class="descname">initMap</code><em class="property"> = {'freeSurf': (False, '_freeSurf', &lt;type 'tuple'&gt;), 'xorig': (False, '_xorig', &lt;type 'numpy.float64'&gt;), 'zorig': (False, '_zorig', &lt;type 'numpy.float64'&gt;), 'nx': (True, None, &lt;type 'numpy.int64'&gt;), 'ny': (False, None, &lt;type 'numpy.int64'&gt;), 'nz': (True, None, &lt;type 'numpy.int64'&gt;), 'dz': (False, '_dz', &lt;type 'numpy.float64'&gt;), 'dx': (False, '_dx', &lt;type 'numpy.float64'&gt;), 'dy': (False, '_dx', &lt;type 'numpy.float64'&gt;), 'yorig': (False, '_xorig', &lt;type 'numpy.float64'&gt;)}</em><a class="headerlink" href="#zephyr.backend.meta.BaseModelDependent.initMap" title="Permalink to this definition">¶</a></dt>
+<code class="descname">initMap</code><em class="property"> = {'freeSurf': (False, '_freeSurf', &lt;type 'tuple'&gt;), 'xorig': (False, '_xorig', &lt;type 'numpy.float64'&gt;), 'zorig': (False, '_zorig', &lt;type 'numpy.float64'&gt;), 'nx': (True, None, &lt;type 'numpy.int64'&gt;), 'ny': (False, None, &lt;type 'numpy.int64'&gt;), 'nz': (True, None, &lt;type 'numpy.int64'&gt;), 'dz': (False, '_dz', &lt;type 'numpy.float64'&gt;), 'dx': (False, '_dx', &lt;type 'numpy.float64'&gt;), 'dy': (False, '_dx', &lt;type 'numpy.float64'&gt;), 'yorig': (False, '_xorig', &lt;type 'numpy.float64'&gt;)}</em><a class="reference external" href="https://github.com/uwoseis/zephyr/blob/master/zephyr/backend/meta.py"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zephyr.backend.meta.BaseModelDependent.initMap" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="attribute">
 <dt id="zephyr.backend.meta.BaseModelDependent.modelDims">
-<code class="descname">modelDims</code><a class="headerlink" href="#zephyr.backend.meta.BaseModelDependent.modelDims" title="Permalink to this definition">¶</a></dt>
+<code class="descname">modelDims</code><a class="reference external" href="https://github.com/uwoseis/zephyr/blob/master/zephyr/backend/meta.py"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zephyr.backend.meta.BaseModelDependent.modelDims" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="attribute">
 <dt id="zephyr.backend.meta.BaseModelDependent.nrow">
-<code class="descname">nrow</code><a class="headerlink" href="#zephyr.backend.meta.BaseModelDependent.nrow" title="Permalink to this definition">¶</a></dt>
+<code class="descname">nrow</code><a class="reference external" href="https://github.com/uwoseis/zephyr/blob/master/zephyr/backend/meta.py"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zephyr.backend.meta.BaseModelDependent.nrow" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
 <dt id="zephyr.backend.meta.BaseModelDependent.toLinearIndex">
-<code class="descname">toLinearIndex</code><span class="sig-paren">(</span><em>vec</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/zephyr/backend/meta.html#BaseModelDependent.toLinearIndex"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zephyr.backend.meta.BaseModelDependent.toLinearIndex" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<code class="descname">toLinearIndex</code><span class="sig-paren">(</span><em>vec</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/uwoseis/zephyr/blob/master/zephyr/backend/meta.py"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zephyr.backend.meta.BaseModelDependent.toLinearIndex" title="Permalink to this definition">¶</a></dt>
+<dd><p>Gets the linear indices in the raveled model coordinates, given
+a &lt;n by 2&gt; array of n x,z coordinates or a &lt;n by 3&gt; array of
+n x,y,z coordinates.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>vec</strong> (<em>np.ndarray</em>) &#8211; Space coordinate array</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">Grid coordinate array</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">np.ndarray</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
 
 <dl class="method">
 <dt id="zephyr.backend.meta.BaseModelDependent.toVecIndex">
-<code class="descname">toVecIndex</code><span class="sig-paren">(</span><em>lind</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/zephyr/backend/meta.html#BaseModelDependent.toVecIndex"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zephyr.backend.meta.BaseModelDependent.toVecIndex" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<code class="descname">toVecIndex</code><span class="sig-paren">(</span><em>lind</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/uwoseis/zephyr/blob/master/zephyr/backend/meta.py"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zephyr.backend.meta.BaseModelDependent.toVecIndex" title="Permalink to this definition">¶</a></dt>
+<dd><p>Gets the vectorized index for each linear index.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>lind</strong> (<em>np.ndarray</em>) &#8211; Grid coordinate array</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">nD grid coordinate array</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">np.ndarray</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
 
 <dl class="attribute">
 <dt id="zephyr.backend.meta.BaseModelDependent.xorig">
-<code class="descname">xorig</code><a class="headerlink" href="#zephyr.backend.meta.BaseModelDependent.xorig" title="Permalink to this definition">¶</a></dt>
+<code class="descname">xorig</code><a class="reference external" href="https://github.com/uwoseis/zephyr/blob/master/zephyr/backend/meta.py"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zephyr.backend.meta.BaseModelDependent.xorig" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="attribute">
 <dt id="zephyr.backend.meta.BaseModelDependent.yorig">
-<code class="descname">yorig</code><a class="headerlink" href="#zephyr.backend.meta.BaseModelDependent.yorig" title="Permalink to this definition">¶</a></dt>
+<code class="descname">yorig</code><a class="reference external" href="https://github.com/uwoseis/zephyr/blob/master/zephyr/backend/meta.py"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zephyr.backend.meta.BaseModelDependent.yorig" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="attribute">
 <dt id="zephyr.backend.meta.BaseModelDependent.zorig">
-<code class="descname">zorig</code><a class="headerlink" href="#zephyr.backend.meta.BaseModelDependent.zorig" title="Permalink to this definition">¶</a></dt>
+<code class="descname">zorig</code><a class="reference external" href="https://github.com/uwoseis/zephyr/blob/master/zephyr/backend/meta.py"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zephyr.backend.meta.BaseModelDependent.zorig" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
 
 <dl class="class">
 <dt id="zephyr.backend.meta.BaseSCCache">
-<em class="property">class </em><code class="descclassname">zephyr.backend.meta.</code><code class="descname">BaseSCCache</code><span class="sig-paren">(</span><em>systemConfig</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/zephyr/backend/meta.html#BaseSCCache"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zephyr.backend.meta.BaseSCCache" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="descclassname">zephyr.backend.meta.</code><code class="descname">BaseSCCache</code><span class="sig-paren">(</span><em>systemConfig</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/uwoseis/zephyr/blob/master/zephyr/backend/meta.py"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zephyr.backend.meta.BaseSCCache" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="#zephyr.backend.meta.AttributeMapper" title="zephyr.backend.meta.AttributeMapper"><code class="xref py py-class docutils literal"><span class="pre">zephyr.backend.meta.AttributeMapper</span></code></a></p>
+<p>Subclass of AttributeMapper that caches (a filtered version of) the
+systemConfig object used to initialize it.</p>
 <dl class="attribute">
 <dt id="zephyr.backend.meta.BaseSCCache.cacheItems">
-<code class="descname">cacheItems</code><em class="property"> = []</em><a class="headerlink" href="#zephyr.backend.meta.BaseSCCache.cacheItems" title="Permalink to this definition">¶</a></dt>
+<code class="descname">cacheItems</code><em class="property"> = []</em><a class="reference external" href="https://github.com/uwoseis/zephyr/blob/master/zephyr/backend/meta.py"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zephyr.backend.meta.BaseSCCache.cacheItems" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
 <dt id="zephyr.backend.meta.BaseSCCache.clearCache">
-<code class="descname">clearCache</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/zephyr/backend/meta.html#BaseSCCache.clearCache"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zephyr.backend.meta.BaseSCCache.clearCache" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<code class="descname">clearCache</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://github.com/uwoseis/zephyr/blob/master/zephyr/backend/meta.py"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zephyr.backend.meta.BaseSCCache.clearCache" title="Permalink to this definition">¶</a></dt>
+<dd><p>Clears cached items (e.g., when model is reset).</p>
+</dd></dl>
 
 <dl class="attribute">
 <dt id="zephyr.backend.meta.BaseSCCache.initMap">
-<code class="descname">initMap</code><em class="property"> = {}</em><a class="headerlink" href="#zephyr.backend.meta.BaseSCCache.initMap" title="Permalink to this definition">¶</a></dt>
+<code class="descname">initMap</code><em class="property"> = {}</em><a class="reference external" href="https://github.com/uwoseis/zephyr/blob/master/zephyr/backend/meta.py"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zephyr.backend.meta.BaseSCCache.initMap" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="attribute">
 <dt id="zephyr.backend.meta.BaseSCCache.maskKeys">
-<code class="descname">maskKeys</code><em class="property"> = []</em><a class="headerlink" href="#zephyr.backend.meta.BaseSCCache.maskKeys" title="Permalink to this definition">¶</a></dt>
+<code class="descname">maskKeys</code><em class="property"> = []</em><a class="reference external" href="https://github.com/uwoseis/zephyr/blob/master/zephyr/backend/meta.py"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zephyr.backend.meta.BaseSCCache.maskKeys" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="attribute">
 <dt id="zephyr.backend.meta.BaseSCCache.systemConfig">
-<code class="descname">systemConfig</code><a class="headerlink" href="#zephyr.backend.meta.BaseSCCache.systemConfig" title="Permalink to this definition">¶</a></dt>
+<code class="descname">systemConfig</code><a class="reference external" href="https://github.com/uwoseis/zephyr/blob/master/zephyr/backend/meta.py"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zephyr.backend.meta.BaseSCCache.systemConfig" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
 
 <dl class="class">
 <dt id="zephyr.backend.meta.ClassProperty">
-<em class="property">class </em><code class="descclassname">zephyr.backend.meta.</code><code class="descname">ClassProperty</code><a class="reference internal" href="_modules/zephyr/backend/meta.html#ClassProperty"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zephyr.backend.meta.ClassProperty" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="descclassname">zephyr.backend.meta.</code><code class="descname">ClassProperty</code><a class="reference external" href="https://github.com/uwoseis/zephyr/blob/master/zephyr/backend/meta.py"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zephyr.backend.meta.ClassProperty" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">property</span></code></p>
+<p>Class decorator to enable property behaviour in classes</p>
 </dd></dl>
 
 <dl class="class">
 <dt id="zephyr.backend.meta.SCFilter">
-<em class="property">class </em><code class="descclassname">zephyr.backend.meta.</code><code class="descname">SCFilter</code><span class="sig-paren">(</span><em>clslist</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/zephyr/backend/meta.html#SCFilter"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zephyr.backend.meta.SCFilter" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="descclassname">zephyr.backend.meta.</code><code class="descname">SCFilter</code><span class="sig-paren">(</span><em>clslist</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/uwoseis/zephyr/blob/master/zephyr/backend/meta.py"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zephyr.backend.meta.SCFilter" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">object</span></code></p>
+<p>A SCFilter class is initialized with a list of classes as arguments.
+For any of those classes that are AttributeMapper subclasses, SCFilter
+determines the required fields in their initMap trees, and the optional
+fields. When called, the SCFilter discards any key in the passed dictionary
+that does not match one of those fields, and raises an error if any of the
+required fields are not present.</p>
+<dl class="method">
+<dt id="zephyr.backend.meta.SCFilter.__call__">
+<code class="descname">__call__</code><span class="sig-paren">(</span><em>systemConfig</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/uwoseis/zephyr/blob/master/zephyr/backend/meta.py"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zephyr.backend.meta.SCFilter.__call__" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>systemConfig</strong> (<em>dict</em>) &#8211; A systemConfig dictionary to filter</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">Filtered dictionary</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">dict</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Raises:</th><td class="field-body"><code class="xref py py-exc docutils literal"><span class="pre">ValueError</span></code> &#8211;
+If a required key is not in the systemConfig</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
 </dd></dl>
 
 </div>
 <div class="section" id="module-zephyr.backend.minizephyr">
 <span id="zephyr-backend-minizephyr-module"></span><h2>zephyr.backend.minizephyr module<a class="headerlink" href="#module-zephyr.backend.minizephyr" title="Permalink to this headline">¶</a></h2>
+<p>Implementation of 2D and 2.5D frequency-domain (visco)acoustic wave modelling</p>
 <dl class="class">
 <dt id="zephyr.backend.minizephyr.MiniZephyr">
-<em class="property">class </em><code class="descclassname">zephyr.backend.minizephyr.</code><code class="descname">MiniZephyr</code><span class="sig-paren">(</span><em>systemConfig</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/zephyr/backend/minizephyr.html#MiniZephyr"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zephyr.backend.minizephyr.MiniZephyr" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="descclassname">zephyr.backend.minizephyr.</code><code class="descname">MiniZephyr</code><span class="sig-paren">(</span><em>systemConfig</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/uwoseis/zephyr/blob/master/zephyr/backend/minizephyr.py"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zephyr.backend.minizephyr.MiniZephyr" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="#zephyr.backend.discretization.BaseDiscretization" title="zephyr.backend.discretization.BaseDiscretization"><code class="xref py py-class docutils literal"><span class="pre">zephyr.backend.discretization.BaseDiscretization</span></code></a></p>
+<p>Implements 2D (visco)acoustic frequency-domain wave physics, with
+some accommodations for 2.5D wave modelling.</p>
 <dl class="attribute">
 <dt id="zephyr.backend.minizephyr.MiniZephyr.A">
-<code class="descname">A</code><a class="headerlink" href="#zephyr.backend.minizephyr.MiniZephyr.A" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<code class="descname">A</code><a class="reference external" href="https://github.com/uwoseis/zephyr/blob/master/zephyr/backend/minizephyr.py"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zephyr.backend.minizephyr.MiniZephyr.A" title="Permalink to this definition">¶</a></dt>
+<dd><p>The sparse system matrix</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="zephyr.backend.minizephyr.MiniZephyr.__mul__">
+<code class="descname">__mul__</code><span class="sig-paren">(</span><em>value</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/uwoseis/zephyr/blob/master/zephyr/backend/minizephyr.py"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zephyr.backend.minizephyr.MiniZephyr.__mul__" title="Permalink to this definition">¶</a></dt>
+<dd><p>The action of the inverse of the matrix A</p>
+</dd></dl>
 
 <dl class="attribute">
 <dt id="zephyr.backend.minizephyr.MiniZephyr.initMap">
-<code class="descname">initMap</code><em class="property"> = {'nPML': (False, '_nPML', &lt;type 'numpy.int64'&gt;), 'freeSurf': (False, '_freeSurf', &lt;type 'tuple'&gt;), 'xorig': (False, '_xorig', &lt;type 'numpy.float64'&gt;), 'Solver': (False, '_Solver', None), 'premul': (False, '_premul', &lt;type 'numpy.complex128'&gt;), 'zorig': (False, '_zorig', &lt;type 'numpy.float64'&gt;), 'c': (True, '_c', &lt;type 'numpy.complex128'&gt;), 'nx': (True, None, &lt;type 'numpy.int64'&gt;), 'ny': (False, None, &lt;type 'numpy.int64'&gt;), 'nz': (True, None, &lt;type 'numpy.int64'&gt;), 'dz': (False, '_dz', &lt;type 'numpy.float64'&gt;), 'dx': (False, '_dx', &lt;type 'numpy.float64'&gt;), 'dy': (False, '_dx', &lt;type 'numpy.float64'&gt;), 'rho': (False, '_rho', &lt;type 'numpy.float64'&gt;), 'freq': (True, None, &lt;type 'numpy.complex128'&gt;), 'yorig': (False, '_xorig', &lt;type 'numpy.float64'&gt;), 'ky': (False, '_ky', &lt;type 'numpy.float64'&gt;), 'mord': (False, '_mord', &lt;type 'tuple'&gt;)}</em><a class="headerlink" href="#zephyr.backend.minizephyr.MiniZephyr.initMap" title="Permalink to this definition">¶</a></dt>
+<code class="descname">initMap</code><em class="property"> = {'nPML': (False, '_nPML', &lt;type 'numpy.int64'&gt;), 'freeSurf': (False, '_freeSurf', &lt;type 'tuple'&gt;), 'xorig': (False, '_xorig', &lt;type 'numpy.float64'&gt;), 'Solver': (False, '_Solver', None), 'premul': (False, '_premul', &lt;type 'numpy.complex128'&gt;), 'zorig': (False, '_zorig', &lt;type 'numpy.float64'&gt;), 'c': (True, '_c', &lt;type 'numpy.complex128'&gt;), 'nx': (True, None, &lt;type 'numpy.int64'&gt;), 'ny': (False, None, &lt;type 'numpy.int64'&gt;), 'nz': (True, None, &lt;type 'numpy.int64'&gt;), 'dz': (False, '_dz', &lt;type 'numpy.float64'&gt;), 'dx': (False, '_dx', &lt;type 'numpy.float64'&gt;), 'dy': (False, '_dx', &lt;type 'numpy.float64'&gt;), 'rho': (False, '_rho', &lt;type 'numpy.float64'&gt;), 'freq': (True, None, &lt;type 'numpy.complex128'&gt;), 'yorig': (False, '_xorig', &lt;type 'numpy.float64'&gt;), 'ky': (False, '_ky', &lt;type 'numpy.float64'&gt;), 'mord': (False, '_mord', &lt;type 'tuple'&gt;)}</em><a class="reference external" href="https://github.com/uwoseis/zephyr/blob/master/zephyr/backend/minizephyr.py"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zephyr.backend.minizephyr.MiniZephyr.initMap" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="attribute">
 <dt id="zephyr.backend.minizephyr.MiniZephyr.ky">
-<code class="descname">ky</code><a class="headerlink" href="#zephyr.backend.minizephyr.MiniZephyr.ky" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<code class="descname">ky</code><a class="reference external" href="https://github.com/uwoseis/zephyr/blob/master/zephyr/backend/minizephyr.py"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zephyr.backend.minizephyr.MiniZephyr.ky" title="Permalink to this definition">¶</a></dt>
+<dd><p>The cross-line wavenumber for 2.5D operation</p>
+</dd></dl>
 
 <dl class="attribute">
 <dt id="zephyr.backend.minizephyr.MiniZephyr.mord">
-<code class="descname">mord</code><a class="headerlink" href="#zephyr.backend.minizephyr.MiniZephyr.mord" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<code class="descname">mord</code><a class="reference external" href="https://github.com/uwoseis/zephyr/blob/master/zephyr/backend/minizephyr.py"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zephyr.backend.minizephyr.MiniZephyr.mord" title="Permalink to this definition">¶</a></dt>
+<dd><p>Determines matrix ordering</p>
+</dd></dl>
 
 <dl class="attribute">
 <dt id="zephyr.backend.minizephyr.MiniZephyr.nPML">
-<code class="descname">nPML</code><a class="headerlink" href="#zephyr.backend.minizephyr.MiniZephyr.nPML" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<code class="descname">nPML</code><a class="reference external" href="https://github.com/uwoseis/zephyr/blob/master/zephyr/backend/minizephyr.py"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zephyr.backend.minizephyr.MiniZephyr.nPML" title="Permalink to this definition">¶</a></dt>
+<dd><p>The depth of the PML (Perfectly Matched Layer) region in gridpoints</p>
+</dd></dl>
 
 <dl class="attribute">
 <dt id="zephyr.backend.minizephyr.MiniZephyr.premul">
-<code class="descname">premul</code><a class="headerlink" href="#zephyr.backend.minizephyr.MiniZephyr.premul" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<code class="descname">premul</code><a class="reference external" href="https://github.com/uwoseis/zephyr/blob/master/zephyr/backend/minizephyr.py"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zephyr.backend.minizephyr.MiniZephyr.premul" title="Permalink to this definition">¶</a></dt>
+<dd><p>A premultiplication factor, used by 2.5D</p>
+</dd></dl>
 
 </dd></dl>
 
 <dl class="class">
 <dt id="zephyr.backend.minizephyr.MiniZephyr25D">
-<em class="property">class </em><code class="descclassname">zephyr.backend.minizephyr.</code><code class="descname">MiniZephyr25D</code><span class="sig-paren">(</span><em>systemConfig</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/zephyr/backend/minizephyr.html#MiniZephyr25D"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zephyr.backend.minizephyr.MiniZephyr25D" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="descclassname">zephyr.backend.minizephyr.</code><code class="descname">MiniZephyr25D</code><span class="sig-paren">(</span><em>systemConfig</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/uwoseis/zephyr/blob/master/zephyr/backend/minizephyr.py"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zephyr.backend.minizephyr.MiniZephyr25D" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="#zephyr.backend.discretization.BaseDiscretization" title="zephyr.backend.discretization.BaseDiscretization"><code class="xref py py-class docutils literal"><span class="pre">zephyr.backend.discretization.BaseDiscretization</span></code></a>, <a class="reference internal" href="#zephyr.backend.discretization.DiscretizationWrapper" title="zephyr.backend.discretization.DiscretizationWrapper"><code class="xref py py-class docutils literal"><span class="pre">zephyr.backend.discretization.DiscretizationWrapper</span></code></a></p>
+<p>Implements 2.5D (visco)acoustic frequency-domain wave physics,
+by carrying out a Fourier summation over cross-line wavenumbers.
+Wraps a series of MiniZephyr instances.</p>
+<dl class="method">
+<dt id="zephyr.backend.minizephyr.MiniZephyr25D.__mul__">
+<code class="descname">__mul__</code><span class="sig-paren">(</span><em>rhs</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/uwoseis/zephyr/blob/master/zephyr/backend/minizephyr.py"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zephyr.backend.minizephyr.MiniZephyr25D.__mul__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Carries out the multiplication of the composite system
+by the right-hand-side vector(s).</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>rhs</strong> (<em>array-like or list thereof</em>) &#8211; Source vectors</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><strong>u</strong> &#8211;
+Wavefields</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">iterator over np.ndarrays</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
 <dl class="attribute">
 <dt id="zephyr.backend.minizephyr.MiniZephyr25D.cmin">
-<code class="descname">cmin</code><a class="headerlink" href="#zephyr.backend.minizephyr.MiniZephyr25D.cmin" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<code class="descname">cmin</code><a class="reference external" href="https://github.com/uwoseis/zephyr/blob/master/zephyr/backend/minizephyr.py"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zephyr.backend.minizephyr.MiniZephyr25D.cmin" title="Permalink to this definition">¶</a></dt>
+<dd><p>The minimum velocity in the model, or a representative equivalent</p>
+</dd></dl>
 
 <dl class="attribute">
 <dt id="zephyr.backend.minizephyr.MiniZephyr25D.disc">
-<code class="descname">disc</code><a class="headerlink" href="#zephyr.backend.minizephyr.MiniZephyr25D.disc" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<code class="descname">disc</code><a class="reference external" href="https://github.com/uwoseis/zephyr/blob/master/zephyr/backend/minizephyr.py"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zephyr.backend.minizephyr.MiniZephyr25D.disc" title="Permalink to this definition">¶</a></dt>
+<dd><p>The discretization to be applied to each wavenumber subproblem</p>
+</dd></dl>
 
 <dl class="attribute">
 <dt id="zephyr.backend.minizephyr.MiniZephyr25D.initMap">
-<code class="descname">initMap</code><em class="property"> = {'scaleTerm': (False, '_scaleTerm', &lt;type 'numpy.complex128'&gt;), 'rho': (False, '_rho', &lt;type 'numpy.float64'&gt;), 'Solver': (False, '_Solver', None), 'zorig': (False, '_zorig', &lt;type 'numpy.float64'&gt;), 'c': (True, '_c', &lt;type 'numpy.complex128'&gt;), 'disc': (False, '_disc', None), 'dz': (False, '_dz', &lt;type 'numpy.float64'&gt;), 'dx': (False, '_dx', &lt;type 'numpy.float64'&gt;), 'dy': (False, '_dx', &lt;type 'numpy.float64'&gt;), 'nky': (True, '_nky', &lt;type 'numpy.int64'&gt;), 'freq': (True, None, &lt;type 'numpy.complex128'&gt;), 'yorig': (False, '_xorig', &lt;type 'numpy.float64'&gt;), 'parallel': (False, '_parallel', &lt;type 'bool'&gt;), 'cmin': (False, '_cmin', &lt;type 'numpy.float64'&gt;), 'freeSurf': (False, '_freeSurf', &lt;type 'tuple'&gt;), 'nx': (True, None, &lt;type 'numpy.int64'&gt;), 'ny': (False, None, &lt;type 'numpy.int64'&gt;), 'nz': (True, None, &lt;type 'numpy.int64'&gt;), 'xorig': (False, '_xorig', &lt;type 'numpy.float64'&gt;)}</em><a class="headerlink" href="#zephyr.backend.minizephyr.MiniZephyr25D.initMap" title="Permalink to this definition">¶</a></dt>
+<code class="descname">initMap</code><em class="property"> = {'scaleTerm': (False, '_scaleTerm', &lt;type 'numpy.complex128'&gt;), 'rho': (False, '_rho', &lt;type 'numpy.float64'&gt;), 'Solver': (False, '_Solver', None), 'zorig': (False, '_zorig', &lt;type 'numpy.float64'&gt;), 'c': (True, '_c', &lt;type 'numpy.complex128'&gt;), 'disc': (False, '_disc', None), 'dz': (False, '_dz', &lt;type 'numpy.float64'&gt;), 'dx': (False, '_dx', &lt;type 'numpy.float64'&gt;), 'dy': (False, '_dx', &lt;type 'numpy.float64'&gt;), 'nky': (True, '_nky', &lt;type 'numpy.int64'&gt;), 'freq': (True, None, &lt;type 'numpy.complex128'&gt;), 'yorig': (False, '_xorig', &lt;type 'numpy.float64'&gt;), 'parallel': (False, '_parallel', &lt;type 'bool'&gt;), 'cmin': (False, '_cmin', &lt;type 'numpy.float64'&gt;), 'freeSurf': (False, '_freeSurf', &lt;type 'tuple'&gt;), 'nx': (True, None, &lt;type 'numpy.int64'&gt;), 'ny': (False, None, &lt;type 'numpy.int64'&gt;), 'nz': (True, None, &lt;type 'numpy.int64'&gt;), 'xorig': (False, '_xorig', &lt;type 'numpy.float64'&gt;)}</em><a class="reference external" href="https://github.com/uwoseis/zephyr/blob/master/zephyr/backend/minizephyr.py"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zephyr.backend.minizephyr.MiniZephyr25D.initMap" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="attribute">
 <dt id="zephyr.backend.minizephyr.MiniZephyr25D.kyweights">
-<code class="descname">kyweights</code><a class="headerlink" href="#zephyr.backend.minizephyr.MiniZephyr25D.kyweights" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<code class="descname">kyweights</code><a class="reference external" href="https://github.com/uwoseis/zephyr/blob/master/zephyr/backend/minizephyr.py"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zephyr.backend.minizephyr.MiniZephyr25D.kyweights" title="Permalink to this definition">¶</a></dt>
+<dd><p>The weights used for each corresponding ky term (i.e., .pkys).
+Equal weights for each sample correspond to an inverse DFT.</p>
+</dd></dl>
 
 <dl class="attribute">
 <dt id="zephyr.backend.minizephyr.MiniZephyr25D.maskKeys">
-<code class="descname">maskKeys</code><em class="property"> = ['nky', 'disc', 'parallel']</em><a class="headerlink" href="#zephyr.backend.minizephyr.MiniZephyr25D.maskKeys" title="Permalink to this definition">¶</a></dt>
+<code class="descname">maskKeys</code><em class="property"> = ['nky', 'disc', 'parallel']</em><a class="reference external" href="https://github.com/uwoseis/zephyr/blob/master/zephyr/backend/minizephyr.py"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zephyr.backend.minizephyr.MiniZephyr25D.maskKeys" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="attribute">
 <dt id="zephyr.backend.minizephyr.MiniZephyr25D.nky">
-<code class="descname">nky</code><a class="headerlink" href="#zephyr.backend.minizephyr.MiniZephyr25D.nky" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<code class="descname">nky</code><a class="reference external" href="https://github.com/uwoseis/zephyr/blob/master/zephyr/backend/minizephyr.py"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zephyr.backend.minizephyr.MiniZephyr25D.nky" title="Permalink to this definition">¶</a></dt>
+<dd><p>The number of y-directional (cross-line) wavenumber components</p>
+</dd></dl>
 
 <dl class="attribute">
 <dt id="zephyr.backend.minizephyr.MiniZephyr25D.parallel">
-<code class="descname">parallel</code><a class="headerlink" href="#zephyr.backend.minizephyr.MiniZephyr25D.parallel" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<code class="descname">parallel</code><a class="reference external" href="https://github.com/uwoseis/zephyr/blob/master/zephyr/backend/minizephyr.py"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zephyr.backend.minizephyr.MiniZephyr25D.parallel" title="Permalink to this definition">¶</a></dt>
+<dd><p>Determines whether to operate in parallel</p>
+</dd></dl>
 
 <dl class="attribute">
 <dt id="zephyr.backend.minizephyr.MiniZephyr25D.pkys">
-<code class="descname">pkys</code><a class="headerlink" href="#zephyr.backend.minizephyr.MiniZephyr25D.pkys" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<code class="descname">pkys</code><a class="reference external" href="https://github.com/uwoseis/zephyr/blob/master/zephyr/backend/minizephyr.py"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zephyr.backend.minizephyr.MiniZephyr25D.pkys" title="Permalink to this definition">¶</a></dt>
+<dd><p>A 1D array containing the chosen wavenumbers to model.
+The regular sampling of these wavenumbers corresponds to
+Fourier quadrature; i.e., an inverse DFT.</p>
+</dd></dl>
 
 <dl class="attribute">
 <dt id="zephyr.backend.minizephyr.MiniZephyr25D.scaleTerm">
-<code class="descname">scaleTerm</code><a class="headerlink" href="#zephyr.backend.minizephyr.MiniZephyr25D.scaleTerm" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<code class="descname">scaleTerm</code><a class="reference external" href="https://github.com/uwoseis/zephyr/blob/master/zephyr/backend/minizephyr.py"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zephyr.backend.minizephyr.MiniZephyr25D.scaleTerm" title="Permalink to this definition">¶</a></dt>
+<dd><p>A scaling term to apply to the output wavefield</p>
+</dd></dl>
 
 <dl class="attribute">
 <dt id="zephyr.backend.minizephyr.MiniZephyr25D.spUpdates">
-<code class="descname">spUpdates</code><a class="headerlink" href="#zephyr.backend.minizephyr.MiniZephyr25D.spUpdates" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<code class="descname">spUpdates</code><a class="reference external" href="https://github.com/uwoseis/zephyr/blob/master/zephyr/backend/minizephyr.py"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zephyr.backend.minizephyr.MiniZephyr25D.spUpdates" title="Permalink to this definition">¶</a></dt>
+<dd><p>A list of dictionaries that override the systemConfig for each subProblem</p>
+</dd></dl>
 
 </dd></dl>
 
 </div>
 <div class="section" id="module-zephyr.backend.solver">
 <span id="zephyr-backend-solver-module"></span><h2>zephyr.backend.solver module<a class="headerlink" href="#module-zephyr.backend.solver" title="Permalink to this headline">¶</a></h2>
+<p>Sparse system solvers for Zephyr</p>
 <dl class="class">
 <dt id="zephyr.backend.solver.DirectSolver">
-<em class="property">class </em><code class="descclassname">zephyr.backend.solver.</code><code class="descname">DirectSolver</code><span class="sig-paren">(</span><em>Solver=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/zephyr/backend/solver.html#DirectSolver"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zephyr.backend.solver.DirectSolver" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="descclassname">zephyr.backend.solver.</code><code class="descname">DirectSolver</code><span class="sig-paren">(</span><em>Solver=None</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/uwoseis/zephyr/blob/master/zephyr/backend/solver.py"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zephyr.backend.solver.DirectSolver" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">object</span></code></p>
+<p>Wrapper around a direct sparse system solver.</p>
 <dl class="attribute">
 <dt id="zephyr.backend.solver.DirectSolver.A">
-<code class="descname">A</code><a class="headerlink" href="#zephyr.backend.solver.DirectSolver.A" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<code class="descname">A</code><a class="reference external" href="https://github.com/uwoseis/zephyr/blob/master/zephyr/backend/solver.py"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zephyr.backend.solver.DirectSolver.A" title="Permalink to this definition">¶</a></dt>
+<dd><p>The system matrix</p>
+</dd></dl>
 
 <dl class="attribute">
 <dt id="zephyr.backend.solver.DirectSolver.Ainv">
-<code class="descname">Ainv</code><a class="headerlink" href="#zephyr.backend.solver.DirectSolver.Ainv" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<code class="descname">Ainv</code><a class="reference external" href="https://github.com/uwoseis/zephyr/blob/master/zephyr/backend/solver.py"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zephyr.backend.solver.DirectSolver.Ainv" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns a Solver instance</p>
+</dd></dl>
 
 <dl class="attribute">
 <dt id="zephyr.backend.solver.DirectSolver.Solver">
-<code class="descname">Solver</code><a class="headerlink" href="#zephyr.backend.solver.DirectSolver.Solver" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<code class="descname">Solver</code><a class="reference external" href="https://github.com/uwoseis/zephyr/blob/master/zephyr/backend/solver.py"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zephyr.backend.solver.DirectSolver.Solver" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the solver class of choice</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="zephyr.backend.solver.DirectSolver.__mul__">
+<code class="descname">__mul__</code><span class="sig-paren">(</span><em>rhs</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/uwoseis/zephyr/blob/master/zephyr/backend/solver.py"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zephyr.backend.solver.DirectSolver.__mul__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Carries out the action of solving for wavefields.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>rhs</strong> (<em>sparse matrix</em>) &#8211; Right-hand side vector(s)</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">Wavefields</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">np.ndarray</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
 
 <dl class="attribute">
 <dt id="zephyr.backend.solver.DirectSolver.shape">
-<code class="descname">shape</code><a class="headerlink" href="#zephyr.backend.solver.DirectSolver.shape" title="Permalink to this definition">¶</a></dt>
+<code class="descname">shape</code><a class="reference external" href="https://github.com/uwoseis/zephyr/blob/master/zephyr/backend/solver.py"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zephyr.backend.solver.DirectSolver.shape" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
@@ -540,87 +740,153 @@ typecast to a float.</p>
 </div>
 <div class="section" id="module-zephyr.backend.source">
 <span id="zephyr-backend-source-module"></span><h2>zephyr.backend.source module<a class="headerlink" href="#module-zephyr.backend.source" title="Permalink to this headline">¶</a></h2>
+<p>Source-generating routines for Zephyr</p>
 <dl class="class">
 <dt id="zephyr.backend.source.BaseSource">
-<em class="property">class </em><code class="descclassname">zephyr.backend.source.</code><code class="descname">BaseSource</code><span class="sig-paren">(</span><em>systemConfig</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/zephyr/backend/source.html#BaseSource"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zephyr.backend.source.BaseSource" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="descclassname">zephyr.backend.source.</code><code class="descname">BaseSource</code><span class="sig-paren">(</span><em>systemConfig</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/uwoseis/zephyr/blob/master/zephyr/backend/source.py"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zephyr.backend.source.BaseSource" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="#zephyr.backend.meta.BaseModelDependent" title="zephyr.backend.meta.BaseModelDependent"><code class="xref py py-class docutils literal"><span class="pre">zephyr.backend.meta.BaseModelDependent</span></code></a></p>
+<p>Trivial base class for sources</p>
 <dl class="attribute">
 <dt id="zephyr.backend.source.BaseSource.initMap">
-<code class="descname">initMap</code><em class="property"> = {'freeSurf': (False, '_freeSurf', &lt;type 'tuple'&gt;), 'dx': (False, '_dx', &lt;type 'numpy.float64'&gt;), 'zorig': (False, '_zorig', &lt;type 'numpy.float64'&gt;), 'nx': (True, None, &lt;type 'numpy.int64'&gt;), 'ny': (False, None, &lt;type 'numpy.int64'&gt;), 'nz': (True, None, &lt;type 'numpy.int64'&gt;), 'dz': (False, '_dz', &lt;type 'numpy.float64'&gt;), 'xorig': (False, '_xorig', &lt;type 'numpy.float64'&gt;), 'dy': (False, '_dx', &lt;type 'numpy.float64'&gt;), 'yorig': (False, '_xorig', &lt;type 'numpy.float64'&gt;)}</em><a class="headerlink" href="#zephyr.backend.source.BaseSource.initMap" title="Permalink to this definition">¶</a></dt>
+<code class="descname">initMap</code><em class="property"> = {'freeSurf': (False, '_freeSurf', &lt;type 'tuple'&gt;), 'dx': (False, '_dx', &lt;type 'numpy.float64'&gt;), 'zorig': (False, '_zorig', &lt;type 'numpy.float64'&gt;), 'nx': (True, None, &lt;type 'numpy.int64'&gt;), 'ny': (False, None, &lt;type 'numpy.int64'&gt;), 'nz': (True, None, &lt;type 'numpy.int64'&gt;), 'dz': (False, '_dz', &lt;type 'numpy.float64'&gt;), 'xorig': (False, '_xorig', &lt;type 'numpy.float64'&gt;), 'dy': (False, '_dx', &lt;type 'numpy.float64'&gt;), 'yorig': (False, '_xorig', &lt;type 'numpy.float64'&gt;)}</em><a class="reference external" href="https://github.com/uwoseis/zephyr/blob/master/zephyr/backend/source.py"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zephyr.backend.source.BaseSource.initMap" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
 
 <dl class="class">
 <dt id="zephyr.backend.source.FakeSource">
-<em class="property">class </em><code class="descclassname">zephyr.backend.source.</code><code class="descname">FakeSource</code><span class="sig-paren">(</span><em>systemConfig</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/zephyr/backend/source.html#FakeSource"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zephyr.backend.source.FakeSource" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="descclassname">zephyr.backend.source.</code><code class="descname">FakeSource</code><span class="sig-paren">(</span><em>systemConfig</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/uwoseis/zephyr/blob/master/zephyr/backend/source.py"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zephyr.backend.source.FakeSource" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="#zephyr.backend.source.BaseSource" title="zephyr.backend.source.BaseSource"><code class="xref py py-class docutils literal"><span class="pre">zephyr.backend.source.BaseSource</span></code></a></p>
+<p>Source that does nothing (for use with analytical systems)</p>
 <dl class="attribute">
 <dt id="zephyr.backend.source.FakeSource.initMap">
-<code class="descname">initMap</code><em class="property"> = {'freeSurf': (False, '_freeSurf', &lt;type 'tuple'&gt;), 'xorig': (False, '_xorig', &lt;type 'numpy.float64'&gt;), 'zorig': (False, '_zorig', &lt;type 'numpy.float64'&gt;), 'nx': (True, None, &lt;type 'numpy.int64'&gt;), 'ny': (False, None, &lt;type 'numpy.int64'&gt;), 'nz': (True, None, &lt;type 'numpy.int64'&gt;), 'dz': (False, '_dz', &lt;type 'numpy.float64'&gt;), 'dx': (False, '_dx', &lt;type 'numpy.float64'&gt;), 'dy': (False, '_dx', &lt;type 'numpy.float64'&gt;), 'yorig': (False, '_xorig', &lt;type 'numpy.float64'&gt;)}</em><a class="headerlink" href="#zephyr.backend.source.FakeSource.initMap" title="Permalink to this definition">¶</a></dt>
+<code class="descname">initMap</code><em class="property"> = {'freeSurf': (False, '_freeSurf', &lt;type 'tuple'&gt;), 'xorig': (False, '_xorig', &lt;type 'numpy.float64'&gt;), 'zorig': (False, '_zorig', &lt;type 'numpy.float64'&gt;), 'nx': (True, None, &lt;type 'numpy.int64'&gt;), 'ny': (False, None, &lt;type 'numpy.int64'&gt;), 'nz': (True, None, &lt;type 'numpy.int64'&gt;), 'dz': (False, '_dz', &lt;type 'numpy.float64'&gt;), 'dx': (False, '_dx', &lt;type 'numpy.float64'&gt;), 'dy': (False, '_dx', &lt;type 'numpy.float64'&gt;), 'yorig': (False, '_xorig', &lt;type 'numpy.float64'&gt;)}</em><a class="reference external" href="https://github.com/uwoseis/zephyr/blob/master/zephyr/backend/source.py"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zephyr.backend.source.FakeSource.initMap" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
 
 <dl class="class">
 <dt id="zephyr.backend.source.KaiserSource">
-<em class="property">class </em><code class="descclassname">zephyr.backend.source.</code><code class="descname">KaiserSource</code><span class="sig-paren">(</span><em>systemConfig</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/zephyr/backend/source.html#KaiserSource"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zephyr.backend.source.KaiserSource" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="descclassname">zephyr.backend.source.</code><code class="descname">KaiserSource</code><span class="sig-paren">(</span><em>systemConfig</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/uwoseis/zephyr/blob/master/zephyr/backend/source.py"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zephyr.backend.source.KaiserSource" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="#zephyr.backend.source.SparseKaiserSource" title="zephyr.backend.source.SparseKaiserSource"><code class="xref py py-class docutils literal"><span class="pre">zephyr.backend.source.SparseKaiserSource</span></code></a></p>
+<p>A simple wrapper class that generates dense sources
+using SparseKaiserSource.</p>
 <dl class="attribute">
 <dt id="zephyr.backend.source.KaiserSource.initMap">
-<code class="descname">initMap</code><em class="property"> = {'freeSurf': (False, '_freeSurf', &lt;type 'tuple'&gt;), 'xorig': (False, '_xorig', &lt;type 'numpy.float64'&gt;), 'zorig': (False, '_zorig', &lt;type 'numpy.float64'&gt;), 'nx': (True, None, &lt;type 'numpy.int64'&gt;), 'ny': (False, None, &lt;type 'numpy.int64'&gt;), 'nz': (True, None, &lt;type 'numpy.int64'&gt;), 'dz': (False, '_dz', &lt;type 'numpy.float64'&gt;), 'dx': (False, '_dx', &lt;type 'numpy.float64'&gt;), 'dy': (False, '_dx', &lt;type 'numpy.float64'&gt;), 'ireg': (False, '_ireg', &lt;type 'numpy.int64'&gt;), 'yorig': (False, '_xorig', &lt;type 'numpy.float64'&gt;)}</em><a class="headerlink" href="#zephyr.backend.source.KaiserSource.initMap" title="Permalink to this definition">¶</a></dt>
+<code class="descname">initMap</code><em class="property"> = {'freeSurf': (False, '_freeSurf', &lt;type 'tuple'&gt;), 'xorig': (False, '_xorig', &lt;type 'numpy.float64'&gt;), 'zorig': (False, '_zorig', &lt;type 'numpy.float64'&gt;), 'nx': (True, None, &lt;type 'numpy.int64'&gt;), 'ny': (False, None, &lt;type 'numpy.int64'&gt;), 'nz': (True, None, &lt;type 'numpy.int64'&gt;), 'dz': (False, '_dz', &lt;type 'numpy.float64'&gt;), 'dx': (False, '_dx', &lt;type 'numpy.float64'&gt;), 'dy': (False, '_dx', &lt;type 'numpy.float64'&gt;), 'ireg': (False, '_ireg', &lt;type 'numpy.int64'&gt;), 'yorig': (False, '_xorig', &lt;type 'numpy.float64'&gt;)}</em><a class="reference external" href="https://github.com/uwoseis/zephyr/blob/master/zephyr/backend/source.py"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zephyr.backend.source.KaiserSource.initMap" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
 
 <dl class="class">
 <dt id="zephyr.backend.source.SimpleSource">
-<em class="property">class </em><code class="descclassname">zephyr.backend.source.</code><code class="descname">SimpleSource</code><span class="sig-paren">(</span><em>systemConfig</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/zephyr/backend/source.html#SimpleSource"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zephyr.backend.source.SimpleSource" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="descclassname">zephyr.backend.source.</code><code class="descname">SimpleSource</code><span class="sig-paren">(</span><em>systemConfig</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/uwoseis/zephyr/blob/master/zephyr/backend/source.py"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zephyr.backend.source.SimpleSource" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="#zephyr.backend.source.BaseSource" title="zephyr.backend.source.BaseSource"><code class="xref py py-class docutils literal"><span class="pre">zephyr.backend.source.BaseSource</span></code></a></p>
+<p>A basic source-implementing class. This takes configuration
+from a systemConfig object, and calling it will return a set
+of right-hand-side vectors for the appropriate space locations.</p>
+<dl class="method">
+<dt id="zephyr.backend.source.SimpleSource.__call__">
+<code class="descname">__call__</code><span class="sig-paren">(</span><em>loc</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/uwoseis/zephyr/blob/master/zephyr/backend/source.py"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zephyr.backend.source.SimpleSource.__call__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Given source locations, return a set of right-hand-side vectors.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>loc</strong> (<em>np.ndarray</em>) &#8211; Source locations in space</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">Dense right-hand side vectors</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">np.ndarray</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
 <dl class="method">
 <dt id="zephyr.backend.source.SimpleSource.dist">
-<code class="descname">dist</code><span class="sig-paren">(</span><em>loc</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/zephyr/backend/source.html#SimpleSource.dist"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zephyr.backend.source.SimpleSource.dist" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<code class="descname">dist</code><span class="sig-paren">(</span><em>loc</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/uwoseis/zephyr/blob/master/zephyr/backend/source.py"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zephyr.backend.source.SimpleSource.dist" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculates the distance of each gridpoint from the source locations.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>loc</strong> (<em>np.ndarray</em>) &#8211; Source locations in space</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">The distance from each gridpoint</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">np.ndarray</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
 
 <dl class="attribute">
 <dt id="zephyr.backend.source.SimpleSource.initMap">
-<code class="descname">initMap</code><em class="property"> = {'freeSurf': (False, '_freeSurf', &lt;type 'tuple'&gt;), 'xorig': (False, '_xorig', &lt;type 'numpy.float64'&gt;), 'zorig': (False, '_zorig', &lt;type 'numpy.float64'&gt;), 'nx': (True, None, &lt;type 'numpy.int64'&gt;), 'ny': (False, None, &lt;type 'numpy.int64'&gt;), 'nz': (True, None, &lt;type 'numpy.int64'&gt;), 'dz': (False, '_dz', &lt;type 'numpy.float64'&gt;), 'dx': (False, '_dx', &lt;type 'numpy.float64'&gt;), 'dy': (False, '_dx', &lt;type 'numpy.float64'&gt;), 'yorig': (False, '_xorig', &lt;type 'numpy.float64'&gt;)}</em><a class="headerlink" href="#zephyr.backend.source.SimpleSource.initMap" title="Permalink to this definition">¶</a></dt>
+<code class="descname">initMap</code><em class="property"> = {'freeSurf': (False, '_freeSurf', &lt;type 'tuple'&gt;), 'xorig': (False, '_xorig', &lt;type 'numpy.float64'&gt;), 'zorig': (False, '_zorig', &lt;type 'numpy.float64'&gt;), 'nx': (True, None, &lt;type 'numpy.int64'&gt;), 'ny': (False, None, &lt;type 'numpy.int64'&gt;), 'nz': (True, None, &lt;type 'numpy.int64'&gt;), 'dz': (False, '_dz', &lt;type 'numpy.float64'&gt;), 'dx': (False, '_dx', &lt;type 'numpy.float64'&gt;), 'dy': (False, '_dx', &lt;type 'numpy.float64'&gt;), 'yorig': (False, '_xorig', &lt;type 'numpy.float64'&gt;)}</em><a class="reference external" href="https://github.com/uwoseis/zephyr/blob/master/zephyr/backend/source.py"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zephyr.backend.source.SimpleSource.initMap" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
 <dt id="zephyr.backend.source.SimpleSource.linIndexOf">
-<code class="descname">linIndexOf</code><span class="sig-paren">(</span><em>loc</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/zephyr/backend/source.html#SimpleSource.linIndexOf"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zephyr.backend.source.SimpleSource.linIndexOf" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<code class="descname">linIndexOf</code><span class="sig-paren">(</span><em>loc</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/uwoseis/zephyr/blob/master/zephyr/backend/source.py"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zephyr.backend.source.SimpleSource.linIndexOf" title="Permalink to this definition">¶</a></dt>
+<dd><p>The linear index of each source location</p>
+</dd></dl>
 
 <dl class="method">
 <dt id="zephyr.backend.source.SimpleSource.vecIndexOf">
-<code class="descname">vecIndexOf</code><span class="sig-paren">(</span><em>loc</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/zephyr/backend/source.html#SimpleSource.vecIndexOf"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zephyr.backend.source.SimpleSource.vecIndexOf" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<code class="descname">vecIndexOf</code><span class="sig-paren">(</span><em>loc</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/uwoseis/zephyr/blob/master/zephyr/backend/source.py"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zephyr.backend.source.SimpleSource.vecIndexOf" title="Permalink to this definition">¶</a></dt>
+<dd><p>The vector index of each source location</p>
+</dd></dl>
 
 </dd></dl>
 
 <dl class="class">
 <dt id="zephyr.backend.source.SparseKaiserSource">
-<em class="property">class </em><code class="descclassname">zephyr.backend.source.</code><code class="descname">SparseKaiserSource</code><span class="sig-paren">(</span><em>systemConfig</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/zephyr/backend/source.html#SparseKaiserSource"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zephyr.backend.source.SparseKaiserSource" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="descclassname">zephyr.backend.source.</code><code class="descname">SparseKaiserSource</code><span class="sig-paren">(</span><em>systemConfig</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/uwoseis/zephyr/blob/master/zephyr/backend/source.py"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zephyr.backend.source.SparseKaiserSource" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="#zephyr.backend.source.SimpleSource" title="zephyr.backend.source.SimpleSource"><code class="xref py py-class docutils literal"><span class="pre">zephyr.backend.source.SimpleSource</span></code></a></p>
+<p>A source-implementing class suitable for use in production codes.
+SparseKaiser source takes a systemConfig dictionary. When called,
+it returns a SciPy sparse matrix of source vectors, suitable for
+efficient use and/or caching. The source vectors make use of
+Graham Hicks&#8217;s Kaiser-Windowed Sinc Function sources, to allow
+for interpolating between grid points.</p>
 <dl class="attribute">
 <dt id="zephyr.backend.source.SparseKaiserSource.HC_KAISER">
-<code class="descname">HC_KAISER</code><em class="property"> = {1: 1.24, 2: 2.94, 3: 4.53, 4: 6.31, 5: 7.91, 6: 9.42, 7: 10.95, 8: 12.53, 9: 14.09, 10: 14.18}</em><a class="headerlink" href="#zephyr.backend.source.SparseKaiserSource.HC_KAISER" title="Permalink to this definition">¶</a></dt>
+<code class="descname">HC_KAISER</code><em class="property"> = {1: 1.24, 2: 2.94, 3: 4.53, 4: 6.31, 5: 7.91, 6: 9.42, 7: 10.95, 8: 12.53, 9: 14.09, 10: 14.18}</em><a class="reference external" href="https://github.com/uwoseis/zephyr/blob/master/zephyr/backend/source.py"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zephyr.backend.source.SparseKaiserSource.HC_KAISER" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
+
+<dl class="method">
+<dt id="zephyr.backend.source.SparseKaiserSource.__call__">
+<code class="descname">__call__</code><span class="sig-paren">(</span><em>sLocs</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/uwoseis/zephyr/blob/master/zephyr/backend/source.py"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zephyr.backend.source.SparseKaiserSource.__call__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Given source locations, return a set of right-hand-side vectors.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>sLocs</strong> (<em>np.ndarray</em>) &#8211; Source locations in space</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">Dense right-hand side vectors</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">np.ndarray</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
 
 <dl class="attribute">
 <dt id="zephyr.backend.source.SparseKaiserSource.initMap">
-<code class="descname">initMap</code><em class="property"> = {'freeSurf': (False, '_freeSurf', &lt;type 'tuple'&gt;), 'dx': (False, '_dx', &lt;type 'numpy.float64'&gt;), 'zorig': (False, '_zorig', &lt;type 'numpy.float64'&gt;), 'nx': (True, None, &lt;type 'numpy.int64'&gt;), 'ny': (False, None, &lt;type 'numpy.int64'&gt;), 'nz': (True, None, &lt;type 'numpy.int64'&gt;), 'dz': (False, '_dz', &lt;type 'numpy.float64'&gt;), 'xorig': (False, '_xorig', &lt;type 'numpy.float64'&gt;), 'dy': (False, '_dx', &lt;type 'numpy.float64'&gt;), 'ireg': (False, '_ireg', &lt;type 'numpy.int64'&gt;), 'yorig': (False, '_xorig', &lt;type 'numpy.float64'&gt;)}</em><a class="headerlink" href="#zephyr.backend.source.SparseKaiserSource.initMap" title="Permalink to this definition">¶</a></dt>
+<code class="descname">initMap</code><em class="property"> = {'freeSurf': (False, '_freeSurf', &lt;type 'tuple'&gt;), 'dx': (False, '_dx', &lt;type 'numpy.float64'&gt;), 'zorig': (False, '_zorig', &lt;type 'numpy.float64'&gt;), 'nx': (True, None, &lt;type 'numpy.int64'&gt;), 'ny': (False, None, &lt;type 'numpy.int64'&gt;), 'nz': (True, None, &lt;type 'numpy.int64'&gt;), 'dz': (False, '_dz', &lt;type 'numpy.float64'&gt;), 'xorig': (False, '_xorig', &lt;type 'numpy.float64'&gt;), 'dy': (False, '_dx', &lt;type 'numpy.float64'&gt;), 'ireg': (False, '_ireg', &lt;type 'numpy.int64'&gt;), 'yorig': (False, '_xorig', &lt;type 'numpy.float64'&gt;)}</em><a class="reference external" href="https://github.com/uwoseis/zephyr/blob/master/zephyr/backend/source.py"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zephyr.backend.source.SparseKaiserSource.initMap" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="attribute">
 <dt id="zephyr.backend.source.SparseKaiserSource.ireg">
-<code class="descname">ireg</code><a class="headerlink" href="#zephyr.backend.source.SparseKaiserSource.ireg" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<code class="descname">ireg</code><a class="reference external" href="https://github.com/uwoseis/zephyr/blob/master/zephyr/backend/source.py"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zephyr.backend.source.SparseKaiserSource.ireg" title="Permalink to this definition">¶</a></dt>
+<dd><p>Half-width of the source region</p>
+</dd></dl>
 
 <dl class="method">
 <dt id="zephyr.backend.source.SparseKaiserSource.kws">
-<code class="descname">kws</code><span class="sig-paren">(</span><em>offset</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/zephyr/backend/source.html#SparseKaiserSource.kws"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zephyr.backend.source.SparseKaiserSource.kws" title="Permalink to this definition">¶</a></dt>
+<code class="descname">kws</code><span class="sig-paren">(</span><em>offset</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/uwoseis/zephyr/blob/master/zephyr/backend/source.py"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zephyr.backend.source.SparseKaiserSource.kws" title="Permalink to this definition">¶</a></dt>
 <dd><p>Finds 2D source terms to approximate a band-limited point source, based on
 Hicks, Graham J. (2002) Arbitrary source and receiver positioning in finite-difference</p>
 <blockquote>
@@ -628,17 +894,32 @@ Hicks, Graham J. (2002) Arbitrary source and receiver positioning in finite-diff
 <p>KaiserWindowedSinc(ireg, offset) &#8211;&gt; 2D ndarray of size (2*ireg+1, 2*ireg+1)
 Input offset is the 2D offsets in fractional gridpoints between the source location and
 the nearest node on the modelling grid.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>offset</strong> (<em>tuple</em>) &#8211; Distance of the centre of the source region from the true source
+point (in 2D coordinates, in units of cells).</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">Interpolated source region of size (2*ireg+1, 2*ireg+1)</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">np.ndarray</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 </dd></dl>
 
 <dl class="class">
 <dt id="zephyr.backend.source.StackedSimpleSource">
-<em class="property">class </em><code class="descclassname">zephyr.backend.source.</code><code class="descname">StackedSimpleSource</code><span class="sig-paren">(</span><em>systemConfig</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/zephyr/backend/source.html#StackedSimpleSource"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zephyr.backend.source.StackedSimpleSource" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="descclassname">zephyr.backend.source.</code><code class="descname">StackedSimpleSource</code><span class="sig-paren">(</span><em>systemConfig</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/uwoseis/zephyr/blob/master/zephyr/backend/source.py"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zephyr.backend.source.StackedSimpleSource" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="#zephyr.backend.source.SimpleSource" title="zephyr.backend.source.SimpleSource"><code class="xref py py-class docutils literal"><span class="pre">zephyr.backend.source.SimpleSource</span></code></a></p>
+<p>A SimpleSource subclass that returns source vectors twice the size,
+augmented with zeros.</p>
 <dl class="attribute">
 <dt id="zephyr.backend.source.StackedSimpleSource.initMap">
-<code class="descname">initMap</code><em class="property"> = {'freeSurf': (False, '_freeSurf', &lt;type 'tuple'&gt;), 'dx': (False, '_dx', &lt;type 'numpy.float64'&gt;), 'zorig': (False, '_zorig', &lt;type 'numpy.float64'&gt;), 'nx': (True, None, &lt;type 'numpy.int64'&gt;), 'ny': (False, None, &lt;type 'numpy.int64'&gt;), 'nz': (True, None, &lt;type 'numpy.int64'&gt;), 'dz': (False, '_dz', &lt;type 'numpy.float64'&gt;), 'xorig': (False, '_xorig', &lt;type 'numpy.float64'&gt;), 'dy': (False, '_dx', &lt;type 'numpy.float64'&gt;), 'yorig': (False, '_xorig', &lt;type 'numpy.float64'&gt;)}</em><a class="headerlink" href="#zephyr.backend.source.StackedSimpleSource.initMap" title="Permalink to this definition">¶</a></dt>
+<code class="descname">initMap</code><em class="property"> = {'freeSurf': (False, '_freeSurf', &lt;type 'tuple'&gt;), 'dx': (False, '_dx', &lt;type 'numpy.float64'&gt;), 'zorig': (False, '_zorig', &lt;type 'numpy.float64'&gt;), 'nx': (True, None, &lt;type 'numpy.int64'&gt;), 'ny': (False, None, &lt;type 'numpy.int64'&gt;), 'nz': (True, None, &lt;type 'numpy.int64'&gt;), 'dz': (False, '_dz', &lt;type 'numpy.float64'&gt;), 'xorig': (False, '_xorig', &lt;type 'numpy.float64'&gt;), 'dy': (False, '_dx', &lt;type 'numpy.float64'&gt;), 'yorig': (False, '_xorig', &lt;type 'numpy.float64'&gt;)}</em><a class="reference external" href="https://github.com/uwoseis/zephyr/blob/master/zephyr/backend/source.py"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zephyr.backend.source.StackedSimpleSource.initMap" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
@@ -646,6 +927,7 @@ the nearest node on the modelling grid.</p>
 </div>
 <div class="section" id="module-zephyr.backend">
 <span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-zephyr.backend" title="Permalink to this headline">¶</a></h2>
+<p>Zephyr&#8217;s backend code for handling forward modelling</p>
 </div>
 </div>
 
