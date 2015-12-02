@@ -8,11 +8,7 @@ serve: build
 
 install: deploy
 
-commit: build
-	git add .
-	git commit
-
-deploy: commit
+deploy:
 	mkdocs gh-deploy
 
 api:
