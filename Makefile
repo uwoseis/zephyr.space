@@ -10,7 +10,7 @@ serve: build
 
 install: deploy
 
-deploy:
+deploy: build
 	mkdocs gh-deploy
 	git push github gh-pages -f
 
