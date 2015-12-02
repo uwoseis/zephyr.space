@@ -1,0 +1,236 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>zephyr.middleware.problem &mdash; Zephyr devel documentation</title>
+    
+    <link rel="stylesheet" href="../../../_static/classic.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../../',
+        VERSION:     'devel',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../../_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="Zephyr devel documentation" href="../../../zephyr.html" />
+    <link rel="up" title="Module code" href="../../index.html" /> 
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../../zephyr.html">Zephyr devel documentation</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="../../index.html" accesskey="U">Module code</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <h1>Source code for zephyr.middleware.problem</h1><div class="highlight"><pre>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">scipy.sparse</span> <span class="kn">as</span> <span class="nn">sp</span>
+<span class="kn">from</span> <span class="nn">..backend</span> <span class="kn">import</span> <span class="n">BaseModelDependent</span><span class="p">,</span> <span class="n">BaseSCCache</span><span class="p">,</span> <span class="n">MultiFreq</span><span class="p">,</span> <span class="n">MiniZephyr</span><span class="p">,</span> <span class="n">Eurus</span>
+<span class="kn">import</span> <span class="nn">SimPEG</span>
+<span class="kn">from</span> <span class="nn">.survey</span> <span class="kn">import</span> <span class="n">HelmBaseSurvey</span><span class="p">,</span> <span class="n">Helm2DSurvey</span><span class="p">,</span> <span class="n">Helm25DSurvey</span>
+<span class="kn">from</span> <span class="nn">.fields</span> <span class="kn">import</span> <span class="n">HelmFields</span>
+
+<span class="n">EPS</span> <span class="o">=</span> <span class="mf">1e-15</span>
+
+<span class="k">class</span> <span class="nc">HelmBaseProblem</span><span class="p">(</span><span class="n">SimPEG</span><span class="o">.</span><span class="n">Problem</span><span class="o">.</span><span class="n">BaseProblem</span><span class="p">,</span> <span class="n">BaseModelDependent</span><span class="p">,</span> <span class="n">BaseSCCache</span><span class="p">):</span>
+<div class="viewcode-block" id="HelmBaseProblem"><a class="viewcode-back" href="../../../zephyr.middleware.html#zephyr.middleware.problem.HelmBaseProblem">[docs]</a>    
+<span class="c">#    initMap = {</span>
+<span class="c">#    #   Argument        Required    Rename as ...   Store as type</span>
+<span class="c">#    }</span>
+
+<span class="c">#    maskKeys = []</span>
+    
+    <span class="n">surveyPair</span> <span class="o">=</span> <span class="n">HelmBaseSurvey</span>
+    <span class="n">SystemWrapper</span> <span class="o">=</span> <span class="n">MultiFreq</span>
+    <span class="n">cacheItems</span> <span class="o">=</span> <span class="p">[</span><span class="s">&#39;_system&#39;</span><span class="p">]</span>
+    
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">systemConfig</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+         
+        <span class="c"># Initialize anemoi side</span>
+        <span class="n">BaseSCCache</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">systemConfig</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>       
+        
+        <span class="c"># Initialize SimPEG side</span>
+        <span class="n">hx</span> <span class="o">=</span> <span class="p">[(</span><span class="bp">self</span><span class="o">.</span><span class="n">dx</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">nx</span><span class="o">-</span><span class="mi">1</span><span class="p">)]</span>
+        <span class="n">hz</span> <span class="o">=</span> <span class="p">[(</span><span class="bp">self</span><span class="o">.</span><span class="n">dz</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">nz</span><span class="o">-</span><span class="mi">1</span><span class="p">)]</span>
+        <span class="n">mesh</span> <span class="o">=</span> <span class="n">SimPEG</span><span class="o">.</span><span class="n">Mesh</span><span class="o">.</span><span class="n">TensorMesh</span><span class="p">([</span><span class="n">hx</span><span class="p">,</span> <span class="n">hz</span><span class="p">],</span> <span class="s">&#39;00&#39;</span><span class="p">)</span>
+        <span class="n">SimPEG</span><span class="o">.</span><span class="n">Problem</span><span class="o">.</span><span class="n">BaseProblem</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">mesh</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+<span class="c">#    @property</span>
+<span class="c">#    def _survey(self):</span>
+<span class="c">#        return self.__survey</span>
+<span class="c">#    @_survey.setter</span>
+<span class="c">#    def _survey(self, value):</span>
+<span class="c">#        self.__survey = value</span>
+<span class="c">#        if value is None:</span>
+<span class="c">#            self._cleanSystem()</span>
+<span class="c">#        else:</span>
+<span class="c">#            self._buildSystem()</span>
+
+    <span class="k">def</span> <span class="nf">updateModel</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">m</span><span class="p">,</span> <span class="n">loneKey</span><span class="o">=</span><span class="s">&#39;c&#39;</span><span class="p">):</span>
+<div class="viewcode-block" id="HelmBaseProblem.updateModel"><a class="viewcode-back" href="../../../zephyr.middleware.html#zephyr.middleware.problem.HelmBaseProblem.updateModel">[docs]</a>        
+        <span class="k">if</span> <span class="n">m</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="k">return</span>
+        
+        <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">m</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">systemConfig</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">m</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">clearCache</span><span class="p">()</span>
+        
+        <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">m</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="ow">or</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">m</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">inexact</span><span class="p">)</span> <span class="ow">or</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">m</span><span class="p">,</span> <span class="nb">complex</span><span class="p">)</span> <span class="ow">or</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">m</span><span class="p">,</span> <span class="nb">float</span><span class="p">):</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">m</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">systemConfig</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">loneKey</span><span class="p">,</span> <span class="mf">0.</span><span class="p">))</span> <span class="o">&lt;</span> <span class="n">EPS</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">systemConfig</span><span class="p">[</span><span class="n">loneKey</span><span class="p">]</span> <span class="o">=</span> <span class="n">m</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">clearCache</span><span class="p">()</span>
+        
+        <span class="k">else</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s">&#39;Class </span><span class="si">%s</span><span class="s"> doesn</span><span class="se">\&#39;</span><span class="s">t know how to update with model of type </span><span class="si">%s</span><span class="s">&#39;</span><span class="o">%</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__class__</span><span class="o">.</span><span class="n">__name__</span><span class="p">,</span> <span class="nb">type</span><span class="p">(</span><span class="n">m</span><span class="p">)))</span>
+            
+    <span class="nd">@property</span></div>
+    <span class="k">def</span> <span class="nf">system</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">if</span> <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s">&#39;_system&#39;</span><span class="p">,</span> <span class="bp">None</span><span class="p">)</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_system</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">SystemWrapper</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">systemConfig</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_system</span>
+
+    <span class="nd">@SimPEG.Utils.timeIt</span>
+    <span class="k">def</span> <span class="nf">Jtvec</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">m</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">v</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">u</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+<div class="viewcode-block" id="HelmBaseProblem.Jtvec"><a class="viewcode-back" href="../../../zephyr.middleware.html#zephyr.middleware.problem.HelmBaseProblem.Jtvec">[docs]</a>        
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">ispaired</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s">&#39;</span><span class="si">%s</span><span class="s"> instance is not paired to a survey&#39;</span><span class="o">%</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__class__</span><span class="o">.</span><span class="n">__name__</span><span class="p">,))</span>
+            
+        <span class="k">if</span> <span class="n">v</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s">&#39;Actually, Jtvec requires a residual vector&#39;</span><span class="p">)</span>
+        
+        <span class="bp">self</span><span class="o">.</span><span class="n">updateModel</span><span class="p">(</span><span class="n">m</span><span class="p">)</span>
+        
+        <span class="c"># v.shape &lt;nrec,  nsrc,  nfreq&gt;</span>
+        <span class="c"># o.shape [&lt;nelem, nsrc&gt; . nfreq]</span>
+        <span class="c"># r.shape [&lt;nrec, nelem&gt; . nsrc]</span>
+                
+        <span class="n">resid</span> <span class="o">=</span> <span class="n">v</span><span class="o">.</span><span class="n">reshape</span><span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">survey</span><span class="o">.</span><span class="n">nrec</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">survey</span><span class="o">.</span><span class="n">nsrc</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">survey</span><span class="o">.</span><span class="n">nfreq</span><span class="p">))</span>
+        
+        <span class="k">if</span> <span class="n">u</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="n">u</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_lazyFields</span><span class="p">(</span><span class="n">m</span><span class="p">)</span>
+            
+        <span class="c"># Make a list of receiver vectors for each frequency, each of size &lt;nelem, nsrc&gt;</span>
+        <span class="n">qb</span> <span class="o">=</span> <span class="p">[</span>
+              <span class="n">sp</span><span class="o">.</span><span class="n">hstack</span><span class="p">(</span>
+               <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">survey</span><span class="o">.</span><span class="n">rVec</span><span class="p">(</span><span class="n">isrc</span><span class="p">)</span><span class="o">.</span><span class="n">T</span> <span class="o">*</span> <span class="c"># &lt;-- &lt;nelem, nrec&gt;</span>
+                <span class="n">sp</span><span class="o">.</span><span class="n">csc_matrix</span><span class="p">(</span><span class="n">resid</span><span class="p">[:,</span><span class="n">isrc</span><span class="p">,</span> <span class="n">ifreq</span><span class="p">]</span><span class="o">.</span><span class="n">reshape</span><span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">survey</span><span class="o">.</span><span class="n">nrec</span><span class="p">,</span><span class="mi">1</span><span class="p">)))</span> <span class="c"># &lt;-- &lt;nrec, 1&gt;</span>
+                <span class="k">for</span> <span class="n">isrc</span> <span class="ow">in</span> <span class="nb">xrange</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">survey</span><span class="o">.</span><span class="n">nsrc</span><span class="p">)</span>
+               <span class="p">]</span> <span class="c"># &lt;-- List comprehension creates sparse vectors of size &lt;nelem, 1&gt; for each source and all receivers</span>
+<span class="c">#                (self.survey.rVec(isrc).T * # &lt;-- &lt;nelem, nrec&gt;</span>
+<span class="c">#                 sp.csc_matrix(resid[:,isrc, ifreq].reshape((self.survey.nrec,1))) # &lt;-- &lt;nrec, 1&gt;</span>
+<span class="c">#                 for isrc in xrange(self.survey.nsrc)</span>
+<span class="c">#                ) # &lt;-- Generator expression creates sparse vectors of size &lt;nelem, 1&gt; for each source and all receivers</span>
+              <span class="p">)</span> <span class="c"># &lt;-- Sparse matrix of size &lt;nelem, nsrc&gt; constructed by hstack from generator</span>
+              <span class="k">for</span> <span class="n">ifreq</span> <span class="ow">in</span> <span class="nb">xrange</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">survey</span><span class="o">.</span><span class="n">nfreq</span><span class="p">)</span> <span class="c"># &lt;-- Outer list of size &lt;nfreq&gt;</span>
+             <span class="p">]</span>
+        
+        <span class="n">uB</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">system</span> <span class="o">*</span> <span class="n">qb</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">u</span><span class="p">,</span> <span class="n">HelmFields</span><span class="p">):</span>
+            <span class="n">g</span> <span class="o">=</span> <span class="nb">reduce</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">add</span><span class="p">,</span> <span class="p">((</span><span class="n">u</span><span class="p">[:,</span><span class="s">&#39;u&#39;</span><span class="p">,</span><span class="n">ifreq</span><span class="p">]</span> <span class="o">*</span> <span class="n">uBi</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span> <span class="k">for</span> <span class="n">ifreq</span><span class="p">,</span> <span class="n">uBi</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">uB</span><span class="p">)))</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">g</span> <span class="o">=</span> <span class="nb">reduce</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">add</span><span class="p">,</span> <span class="p">((</span><span class="n">uFi</span> <span class="o">*</span> <span class="n">uBi</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span> <span class="k">for</span> <span class="n">uFi</span><span class="p">,</span> <span class="n">uBi</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">u</span><span class="p">,</span> <span class="n">uB</span><span class="p">)))</span>
+        
+        <span class="k">return</span> <span class="n">g</span>
+    
+    <span class="k">def</span> <span class="nf">_lazyFields</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">m</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span></div>
+        
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">ispaired</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s">&#39;</span><span class="si">%s</span><span class="s"> instance is not paired to a survey&#39;</span><span class="o">%</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__class__</span><span class="o">.</span><span class="n">__name__</span><span class="p">,))</span>
+        
+        <span class="bp">self</span><span class="o">.</span><span class="n">updateModel</span><span class="p">(</span><span class="n">m</span><span class="p">)</span>
+        
+        <span class="n">qs</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">survey</span><span class="o">.</span><span class="n">sVecs</span>
+        <span class="n">uF</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">system</span> <span class="o">*</span> <span class="n">qs</span>
+        
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">np</span><span class="o">.</span><span class="n">iterable</span><span class="p">(</span><span class="n">uF</span><span class="p">):</span>
+            <span class="n">uF</span> <span class="o">=</span> <span class="p">[</span><span class="n">uF</span><span class="p">]</span>
+        
+        <span class="k">return</span> <span class="n">uF</span>
+
+    <span class="k">def</span> <span class="nf">fields</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">m</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+<div class="viewcode-block" id="HelmBaseProblem.fields"><a class="viewcode-back" href="../../../zephyr.middleware.html#zephyr.middleware.problem.HelmBaseProblem.fields">[docs]</a>        
+        <span class="n">uF</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_lazyFields</span><span class="p">(</span><span class="n">m</span><span class="p">)</span>
+        <span class="n">fields</span> <span class="o">=</span> <span class="n">HelmFields</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">mesh</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">survey</span><span class="p">)</span>
+        
+        <span class="k">for</span> <span class="n">ifreq</span><span class="p">,</span> <span class="n">uFsub</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">uF</span><span class="p">):</span>
+            <span class="n">fields</span><span class="p">[:,</span><span class="s">&#39;u&#39;</span><span class="p">,</span><span class="n">ifreq</span><span class="p">]</span> <span class="o">=</span> <span class="n">uFsub</span>
+        
+        <span class="k">return</span> <span class="n">fields</span>
+    
+
+<span class="k">class</span> <span class="nc">Helm2DProblem</span><span class="p">(</span><span class="n">HelmBaseProblem</span><span class="p">):</span></div></div>
+<div class="viewcode-block" id="Helm2DProblem"><a class="viewcode-back" href="../../../zephyr.middleware.html#zephyr.middleware.problem.Helm2DProblem">[docs]</a>    
+    <span class="n">surveyPair</span> <span class="o">=</span> <span class="n">Helm2DSurvey</span>
+
+    
+<span class="k">class</span> <span class="nc">Helm25DProblem</span><span class="p">(</span><span class="n">HelmBaseProblem</span><span class="p">):</span></div>
+<div class="viewcode-block" id="Helm25DProblem"><a class="viewcode-back" href="../../../zephyr.middleware.html#zephyr.middleware.problem.Helm25DProblem">[docs]</a>    
+    <span class="n">surveyPair</span> <span class="o">=</span> <span class="n">Helm25DSurvey</span>
+</pre></div></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="../../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../../zephyr.html">Zephyr devel documentation</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="../../index.html" >Module code</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &copy; Copyright 2015, Brendan Smithyman.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.3.1.
+    </div>
+  </body>
+</html>

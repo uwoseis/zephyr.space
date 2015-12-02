@@ -1,0 +1,470 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>zephyr.backend.minizephyr &mdash; Zephyr devel documentation</title>
+    
+    <link rel="stylesheet" href="../../../_static/classic.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../../',
+        VERSION:     'devel',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../../_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="Zephyr devel documentation" href="../../../zephyr.html" />
+    <link rel="up" title="Module code" href="../../index.html" /> 
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../../zephyr.html">Zephyr devel documentation</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="../../index.html" accesskey="U">Module code</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <h1>Source code for zephyr.backend.minizephyr</h1><div class="highlight"><pre>
+<span class="kn">from</span> <span class="nn">.discretization</span> <span class="kn">import</span> <span class="n">BaseDiscretization</span><span class="p">,</span> <span class="n">DiscretizationWrapper</span>
+
+<span class="kn">import</span> <span class="nn">copy</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">scipy.sparse</span>
+<span class="kn">import</span> <span class="nn">scipy.sparse.linalg</span>
+
+<span class="k">try</span><span class="p">:</span>
+    <span class="kn">from</span> <span class="nn">multiprocessing</span> <span class="kn">import</span> <span class="n">Pool</span><span class="p">,</span> <span class="n">Process</span>
+<span class="k">except</span> <span class="ne">ImportError</span><span class="p">:</span>
+    <span class="n">PARALLEL</span> <span class="o">=</span> <span class="bp">False</span>
+<span class="k">else</span><span class="p">:</span>
+    <span class="n">PARALLEL</span> <span class="o">=</span> <span class="bp">True</span>
+
+<span class="n">PARTASK_TIMEOUT</span> <span class="o">=</span> <span class="mi">60</span>
+
+<span class="k">class</span> <span class="nc">MiniZephyr</span><span class="p">(</span><span class="n">BaseDiscretization</span><span class="p">):</span>
+<div class="viewcode-block" id="MiniZephyr"><a class="viewcode-back" href="../../../zephyr.backend.html#zephyr.backend.minizephyr.MiniZephyr">[docs]</a>        
+    <span class="n">initMap</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="c">#   Argument        Required    Rename as ...   Store as type</span>
+        <span class="s">&#39;nPML&#39;</span><span class="p">:</span>         <span class="p">(</span><span class="bp">False</span><span class="p">,</span>     <span class="s">&#39;_nPML&#39;</span><span class="p">,</span>        <span class="n">np</span><span class="o">.</span><span class="n">int64</span><span class="p">),</span>
+        <span class="s">&#39;ky&#39;</span><span class="p">:</span>           <span class="p">(</span><span class="bp">False</span><span class="p">,</span>     <span class="s">&#39;_ky&#39;</span><span class="p">,</span>          <span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">),</span>
+        <span class="s">&#39;mord&#39;</span><span class="p">:</span>         <span class="p">(</span><span class="bp">False</span><span class="p">,</span>     <span class="s">&#39;_mord&#39;</span><span class="p">,</span>        <span class="nb">tuple</span><span class="p">),</span>
+        <span class="s">&#39;premul&#39;</span><span class="p">:</span>       <span class="p">(</span><span class="bp">False</span><span class="p">,</span>     <span class="s">&#39;_premul&#39;</span><span class="p">,</span>      <span class="n">np</span><span class="o">.</span><span class="n">complex128</span><span class="p">),</span>
+    <span class="p">}</span>
+
+    <span class="k">def</span> <span class="nf">_initHelmholtzNinePoint</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        An attempt to reproduce the finite-difference stencil and the</span>
+<span class="sd">        general behaviour of OMEGA by Pratt et al. The stencil is a 9-point</span>
+<span class="sd">        second-order version based on work by a number of people in the mid-90s</span>
+<span class="sd">        including Ivan Stekl. The boundary conditions are based on the PML</span>
+<span class="sd">        implementation by Steve Roecker in fdfdpml.f.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">nx</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">nx</span>
+        <span class="n">nz</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">nz</span>
+        <span class="n">dims</span> <span class="o">=</span> <span class="p">(</span><span class="n">nz</span><span class="p">,</span> <span class="n">nx</span><span class="p">)</span>
+        <span class="n">nrows</span> <span class="o">=</span> <span class="n">nx</span><span class="o">*</span><span class="n">nz</span>
+
+        <span class="n">c</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">c</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">dims</span><span class="p">)</span>
+        <span class="n">rho</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">rho</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">dims</span><span class="p">)</span>
+
+        <span class="k">exec</span> <span class="s">&#39;nf = </span><span class="si">%s</span><span class="s">&#39;</span><span class="o">%</span><span class="bp">self</span><span class="o">.</span><span class="n">mord</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="ow">in</span> <span class="nb">locals</span><span class="p">()</span>
+        <span class="k">exec</span> <span class="s">&#39;ns = </span><span class="si">%s</span><span class="s">&#39;</span><span class="o">%</span><span class="bp">self</span><span class="o">.</span><span class="n">mord</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="ow">in</span> <span class="nb">locals</span><span class="p">()</span>
+
+        <span class="c"># fast --&gt; slow is x --&gt; y --&gt; z as Fortran</span>
+
+        <span class="c"># Set up physical properties in matrices with padding</span>
+        <span class="n">omega</span>   <span class="o">=</span> <span class="mi">2</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">freq</span>
+        <span class="n">padopts</span> <span class="o">=</span> <span class="p">{</span><span class="s">&#39;pad_width&#39;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="s">&#39;mode&#39;</span><span class="p">:</span> <span class="s">&#39;edge&#39;</span><span class="p">}</span>
+        <span class="n">cPad</span>    <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">pad</span><span class="p">(</span><span class="n">c</span><span class="o">.</span><span class="n">real</span><span class="p">,</span> <span class="o">**</span><span class="n">padopts</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1j</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">pad</span><span class="p">(</span><span class="n">c</span><span class="o">.</span><span class="n">imag</span><span class="p">,</span> <span class="o">**</span><span class="n">padopts</span><span class="p">)</span>
+        <span class="n">rhoPad</span>  <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">pad</span><span class="p">(</span><span class="n">rho</span><span class="p">,</span> <span class="o">**</span><span class="n">padopts</span><span class="p">)</span>
+
+        <span class="n">aky</span> <span class="o">=</span> <span class="mi">2</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">ky</span>
+
+        <span class="c"># Horizontal, vertical and diagonal geometry terms</span>
+        <span class="n">dx</span>  <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">dx</span>
+        <span class="n">dz</span>  <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">dz</span>
+        <span class="n">freeSurf</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">freeSurf</span>
+
+        <span class="n">dxx</span> <span class="o">=</span> <span class="n">dx</span><span class="o">**</span><span class="mi">2</span>
+        <span class="n">dzz</span> <span class="o">=</span> <span class="n">dz</span><span class="o">**</span><span class="mi">2</span>
+        <span class="n">dxz</span> <span class="o">=</span> <span class="p">(</span><span class="n">dxx</span><span class="o">+</span><span class="n">dzz</span><span class="p">)</span><span class="o">/</span><span class="mi">2</span>
+        <span class="n">dd</span>  <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">dxz</span><span class="p">)</span>
+        <span class="n">iom</span> <span class="o">=</span> <span class="mi">1j</span> <span class="o">*</span> <span class="n">omega</span>
+
+        <span class="c"># PML decay terms</span>
+        <span class="c"># NB: Arrays are padded later, but &#39;c&#39; in these lines</span>
+        <span class="c">#     comes from the original (un-padded) version</span>
+
+        <span class="n">nPML</span>    <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">nPML</span>
+
+        <span class="n">pmldx</span>   <span class="o">=</span> <span class="n">dx</span><span class="o">*</span><span class="p">(</span><span class="n">nPML</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="n">pmldz</span>   <span class="o">=</span> <span class="n">dz</span><span class="o">*</span><span class="p">(</span><span class="n">nPML</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="n">pmlr</span>    <span class="o">=</span> <span class="mf">1e-3</span>
+        <span class="n">pmlfx</span>   <span class="o">=</span> <span class="mf">3.0</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="mi">1</span><span class="o">/</span><span class="n">pmlr</span><span class="p">)</span><span class="o">/</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">pmldx</span><span class="o">**</span><span class="mi">3</span><span class="p">)</span>
+        <span class="n">pmlfz</span>   <span class="o">=</span> <span class="mf">3.0</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="mi">1</span><span class="o">/</span><span class="n">pmlr</span><span class="p">)</span><span class="o">/</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">pmldz</span><span class="o">**</span><span class="mi">3</span><span class="p">)</span>
+
+        <span class="n">dpmlx</span>   <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">dims</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">complex128</span><span class="p">)</span>
+        <span class="n">dpmlz</span>   <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">dims</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">complex128</span><span class="p">)</span>
+        <span class="n">isnx</span>    <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">dims</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">)</span>
+        <span class="n">isnz</span>    <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">dims</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">)</span>
+
+        <span class="c"># Only enable PML if the free surface isn&#39;t set</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">freeSurf</span><span class="p">[</span><span class="mi">2</span><span class="p">]:</span>
+            <span class="n">isnz</span><span class="p">[</span><span class="o">-</span><span class="n">nPML</span><span class="p">:,:]</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span> <span class="c"># Top</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">freeSurf</span><span class="p">[</span><span class="mi">1</span><span class="p">]:</span>
+            <span class="n">isnx</span><span class="p">[:,</span><span class="o">-</span><span class="n">nPML</span><span class="p">:]</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span> <span class="c"># Right Side</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">freeSurf</span><span class="p">[</span><span class="mi">0</span><span class="p">]:</span>
+            <span class="n">isnz</span><span class="p">[:</span><span class="n">nPML</span><span class="p">,:]</span> <span class="o">=</span> <span class="mi">1</span> <span class="c"># Bottom</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">freeSurf</span><span class="p">[</span><span class="mi">3</span><span class="p">]:</span>
+            <span class="n">isnx</span><span class="p">[:,:</span><span class="n">nPML</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span> <span class="c"># Left side</span>
+
+        <span class="n">dpmlx</span><span class="p">[:,:</span><span class="n">nPML</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">nPML</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="o">*</span><span class="n">dx</span><span class="p">)</span><span class="o">.</span><span class="n">reshape</span><span class="p">((</span><span class="mi">1</span><span class="p">,</span><span class="n">nPML</span><span class="p">))</span>
+        <span class="n">dpmlx</span><span class="p">[:,</span><span class="o">-</span><span class="n">nPML</span><span class="p">:]</span> <span class="o">=</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">nPML</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span><span class="o">*</span><span class="n">dx</span><span class="p">)</span><span class="o">.</span><span class="n">reshape</span><span class="p">((</span><span class="mi">1</span><span class="p">,</span><span class="n">nPML</span><span class="p">))</span>
+        <span class="n">dnx</span>     <span class="o">=</span> <span class="n">pmlfx</span><span class="o">*</span><span class="n">c</span><span class="o">*</span><span class="n">dpmlx</span><span class="o">**</span><span class="mi">2</span>
+        <span class="n">ddnx</span>    <span class="o">=</span> <span class="mi">2</span><span class="o">*</span><span class="n">pmlfx</span><span class="o">*</span><span class="n">c</span><span class="o">*</span><span class="n">dpmlx</span>
+        <span class="n">denx</span>    <span class="o">=</span> <span class="n">dnx</span> <span class="o">+</span> <span class="n">iom</span> 
+        <span class="n">r1x</span>     <span class="o">=</span> <span class="n">iom</span> <span class="o">/</span> <span class="n">denx</span>
+        <span class="n">r1xsq</span>   <span class="o">=</span> <span class="n">r1x</span><span class="o">**</span><span class="mi">2</span>
+        <span class="n">r2x</span>     <span class="o">=</span> <span class="n">isnx</span><span class="o">*</span><span class="n">r1xsq</span><span class="o">*</span><span class="n">ddnx</span><span class="o">/</span><span class="n">denx</span>
+
+        <span class="n">dpmlz</span><span class="p">[:</span><span class="n">nPML</span><span class="p">,:]</span> <span class="o">=</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">nPML</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="o">*</span><span class="n">dz</span><span class="p">)</span><span class="o">.</span><span class="n">reshape</span><span class="p">((</span><span class="n">nPML</span><span class="p">,</span><span class="mi">1</span><span class="p">))</span>
+        <span class="n">dpmlz</span><span class="p">[</span><span class="o">-</span><span class="n">nPML</span><span class="p">:,:]</span> <span class="o">=</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">nPML</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span><span class="o">*</span><span class="n">dz</span><span class="p">)</span><span class="o">.</span><span class="n">reshape</span><span class="p">((</span><span class="n">nPML</span><span class="p">,</span><span class="mi">1</span><span class="p">))</span>
+        <span class="n">dnz</span>     <span class="o">=</span> <span class="n">pmlfz</span><span class="o">*</span><span class="n">c</span><span class="o">*</span><span class="n">dpmlz</span><span class="o">**</span><span class="mi">2</span>
+        <span class="n">ddnz</span>    <span class="o">=</span> <span class="mi">2</span><span class="o">*</span><span class="n">pmlfz</span><span class="o">*</span><span class="n">c</span><span class="o">*</span><span class="n">dpmlz</span>
+        <span class="n">denz</span>    <span class="o">=</span> <span class="n">dnz</span> <span class="o">+</span> <span class="n">iom</span>
+        <span class="n">r1z</span>     <span class="o">=</span> <span class="n">iom</span> <span class="o">/</span> <span class="n">denz</span>
+        <span class="n">r1zsq</span>   <span class="o">=</span> <span class="n">r1z</span><span class="o">**</span><span class="mi">2</span>
+        <span class="n">r2z</span>     <span class="o">=</span> <span class="n">isnz</span><span class="o">*</span><span class="n">r1zsq</span><span class="o">*</span><span class="n">ddnz</span><span class="o">/</span><span class="n">denz</span>
+
+        <span class="c"># Visual key for finite-difference terms</span>
+        <span class="c"># (per Pratt and Worthington, 1990)</span>
+        <span class="c">#</span>
+        <span class="c">#   This         Original</span>
+        <span class="c"># AF FF CF  vs.  AD DD CD</span>
+        <span class="c"># AA BE CC  vs.  AA BE CC</span>
+        <span class="c"># AD DD CD  vs.  AF FF CF</span>
+
+        <span class="c"># Set of keys to index the dictionaries</span>
+        <span class="n">keys</span> <span class="o">=</span> <span class="p">[</span><span class="s">&#39;AD&#39;</span><span class="p">,</span> <span class="s">&#39;DD&#39;</span><span class="p">,</span> <span class="s">&#39;CD&#39;</span><span class="p">,</span> <span class="s">&#39;AA&#39;</span><span class="p">,</span> <span class="s">&#39;BE&#39;</span><span class="p">,</span> <span class="s">&#39;CC&#39;</span><span class="p">,</span> <span class="s">&#39;AF&#39;</span><span class="p">,</span> <span class="s">&#39;FF&#39;</span><span class="p">,</span> <span class="s">&#39;CF&#39;</span><span class="p">]</span>
+
+        <span class="c"># Diagonal offsets for the sparse matrix formation</span>
+        <span class="n">offsets</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s">&#39;AD&#39;</span><span class="p">:</span>   <span class="o">-</span><span class="n">nf</span> <span class="o">-</span><span class="n">ns</span><span class="p">,</span>
+            <span class="s">&#39;DD&#39;</span><span class="p">:</span>   <span class="o">-</span><span class="n">nf</span>    <span class="p">,</span>
+            <span class="s">&#39;CD&#39;</span><span class="p">:</span>   <span class="o">-</span><span class="n">nf</span> <span class="o">+</span><span class="n">ns</span><span class="p">,</span>
+            <span class="s">&#39;AA&#39;</span><span class="p">:</span>       <span class="o">-</span><span class="n">ns</span><span class="p">,</span>
+            <span class="s">&#39;BE&#39;</span><span class="p">:</span>         <span class="mi">0</span><span class="p">,</span>
+            <span class="s">&#39;CC&#39;</span><span class="p">:</span>       <span class="o">+</span><span class="n">ns</span><span class="p">,</span>
+            <span class="s">&#39;AF&#39;</span><span class="p">:</span>   <span class="o">+</span><span class="n">nf</span> <span class="o">-</span><span class="n">ns</span><span class="p">,</span>
+            <span class="s">&#39;FF&#39;</span><span class="p">:</span>   <span class="o">+</span><span class="n">nf</span>    <span class="p">,</span>
+            <span class="s">&#39;CF&#39;</span><span class="p">:</span>   <span class="o">+</span><span class="n">nf</span> <span class="o">+</span><span class="n">ns</span><span class="p">,</span>
+        <span class="p">}</span>
+
+        <span class="k">def</span> <span class="nf">prepareDiagonals</span><span class="p">(</span><span class="n">diagonals</span><span class="p">):</span>
+            <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">diagonals</span><span class="p">:</span>
+                <span class="n">diagonals</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">diagonals</span><span class="p">[</span><span class="n">key</span><span class="p">]</span><span class="o">.</span><span class="n">ravel</span><span class="p">()</span>
+                <span class="k">if</span> <span class="n">offsets</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span>
+                    <span class="n">diagonals</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">diagonals</span><span class="p">[</span><span class="n">key</span><span class="p">][</span><span class="o">-</span><span class="n">offsets</span><span class="p">[</span><span class="n">key</span><span class="p">]:]</span>
+                <span class="k">elif</span> <span class="n">offsets</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+                    <span class="n">diagonals</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">diagonals</span><span class="p">[</span><span class="n">key</span><span class="p">][:</span><span class="o">-</span><span class="n">offsets</span><span class="p">[</span><span class="n">key</span><span class="p">]]</span>
+                <span class="n">diagonals</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">diagonals</span><span class="p">[</span><span class="n">key</span><span class="p">]</span><span class="o">.</span><span class="n">ravel</span><span class="p">()</span>
+
+        <span class="c"># Buoyancies</span>
+        <span class="n">bMM</span> <span class="o">=</span> <span class="mf">1.</span> <span class="o">/</span> <span class="n">rhoPad</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="o">-</span><span class="mi">2</span><span class="p">,</span><span class="mi">0</span><span class="p">:</span><span class="o">-</span><span class="mi">2</span><span class="p">]</span> <span class="c"># bottom left</span>
+        <span class="n">bME</span> <span class="o">=</span> <span class="mf">1.</span> <span class="o">/</span> <span class="n">rhoPad</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="o">-</span><span class="mi">2</span><span class="p">,</span><span class="mi">1</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="c"># bottom centre</span>
+        <span class="n">bMP</span> <span class="o">=</span> <span class="mf">1.</span> <span class="o">/</span> <span class="n">rhoPad</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="o">-</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">:</span>  <span class="p">]</span> <span class="c"># bottom right</span>
+        <span class="n">bEM</span> <span class="o">=</span> <span class="mf">1.</span> <span class="o">/</span> <span class="n">rhoPad</span><span class="p">[</span><span class="mi">1</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">:</span><span class="o">-</span><span class="mi">2</span><span class="p">]</span> <span class="c"># middle left</span>
+        <span class="n">bEE</span> <span class="o">=</span> <span class="mf">1.</span> <span class="o">/</span> <span class="n">rhoPad</span><span class="p">[</span><span class="mi">1</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="c"># middle centre</span>
+        <span class="n">bEP</span> <span class="o">=</span> <span class="mf">1.</span> <span class="o">/</span> <span class="n">rhoPad</span><span class="p">[</span><span class="mi">1</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">:</span>  <span class="p">]</span> <span class="c"># middle right</span>
+        <span class="n">bPM</span> <span class="o">=</span> <span class="mf">1.</span> <span class="o">/</span> <span class="n">rhoPad</span><span class="p">[</span><span class="mi">2</span><span class="p">:</span>  <span class="p">,</span><span class="mi">0</span><span class="p">:</span><span class="o">-</span><span class="mi">2</span><span class="p">]</span> <span class="c"># top    left</span>
+        <span class="n">bPE</span> <span class="o">=</span> <span class="mf">1.</span> <span class="o">/</span> <span class="n">rhoPad</span><span class="p">[</span><span class="mi">2</span><span class="p">:</span>  <span class="p">,</span><span class="mi">1</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="c"># top    centre</span>
+        <span class="n">bPP</span> <span class="o">=</span> <span class="mf">1.</span> <span class="o">/</span> <span class="n">rhoPad</span><span class="p">[</span><span class="mi">2</span><span class="p">:</span>  <span class="p">,</span><span class="mi">2</span><span class="p">:</span>  <span class="p">]</span> <span class="c"># top    right</span>
+
+        <span class="c"># Initialize averaged buoyancies on most of the grid</span>
+        <span class="n">bMM</span> <span class="o">=</span> <span class="p">(</span><span class="n">bEE</span> <span class="o">+</span> <span class="n">bMM</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span> <span class="c"># a2</span>
+        <span class="n">bME</span> <span class="o">=</span> <span class="p">(</span><span class="n">bEE</span> <span class="o">+</span> <span class="n">bME</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span> <span class="c"># d1</span>
+        <span class="n">bMP</span> <span class="o">=</span> <span class="p">(</span><span class="n">bEE</span> <span class="o">+</span> <span class="n">bMP</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span> <span class="c"># d2</span>
+        <span class="n">bEM</span> <span class="o">=</span> <span class="p">(</span><span class="n">bEE</span> <span class="o">+</span> <span class="n">bEM</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span> <span class="c"># a1</span>
+        <span class="c"># ... middle</span>
+        <span class="n">bEP</span> <span class="o">=</span> <span class="p">(</span><span class="n">bEE</span> <span class="o">+</span> <span class="n">bEP</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span> <span class="c"># c1</span>
+        <span class="n">bPM</span> <span class="o">=</span> <span class="p">(</span><span class="n">bEE</span> <span class="o">+</span> <span class="n">bPM</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span> <span class="c"># f2</span>
+        <span class="n">bPE</span> <span class="o">=</span> <span class="p">(</span><span class="n">bEE</span> <span class="o">+</span> <span class="n">bPE</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span> <span class="c"># f1</span>
+        <span class="n">bPP</span> <span class="o">=</span> <span class="p">(</span><span class="n">bEE</span> <span class="o">+</span> <span class="n">bPP</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span> <span class="c"># c2</span>
+
+        <span class="c"># Model parameter M</span>
+        <span class="n">K</span> <span class="o">=</span> <span class="p">((</span><span class="n">omega</span><span class="o">**</span><span class="mi">2</span> <span class="o">/</span> <span class="n">cPad</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span> <span class="o">-</span> <span class="n">aky</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span> <span class="o">/</span> <span class="n">rhoPad</span>
+
+        <span class="c"># K = omega^2/(c^2 . rho)</span>
+        <span class="n">kMM</span> <span class="o">=</span> <span class="n">K</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="o">-</span><span class="mi">2</span><span class="p">,</span><span class="mi">0</span><span class="p">:</span><span class="o">-</span><span class="mi">2</span><span class="p">]</span> <span class="c"># bottom left</span>
+        <span class="n">kME</span> <span class="o">=</span> <span class="n">K</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="o">-</span><span class="mi">2</span><span class="p">,</span><span class="mi">1</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="c"># bottom centre</span>
+        <span class="n">kMP</span> <span class="o">=</span> <span class="n">K</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="o">-</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">:</span>  <span class="p">]</span> <span class="c"># bottom centre</span>
+        <span class="n">kEM</span> <span class="o">=</span> <span class="n">K</span><span class="p">[</span><span class="mi">1</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">:</span><span class="o">-</span><span class="mi">2</span><span class="p">]</span> <span class="c"># middle left</span>
+        <span class="n">kEE</span> <span class="o">=</span> <span class="n">K</span><span class="p">[</span><span class="mi">1</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="c"># middle centre</span>
+        <span class="n">kEP</span> <span class="o">=</span> <span class="n">K</span><span class="p">[</span><span class="mi">1</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">:</span>  <span class="p">]</span> <span class="c"># middle right</span>
+        <span class="n">kPM</span> <span class="o">=</span> <span class="n">K</span><span class="p">[</span><span class="mi">2</span><span class="p">:</span>  <span class="p">,</span><span class="mi">0</span><span class="p">:</span><span class="o">-</span><span class="mi">2</span><span class="p">]</span> <span class="c"># top    left</span>
+        <span class="n">kPE</span> <span class="o">=</span> <span class="n">K</span><span class="p">[</span><span class="mi">2</span><span class="p">:</span>  <span class="p">,</span><span class="mi">1</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="c"># top    centre</span>
+        <span class="n">kPP</span> <span class="o">=</span> <span class="n">K</span><span class="p">[</span><span class="mi">2</span><span class="p">:</span>  <span class="p">,</span><span class="mi">2</span><span class="p">:</span>  <span class="p">]</span> <span class="c"># top    right</span>
+
+        <span class="c"># 9-point fd star</span>
+        <span class="n">acoef</span>   <span class="o">=</span> <span class="mf">0.5461</span>
+        <span class="n">bcoef</span>   <span class="o">=</span> <span class="mf">0.4539</span>
+        <span class="n">ccoef</span>   <span class="o">=</span> <span class="mf">0.6248</span>
+        <span class="n">dcoef</span>   <span class="o">=</span> <span class="mf">0.09381</span>
+        <span class="n">ecoef</span>   <span class="o">=</span> <span class="mf">0.000001297</span>
+
+        <span class="c"># 5-point fd star</span>
+        <span class="c"># acoef = 1.0</span>
+        <span class="c"># bcoef = 0.0</span>
+        <span class="c"># ecoef = 0.0</span>
+
+        <span class="c"># NB: bPM and bMP here are switched relative to S. Roecker&#39;s version</span>
+        <span class="c">#     in OMEGA. This is because the labelling herein is always ?ZX.</span>
+
+        <span class="n">diagonals</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s">&#39;AD&#39;</span><span class="p">:</span>   <span class="n">ecoef</span><span class="o">*</span><span class="n">kMM</span>
+                    <span class="o">+</span> <span class="n">bcoef</span><span class="o">*</span><span class="n">bMM</span><span class="o">*</span><span class="p">((</span><span class="n">r1zsq</span><span class="o">+</span><span class="n">r1xsq</span><span class="p">)</span><span class="o">/</span><span class="p">(</span><span class="mi">4</span><span class="o">*</span><span class="n">dxz</span><span class="p">)</span> <span class="o">-</span> <span class="p">(</span><span class="n">r2z</span><span class="o">+</span><span class="n">r2x</span><span class="p">)</span><span class="o">/</span><span class="p">(</span><span class="mi">4</span><span class="o">*</span><span class="n">dd</span><span class="p">)),</span>
+            <span class="s">&#39;DD&#39;</span><span class="p">:</span>   <span class="n">dcoef</span><span class="o">*</span><span class="n">kME</span>
+                    <span class="o">+</span> <span class="n">acoef</span><span class="o">*</span><span class="n">bME</span><span class="o">*</span><span class="p">(</span><span class="n">r1zsq</span><span class="o">/</span><span class="n">dz</span> <span class="o">-</span> <span class="n">r2z</span><span class="o">/</span><span class="mi">2</span><span class="p">)</span><span class="o">/</span><span class="n">dz</span>
+                    <span class="o">+</span> <span class="n">bcoef</span><span class="o">*</span><span class="p">(</span><span class="n">r1zsq</span><span class="o">-</span><span class="n">r1xsq</span><span class="p">)</span><span class="o">*</span><span class="p">(</span><span class="n">bMP</span><span class="o">+</span><span class="n">bMM</span><span class="p">)</span><span class="o">/</span><span class="p">(</span><span class="mi">4</span><span class="o">*</span><span class="n">dxz</span><span class="p">),</span>
+            <span class="s">&#39;CD&#39;</span><span class="p">:</span>   <span class="n">ecoef</span><span class="o">*</span><span class="n">kMP</span>
+                    <span class="o">+</span> <span class="n">bcoef</span><span class="o">*</span><span class="n">bMP</span><span class="o">*</span><span class="p">((</span><span class="n">r1zsq</span><span class="o">+</span><span class="n">r1xsq</span><span class="p">)</span><span class="o">/</span><span class="p">(</span><span class="mi">4</span><span class="o">*</span><span class="n">dxz</span><span class="p">)</span> <span class="o">-</span> <span class="p">(</span><span class="n">r2z</span><span class="o">-</span><span class="n">r2x</span><span class="p">)</span><span class="o">/</span><span class="p">(</span><span class="mi">4</span><span class="o">*</span><span class="n">dd</span><span class="p">)),</span>
+            <span class="s">&#39;AA&#39;</span><span class="p">:</span>   <span class="n">dcoef</span><span class="o">*</span><span class="n">kEM</span>
+                    <span class="o">+</span> <span class="n">acoef</span><span class="o">*</span><span class="n">bEM</span><span class="o">*</span><span class="p">(</span><span class="n">r1xsq</span><span class="o">/</span><span class="n">dx</span> <span class="o">-</span> <span class="n">r2x</span><span class="o">/</span><span class="mi">2</span><span class="p">)</span><span class="o">/</span><span class="n">dx</span>
+                    <span class="o">+</span> <span class="n">bcoef</span><span class="o">*</span><span class="p">(</span><span class="n">r1xsq</span><span class="o">-</span><span class="n">r1zsq</span><span class="p">)</span><span class="o">*</span><span class="p">(</span><span class="n">bPM</span><span class="o">+</span><span class="n">bMM</span><span class="p">)</span><span class="o">/</span><span class="p">(</span><span class="mi">4</span><span class="o">*</span><span class="n">dxz</span><span class="p">),</span>
+            <span class="s">&#39;BE&#39;</span><span class="p">:</span>   <span class="n">ccoef</span><span class="o">*</span><span class="n">kEE</span>
+                    <span class="o">+</span> <span class="n">acoef</span><span class="o">*</span><span class="p">(</span><span class="n">r2x</span><span class="o">*</span><span class="p">(</span><span class="n">bEM</span><span class="o">-</span><span class="n">bEP</span><span class="p">)</span><span class="o">/</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">dx</span><span class="p">)</span> <span class="o">+</span> <span class="n">r2z</span><span class="o">*</span><span class="p">(</span><span class="n">bME</span><span class="o">-</span><span class="n">bPE</span><span class="p">)</span><span class="o">/</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">dz</span><span class="p">)</span> <span class="o">-</span> <span class="n">r1xsq</span><span class="o">*</span><span class="p">(</span><span class="n">bEM</span><span class="o">+</span><span class="n">bEP</span><span class="p">)</span><span class="o">/</span><span class="n">dxx</span> <span class="o">-</span> <span class="n">r1zsq</span><span class="o">*</span><span class="p">(</span><span class="n">bME</span><span class="o">+</span><span class="n">bPE</span><span class="p">)</span><span class="o">/</span><span class="n">dzz</span><span class="p">)</span>
+                    <span class="o">+</span> <span class="n">bcoef</span><span class="o">*</span><span class="p">(((</span><span class="n">r2x</span><span class="o">+</span><span class="n">r2z</span><span class="p">)</span><span class="o">*</span><span class="p">(</span><span class="n">bMM</span><span class="o">-</span><span class="n">bPP</span><span class="p">)</span> <span class="o">+</span> <span class="p">(</span><span class="n">r2z</span><span class="o">-</span><span class="n">r2x</span><span class="p">)</span><span class="o">*</span><span class="p">(</span><span class="n">bMP</span><span class="o">-</span><span class="n">bPM</span><span class="p">))</span><span class="o">/</span><span class="p">(</span><span class="mi">4</span><span class="o">*</span><span class="n">dd</span><span class="p">)</span> <span class="o">-</span> <span class="p">(</span><span class="n">r1xsq</span><span class="o">+</span><span class="n">r1zsq</span><span class="p">)</span><span class="o">*</span><span class="p">(</span><span class="n">bMM</span><span class="o">+</span><span class="n">bPP</span><span class="o">+</span><span class="n">bPM</span><span class="o">+</span><span class="n">bMP</span><span class="p">)</span><span class="o">/</span><span class="p">(</span><span class="mi">4</span><span class="o">*</span><span class="n">dxz</span><span class="p">)),</span>
+            <span class="s">&#39;CC&#39;</span><span class="p">:</span>   <span class="n">dcoef</span><span class="o">*</span><span class="n">kEP</span>
+                    <span class="o">+</span> <span class="n">acoef</span><span class="o">*</span><span class="n">bEP</span><span class="o">*</span><span class="p">(</span><span class="n">r1xsq</span><span class="o">/</span><span class="n">dx</span> <span class="o">+</span> <span class="n">r2x</span><span class="o">/</span><span class="mi">2</span><span class="p">)</span><span class="o">/</span><span class="n">dx</span>
+                    <span class="o">+</span> <span class="n">bcoef</span><span class="o">*</span><span class="p">(</span><span class="n">r1xsq</span><span class="o">-</span><span class="n">r1zsq</span><span class="p">)</span><span class="o">*</span><span class="p">(</span><span class="n">bMP</span><span class="o">+</span><span class="n">bPP</span><span class="p">)</span><span class="o">/</span><span class="p">(</span><span class="mi">4</span><span class="o">*</span><span class="n">dxz</span><span class="p">),</span>
+            <span class="s">&#39;AF&#39;</span><span class="p">:</span>   <span class="n">ecoef</span><span class="o">*</span><span class="n">kPM</span>
+                    <span class="o">+</span> <span class="n">bcoef</span><span class="o">*</span><span class="n">bPM</span><span class="o">*</span><span class="p">((</span><span class="n">r1zsq</span><span class="o">+</span><span class="n">r1xsq</span><span class="p">)</span><span class="o">/</span><span class="p">(</span><span class="mi">4</span><span class="o">*</span><span class="n">dxz</span><span class="p">)</span> <span class="o">+</span> <span class="p">(</span><span class="n">r2z</span><span class="o">-</span><span class="n">r2x</span><span class="p">)</span><span class="o">/</span><span class="p">(</span><span class="mi">4</span><span class="o">*</span><span class="n">dd</span><span class="p">)),</span>
+            <span class="s">&#39;FF&#39;</span><span class="p">:</span>   <span class="n">dcoef</span><span class="o">*</span><span class="n">kPE</span>
+                    <span class="o">+</span> <span class="n">acoef</span><span class="o">*</span><span class="n">bPE</span><span class="o">*</span><span class="p">(</span><span class="n">r1zsq</span><span class="o">/</span><span class="n">dz</span> <span class="o">+</span> <span class="n">r2z</span><span class="o">/</span><span class="mi">2</span><span class="p">)</span><span class="o">/</span><span class="n">dz</span>
+                    <span class="o">+</span> <span class="n">bcoef</span><span class="o">*</span><span class="p">(</span><span class="n">r1zsq</span><span class="o">-</span><span class="n">r1xsq</span><span class="p">)</span><span class="o">*</span><span class="p">(</span><span class="n">bPM</span><span class="o">+</span><span class="n">bPP</span><span class="p">)</span><span class="o">/</span><span class="p">(</span><span class="mi">4</span><span class="o">*</span><span class="n">dxz</span><span class="p">),</span>
+            <span class="s">&#39;CF&#39;</span><span class="p">:</span>   <span class="n">ecoef</span><span class="o">*</span><span class="n">kPP</span>
+                    <span class="o">+</span> <span class="n">bcoef</span><span class="o">*</span><span class="n">bPP</span><span class="o">*</span><span class="p">((</span><span class="n">r1zsq</span><span class="o">+</span><span class="n">r1xsq</span><span class="p">)</span><span class="o">/</span><span class="p">(</span><span class="mi">4</span><span class="o">*</span><span class="n">dxz</span><span class="p">)</span> <span class="o">+</span> <span class="p">(</span><span class="n">r2z</span><span class="o">+</span><span class="n">r2x</span><span class="p">)</span><span class="o">/</span><span class="p">(</span><span class="mi">4</span><span class="o">*</span><span class="n">dd</span><span class="p">)),</span>
+        <span class="p">}</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_setupBoundary</span><span class="p">(</span><span class="n">diagonals</span><span class="p">,</span> <span class="n">freeSurf</span><span class="p">)</span>
+
+        <span class="n">prepareDiagonals</span><span class="p">(</span><span class="n">diagonals</span><span class="p">)</span>
+
+        <span class="n">diagonals</span> <span class="o">=</span> <span class="p">[</span><span class="n">diagonals</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">keys</span><span class="p">]</span>
+        <span class="n">offsets</span> <span class="o">=</span> <span class="p">[</span><span class="n">offsets</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">keys</span><span class="p">]</span>
+
+        <span class="n">A</span> <span class="o">=</span> <span class="n">scipy</span><span class="o">.</span><span class="n">sparse</span><span class="o">.</span><span class="n">diags</span><span class="p">(</span><span class="n">diagonals</span><span class="p">,</span> <span class="n">offsets</span><span class="p">,</span> <span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="n">nrows</span><span class="p">,</span> <span class="n">nrows</span><span class="p">),</span> <span class="n">format</span><span class="o">=</span><span class="s">&#39;csr&#39;</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">complex128</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">A</span>
+
+    <span class="k">def</span> <span class="nf">_setupBoundary</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">diagonals</span><span class="p">,</span> <span class="n">freeSurf</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Function to set up boundary regions for the Seismic FDFD problem</span>
+<span class="sd">        using the 9-point finite-difference stencil from OMEGA/FULLWV.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">keys</span> <span class="o">=</span> <span class="n">diagonals</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span>
+        <span class="n">pickDiag</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="o">-</span><span class="mf">1.</span> <span class="k">if</span> <span class="n">freeSurf</span><span class="p">[</span><span class="n">x</span><span class="p">]</span> <span class="k">else</span> <span class="mf">1.</span>
+
+        <span class="c"># Left</span>
+        <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">keys</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">key</span> <span class="ow">is</span> <span class="s">&#39;BE&#39;</span><span class="p">:</span>
+                <span class="n">diagonals</span><span class="p">[</span><span class="n">key</span><span class="p">][:,</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">pickDiag</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">diagonals</span><span class="p">[</span><span class="n">key</span><span class="p">][:,</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="mf">0.</span>
+
+        <span class="c"># Right</span>
+        <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">keys</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">key</span> <span class="ow">is</span> <span class="s">&#39;BE&#39;</span><span class="p">:</span>
+                <span class="n">diagonals</span><span class="p">[</span><span class="n">key</span><span class="p">][:,</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">pickDiag</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">diagonals</span><span class="p">[</span><span class="n">key</span><span class="p">][:,</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="mf">0.</span>
+
+        <span class="c"># Bottom</span>
+        <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">keys</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">key</span> <span class="ow">is</span> <span class="s">&#39;BE&#39;</span><span class="p">:</span>
+                <span class="n">diagonals</span><span class="p">[</span><span class="n">key</span><span class="p">][</span><span class="mi">0</span><span class="p">,:]</span> <span class="o">=</span> <span class="n">pickDiag</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">diagonals</span><span class="p">[</span><span class="n">key</span><span class="p">][</span><span class="mi">0</span><span class="p">,:]</span> <span class="o">=</span> <span class="mf">0.</span>
+
+        <span class="c"># Top</span>
+        <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">keys</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">key</span> <span class="ow">is</span> <span class="s">&#39;BE&#39;</span><span class="p">:</span>
+                <span class="n">diagonals</span><span class="p">[</span><span class="n">key</span><span class="p">][</span><span class="o">-</span><span class="mi">1</span><span class="p">,:]</span> <span class="o">=</span> <span class="n">pickDiag</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">diagonals</span><span class="p">[</span><span class="n">key</span><span class="p">][</span><span class="o">-</span><span class="mi">1</span><span class="p">,:]</span> <span class="o">=</span> <span class="mf">0.</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">A</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">if</span> <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s">&#39;_A&#39;</span><span class="p">,</span> <span class="bp">None</span><span class="p">)</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_A</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_initHelmholtzNinePoint</span><span class="p">()</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_A</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">mord</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s">&#39;_mord&#39;</span><span class="p">,</span> <span class="p">(</span><span class="s">&#39;+nx&#39;</span><span class="p">,</span> <span class="s">&#39;+1&#39;</span><span class="p">))</span>
+    
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">nPML</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s">&#39;_nPML&#39;</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">ky</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s">&#39;_ky&#39;</span><span class="p">,</span> <span class="mf">0.</span><span class="p">)</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">premul</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s">&#39;_premul&#39;</span><span class="p">,</span> <span class="mf">1.</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">__mul__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">premul</span> <span class="o">*</span> <span class="nb">super</span><span class="p">(</span><span class="n">MiniZephyr</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">__mul__</span><span class="p">(</span><span class="n">value</span><span class="p">)</span><span class="o">.</span><span class="n">conjugate</span><span class="p">()</span>
+
+<span class="k">class</span> <span class="nc">MiniZephyr25D</span><span class="p">(</span><span class="n">BaseDiscretization</span><span class="p">,</span><span class="n">DiscretizationWrapper</span><span class="p">):</span></div>
+<div class="viewcode-block" id="MiniZephyr25D"><a class="viewcode-back" href="../../../zephyr.backend.html#zephyr.backend.minizephyr.MiniZephyr25D">[docs]</a>    
+    <span class="n">initMap</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="c">#   Argument        Required    Rename as ...   Store as type</span>
+        <span class="s">&#39;disc&#39;</span><span class="p">:</span>         <span class="p">(</span><span class="bp">False</span><span class="p">,</span>     <span class="s">&#39;_disc&#39;</span><span class="p">,</span>        <span class="bp">None</span><span class="p">),</span>
+        <span class="s">&#39;nky&#39;</span><span class="p">:</span>          <span class="p">(</span><span class="bp">True</span><span class="p">,</span>      <span class="s">&#39;_nky&#39;</span><span class="p">,</span>         <span class="n">np</span><span class="o">.</span><span class="n">int64</span><span class="p">),</span>
+        <span class="s">&#39;parallel&#39;</span><span class="p">:</span>     <span class="p">(</span><span class="bp">False</span><span class="p">,</span>     <span class="s">&#39;_parallel&#39;</span><span class="p">,</span>    <span class="nb">bool</span><span class="p">),</span>
+        <span class="s">&#39;cmin&#39;</span><span class="p">:</span>         <span class="p">(</span><span class="bp">False</span><span class="p">,</span>     <span class="s">&#39;_cmin&#39;</span><span class="p">,</span>        <span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">),</span>
+    <span class="p">}</span>
+    
+    <span class="n">maskKeys</span> <span class="o">=</span> <span class="p">[</span><span class="s">&#39;nky&#39;</span><span class="p">,</span> <span class="s">&#39;disc&#39;</span><span class="p">,</span> <span class="s">&#39;parallel&#39;</span><span class="p">]</span>
+    
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">disc</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        
+        <span class="k">if</span> <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s">&#39;_disc&#39;</span><span class="p">,</span> <span class="bp">None</span><span class="p">)</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="kn">from</span> <span class="nn">minizephyr</span> <span class="kn">import</span> <span class="n">MiniZephyr</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_disc</span> <span class="o">=</span> <span class="n">MiniZephyr</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_disc</span>
+    
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">nky</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">if</span> <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s">&#39;_nky&#39;</span><span class="p">,</span> <span class="bp">None</span><span class="p">)</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_nky</span> <span class="o">=</span> <span class="mi">1</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_nky</span>
+    
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">pkys</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="c"># By regular sampling strategy</span>
+        <span class="n">indices</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">nky</span><span class="p">)</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">nky</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="n">dky</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">freq</span> <span class="o">/</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">cmin</span> <span class="o">*</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">nky</span><span class="o">-</span><span class="mi">1</span><span class="p">))</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">dky</span> <span class="o">=</span> <span class="mf">0.</span>
+        <span class="k">return</span> <span class="n">indices</span> <span class="o">*</span> <span class="n">dky</span>
+    
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">kyweights</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">indices</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">nky</span><span class="p">)</span>
+        <span class="n">weights</span> <span class="o">=</span> <span class="mf">1.</span> <span class="o">+</span> <span class="p">(</span><span class="n">indices</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">weights</span>
+    
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">cmin</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">if</span> <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s">&#39;_cmin&#39;</span><span class="p">,</span> <span class="bp">None</span><span class="p">)</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">min</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">c</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_cmin</span>
+    
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">spUpdates</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">weightfac</span> <span class="o">=</span> <span class="mf">1.</span><span class="o">/</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">nky</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">nky</span> <span class="o">&gt;</span> <span class="mi">1</span> <span class="k">else</span> <span class="mf">1.</span>
+        <span class="k">return</span> <span class="p">[{</span><span class="s">&#39;ky&#39;</span><span class="p">:</span> <span class="n">ky</span><span class="p">,</span> <span class="s">&#39;premul&#39;</span><span class="p">:</span> <span class="n">weightfac</span><span class="o">*</span><span class="p">(</span><span class="mf">1.</span> <span class="o">+</span> <span class="p">(</span><span class="n">ky</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">))}</span> <span class="k">for</span> <span class="n">ky</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">pkys</span><span class="p">]</span>
+    
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">parallel</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">PARALLEL</span> <span class="ow">and</span> <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s">&#39;_parallel&#39;</span><span class="p">,</span> <span class="bp">True</span><span class="p">)</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">scaleTerm</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s">&#39;_scaleTerm&#39;</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="mi">1j</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="p">)</span> <span class="o">/</span><span class="p">(</span><span class="mi">4</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="p">))</span>
+    
+    <span class="k">def</span> <span class="nf">__mul__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">rhs</span><span class="p">):</span>
+        
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">parallel</span><span class="p">:</span>
+            <span class="n">pool</span> <span class="o">=</span> <span class="n">Pool</span><span class="p">()</span>
+            <span class="n">plist</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="k">for</span> <span class="n">sp</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">subProblems</span><span class="p">:</span>
+                <span class="n">p</span> <span class="o">=</span> <span class="n">pool</span><span class="o">.</span><span class="n">apply_async</span><span class="p">(</span><span class="n">sp</span><span class="p">,</span> <span class="p">(</span><span class="n">rhs</span><span class="p">,))</span>
+                <span class="n">plist</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">p</span><span class="p">)</span>
+            
+            <span class="n">u</span> <span class="o">=</span> <span class="p">(</span><span class="n">p</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">PARTASK_TIMEOUT</span><span class="p">)</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">plist</span><span class="p">)</span>
+            <span class="n">pool</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+            <span class="n">pool</span><span class="o">.</span><span class="n">join</span><span class="p">()</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">u</span> <span class="o">=</span> <span class="p">(</span><span class="n">sp</span><span class="o">*</span><span class="n">rhs</span> <span class="k">for</span> <span class="n">sp</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">subProblems</span><span class="p">)</span>
+        
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">scaleTerm</span> <span class="o">*</span> <span class="nb">reduce</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">add</span><span class="p">,</span> <span class="n">u</span><span class="p">)</span>
+</pre></div></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="../../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../../zephyr.html">Zephyr devel documentation</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="../../index.html" >Module code</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &copy; Copyright 2015, Brendan Smithyman.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.3.1.
+    </div>
+  </body>
+</html>

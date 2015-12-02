@@ -1,0 +1,329 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>zephyr.backend.meta &mdash; Zephyr devel documentation</title>
+    
+    <link rel="stylesheet" href="../../../_static/classic.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../../',
+        VERSION:     'devel',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../../_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="Zephyr devel documentation" href="../../../zephyr.html" />
+    <link rel="up" title="Module code" href="../../index.html" /> 
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../../zephyr.html">Zephyr devel documentation</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="../../index.html" accesskey="U">Module code</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <h1>Source code for zephyr.backend.meta</h1><div class="highlight"><pre>
+<span class="kn">import</span> <span class="nn">warnings</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
+
+<span class="k">class</span> <span class="nc">ClassProperty</span><span class="p">(</span><span class="nb">property</span><span class="p">):</span>
+<div class="viewcode-block" id="ClassProperty"><a class="viewcode-back" href="../../../zephyr.backend.html#zephyr.backend.meta.ClassProperty">[docs]</a>    <span class="k">def</span> <span class="nf">__get__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">cls</span><span class="p">,</span> <span class="n">owner</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">fget</span><span class="o">.</span><span class="n">__get__</span><span class="p">(</span><span class="bp">None</span><span class="p">,</span> <span class="n">owner</span><span class="p">)()</span>
+
+
+<span class="k">class</span> <span class="nc">AMMetaClass</span><span class="p">(</span><span class="nb">type</span><span class="p">):</span></div>
+<div class="viewcode-block" id="AMMetaClass"><a class="viewcode-back" href="../../../zephyr.backend.html#zephyr.backend.meta.AMMetaClass">[docs]</a>    
+    <span class="k">def</span> <span class="nf">__new__</span><span class="p">(</span><span class="n">mcs</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">bases</span><span class="p">,</span> <span class="n">attrs</span><span class="p">):</span>
+        
+        <span class="n">baseMaps</span> <span class="o">=</span> <span class="p">[</span><span class="nb">getattr</span><span class="p">(</span><span class="n">base</span><span class="p">,</span> <span class="s">&#39;initMap&#39;</span><span class="p">,</span> <span class="p">{})</span> <span class="k">for</span> <span class="n">base</span> <span class="ow">in</span> <span class="n">bases</span><span class="p">][::</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+        <span class="n">baseMaps</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">attrs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;initMap&#39;</span><span class="p">,</span> <span class="p">{}))</span>
+        
+        <span class="n">initMap</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">for</span> <span class="n">baseMap</span> <span class="ow">in</span> <span class="n">baseMaps</span><span class="p">:</span>
+            <span class="n">initMap</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">baseMap</span><span class="p">)</span>
+            <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">initMap</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">initMap</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+                    <span class="k">del</span><span class="p">(</span><span class="n">initMap</span><span class="p">[</span><span class="n">key</span><span class="p">])</span>
+        
+        <span class="n">attrs</span><span class="p">[</span><span class="s">&#39;initMap&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">initMap</span>
+        
+        <span class="k">return</span> <span class="nb">type</span><span class="o">.</span><span class="n">__new__</span><span class="p">(</span><span class="n">mcs</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">bases</span><span class="p">,</span> <span class="n">attrs</span><span class="p">)</span>
+    
+    <span class="k">def</span> <span class="nf">__call__</span><span class="p">(</span><span class="n">cls</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">args</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s">&#39;__init__() takes at least 2 arguments (1 given)&#39;</span><span class="p">)</span>
+        <span class="n">systemConfig</span> <span class="o">=</span> <span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        
+        <span class="n">obj</span> <span class="o">=</span> <span class="n">cls</span><span class="o">.</span><span class="n">__new__</span><span class="p">(</span><span class="n">cls</span><span class="p">)</span>
+        
+        <span class="k">with</span> <span class="n">warnings</span><span class="o">.</span><span class="n">catch_warnings</span><span class="p">():</span>
+            <span class="n">warnings</span><span class="o">.</span><span class="n">simplefilter</span><span class="p">(</span><span class="s">&#39;ignore&#39;</span><span class="p">)</span>
+            <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">obj</span><span class="o">.</span><span class="n">initMap</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+                <span class="k">if</span> <span class="p">(</span><span class="n">key</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">systemConfig</span><span class="p">)</span> <span class="ow">and</span> <span class="n">obj</span><span class="o">.</span><span class="n">initMap</span><span class="p">[</span><span class="n">key</span><span class="p">][</span><span class="mi">0</span><span class="p">]:</span>
+                    <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s">&#39;Class </span><span class="si">%s</span><span class="s"> requires parameter </span><span class="se">\&#39;</span><span class="si">%s</span><span class="se">\&#39;</span><span class="s">&#39;</span><span class="o">%</span><span class="p">(</span><span class="n">cls</span><span class="o">.</span><span class="n">__name__</span><span class="p">,</span> <span class="n">key</span><span class="p">))</span>
+                <span class="k">if</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">systemConfig</span><span class="p">:</span>
+                    <span class="k">if</span> <span class="n">obj</span><span class="o">.</span><span class="n">initMap</span><span class="p">[</span><span class="n">key</span><span class="p">][</span><span class="mi">2</span><span class="p">]</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+                        <span class="n">typer</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span>
+                    <span class="k">else</span><span class="p">:</span>
+                        <span class="k">def</span> <span class="nf">typer</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+                            <span class="n">newtype</span> <span class="o">=</span> <span class="n">obj</span><span class="o">.</span><span class="n">initMap</span><span class="p">[</span><span class="n">key</span><span class="p">][</span><span class="mi">2</span><span class="p">]</span>
+                            <span class="k">try</span><span class="p">:</span>
+                                <span class="k">return</span> <span class="n">obj</span><span class="o">.</span><span class="n">initMap</span><span class="p">[</span><span class="n">key</span><span class="p">][</span><span class="mi">2</span><span class="p">](</span><span class="n">x</span><span class="p">)</span>
+                            <span class="k">except</span> <span class="ne">TypeError</span><span class="p">:</span>
+                                <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">iscomplex</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="ow">and</span> <span class="nb">issubclass</span><span class="p">(</span><span class="n">newtype</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">floating</span><span class="p">):</span>
+                                    <span class="k">return</span> <span class="n">typer</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">real</span><span class="p">)</span>
+                                <span class="k">raise</span>
+                                
+                    <span class="k">if</span> <span class="n">obj</span><span class="o">.</span><span class="n">initMap</span><span class="p">[</span><span class="n">key</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+                        <span class="nb">setattr</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="n">typer</span><span class="p">(</span><span class="n">systemConfig</span><span class="p">[</span><span class="n">key</span><span class="p">]))</span>
+                    <span class="k">else</span><span class="p">:</span>
+                        <span class="nb">setattr</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="n">obj</span><span class="o">.</span><span class="n">initMap</span><span class="p">[</span><span class="n">key</span><span class="p">][</span><span class="mi">1</span><span class="p">],</span> <span class="n">typer</span><span class="p">(</span><span class="n">systemConfig</span><span class="p">[</span><span class="n">key</span><span class="p">]))</span>
+        
+        <span class="n">obj</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">obj</span>
+
+
+<span class="k">class</span> <span class="nc">AttributeMapper</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span></div>
+<div class="viewcode-block" id="AttributeMapper"><a class="viewcode-back" href="../../../zephyr.backend.html#zephyr.backend.meta.AttributeMapper">[docs]</a>    <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    An AttributeMapper subclass defines a dictionary initMap, which</span>
+<span class="sd">    includes keys for mappable inputs expected from the systemConfig</span>
+<span class="sd">    parameter. The dictionary takes the form:</span>
+<span class="sd">    </span>
+<span class="sd">    initMap = {</span>
+<span class="sd">    #   Argument        Required    Rename as ...   Store as type</span>
+<span class="sd">        &#39;c&#39;:            (True,      &#39;_c&#39;,           np.complex128),</span>
+<span class="sd">        &#39;rho&#39;:          (False,     &#39;_rho&#39;,         np.float64),</span>
+<span class="sd">        &#39;freq&#39;:         (True,      None,           np.complex128),</span>
+<span class="sd">        &#39;dx&#39;:           (False,     &#39;_dx&#39;,          np.float64),</span>
+<span class="sd">        &#39;dz&#39;:           (False,     &#39;_dz&#39;,          np.float64),</span>
+<span class="sd">        &#39;nx&#39;:           (True,      None,           np.int64),</span>
+<span class="sd">        &#39;nz&#39;:           (True,      None,           np.int64),</span>
+<span class="sd">        &#39;freeSurf&#39;:     (False,     &#39;_freeSurf&#39;,    list),</span>
+<span class="sd">    }</span>
+<span class="sd">    </span>
+<span class="sd">    Each value in the dictionary is a tuple, which is interpreted by</span>
+<span class="sd">    the metaclass (i.e., AMMetaClass) to determine how to process the</span>
+<span class="sd">    value corresponding to the same key in systemConfig.</span>
+<span class="sd">    </span>
+<span class="sd">    An exception will be raised if the first element in the tuple</span>
+<span class="sd">    is set to true, but the corresponding key does not exist in the</span>
+<span class="sd">    systemConfig parameter.</span>
+<span class="sd">    </span>
+<span class="sd">    If the second element in the tuple is set to None, the key will be</span>
+<span class="sd">    defined in the subclass&#39;s attribute dictionary as it stands, whereas</span>
+<span class="sd">    if the second element is a string then that overrides the key.</span>
+<span class="sd">    </span>
+<span class="sd">    If the third element in the tuple is set to None, the input argument</span>
+<span class="sd">    will be set in the subclass dictionary unmodified; however, if the</span>
+<span class="sd">    third element is a callable then it will be applied to the element</span>
+<span class="sd">    (e.g., to allow copying and/or typecasting of inputs).</span>
+<span class="sd">    </span>
+<span class="sd">    NB: Complex numpy arguments are handled specially: the real part of</span>
+<span class="sd">    the value is kept and the imaginary part is discarded when they are</span>
+<span class="sd">    typecast to a float.</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+    
+    <span class="n">__metaclass__</span> <span class="o">=</span> <span class="n">AMMetaClass</span>
+    
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">systemConfig</span><span class="p">):</span>
+        <span class="k">pass</span>
+    
+    <span class="nd">@ClassProperty</span>
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">required</span><span class="p">(</span><span class="n">cls</span><span class="p">):</span>
+        <span class="k">return</span> <span class="nb">set</span><span class="p">([</span><span class="n">key</span> <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">cls</span><span class="o">.</span><span class="n">initMap</span> <span class="k">if</span> <span class="n">cls</span><span class="o">.</span><span class="n">initMap</span><span class="p">[</span><span class="n">key</span><span class="p">][</span><span class="mi">0</span><span class="p">]])</span>
+
+    <span class="nd">@ClassProperty</span>
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">optional</span><span class="p">(</span><span class="n">cls</span><span class="p">):</span>
+        <span class="k">return</span> <span class="nb">set</span><span class="p">([</span><span class="n">key</span> <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">cls</span><span class="o">.</span><span class="n">initMap</span> <span class="k">if</span> <span class="ow">not</span> <span class="n">cls</span><span class="o">.</span><span class="n">initMap</span><span class="p">[</span><span class="n">key</span><span class="p">][</span><span class="mi">0</span><span class="p">]])</span>
+
+
+<span class="k">class</span> <span class="nc">SCFilter</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span></div>
+<div class="viewcode-block" id="SCFilter"><a class="viewcode-back" href="../../../zephyr.backend.html#zephyr.backend.meta.SCFilter">[docs]</a>    
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">clslist</span><span class="p">):</span>
+        
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">clslist</span><span class="p">,</span> <span class="s">&#39;__contains__&#39;</span><span class="p">):</span>
+            <span class="n">clslist</span> <span class="o">=</span> <span class="p">[</span><span class="n">clslist</span><span class="p">]</span>
+        
+        <span class="bp">self</span><span class="o">.</span><span class="n">required</span> <span class="o">=</span> <span class="nb">reduce</span><span class="p">(</span><span class="nb">set</span><span class="o">.</span><span class="n">union</span><span class="p">,</span> <span class="p">(</span><span class="n">cls</span><span class="o">.</span><span class="n">required</span> <span class="k">for</span> <span class="n">cls</span> <span class="ow">in</span> <span class="n">clslist</span> <span class="k">if</span> <span class="nb">issubclass</span><span class="p">(</span><span class="n">cls</span><span class="p">,</span> <span class="n">AMMetaClass</span><span class="p">)))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">optional</span> <span class="o">=</span> <span class="nb">reduce</span><span class="p">(</span><span class="nb">set</span><span class="o">.</span><span class="n">union</span><span class="p">,</span> <span class="p">(</span><span class="n">cls</span><span class="o">.</span><span class="n">optional</span> <span class="k">for</span> <span class="n">cls</span> <span class="ow">in</span> <span class="n">clslist</span> <span class="k">if</span> <span class="nb">issubclass</span><span class="p">(</span><span class="n">cls</span><span class="p">,</span> <span class="n">AMMetaClass</span><span class="p">)))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">optional</span><span class="o">.</span><span class="n">symmetric_difference_update</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">required</span><span class="p">)</span>
+     
+    <span class="k">def</span> <span class="nf">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">systemConfig</span><span class="p">):</span>
+        
+        <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">required</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">key</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">systemConfig</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s">&#39;</span><span class="si">%s</span><span class="s"> requires parameter </span><span class="se">\&#39;</span><span class="si">%s</span><span class="se">\&#39;</span><span class="s">&#39;</span><span class="o">%</span><span class="p">(</span><span class="n">cls</span><span class="o">.</span><span class="n">__name__</span><span class="p">,</span> <span class="n">key</span><span class="p">))</span>
+        
+        <span class="k">return</span> <span class="p">{</span><span class="n">key</span><span class="p">:</span> <span class="n">systemConfig</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="nb">set</span><span class="o">.</span><span class="n">union</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">required</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">optional</span><span class="p">)}</span>
+
+
+<span class="k">class</span> <span class="nc">BaseSCCache</span><span class="p">(</span><span class="n">AttributeMapper</span><span class="p">):</span></div>
+<div class="viewcode-block" id="BaseSCCache"><a class="viewcode-back" href="../../../zephyr.backend.html#zephyr.backend.meta.BaseSCCache">[docs]</a>    
+    <span class="n">maskKeys</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">cacheItems</span> <span class="o">=</span> <span class="p">[]</span>
+    
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">systemConfig</span><span class="p">):</span>
+        
+        <span class="nb">super</span><span class="p">(</span><span class="n">BaseSCCache</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="n">systemConfig</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">systemConfig</span> <span class="o">=</span> <span class="p">{</span><span class="n">key</span><span class="p">:</span> <span class="n">systemConfig</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">systemConfig</span> <span class="k">if</span> <span class="n">key</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">maskKeys</span><span class="p">}</span>
+        
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">systemConfig</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_systemConfig</span>
+    <span class="nd">@systemConfig.setter</span>
+    <span class="k">def</span> <span class="nf">systemConfig</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_systemConfig</span> <span class="o">=</span> <span class="n">value</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">clearCache</span><span class="p">()</span>
+    
+    <span class="k">def</span> <span class="nf">clearCache</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="BaseSCCache.clearCache"><a class="viewcode-back" href="../../../zephyr.backend.html#zephyr.backend.meta.BaseSCCache.clearCache">[docs]</a>        <span class="k">for</span> <span class="n">attr</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">cacheItems</span><span class="p">:</span>
+            <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">attr</span><span class="p">):</span>
+                <span class="nb">delattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">attr</span><span class="p">)</span>
+
+
+<span class="k">class</span> <span class="nc">BaseModelDependent</span><span class="p">(</span><span class="n">AttributeMapper</span><span class="p">):</span></div></div>
+<div class="viewcode-block" id="BaseModelDependent"><a class="viewcode-back" href="../../../zephyr.backend.html#zephyr.backend.meta.BaseModelDependent">[docs]</a>    
+    <span class="n">initMap</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="c">#   Argument        Required    Rename as ...   Store as type</span>
+        <span class="s">&#39;nx&#39;</span><span class="p">:</span>           <span class="p">(</span><span class="bp">True</span><span class="p">,</span>      <span class="bp">None</span><span class="p">,</span>           <span class="n">np</span><span class="o">.</span><span class="n">int64</span><span class="p">),</span>
+        <span class="s">&#39;ny&#39;</span><span class="p">:</span>           <span class="p">(</span><span class="bp">False</span><span class="p">,</span>     <span class="bp">None</span><span class="p">,</span>           <span class="n">np</span><span class="o">.</span><span class="n">int64</span><span class="p">),</span>
+        <span class="s">&#39;nz&#39;</span><span class="p">:</span>           <span class="p">(</span><span class="bp">True</span><span class="p">,</span>      <span class="bp">None</span><span class="p">,</span>           <span class="n">np</span><span class="o">.</span><span class="n">int64</span><span class="p">),</span>
+        <span class="s">&#39;xorig&#39;</span><span class="p">:</span>        <span class="p">(</span><span class="bp">False</span><span class="p">,</span>     <span class="s">&#39;_xorig&#39;</span><span class="p">,</span>       <span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">),</span>
+        <span class="s">&#39;yorig&#39;</span><span class="p">:</span>        <span class="p">(</span><span class="bp">False</span><span class="p">,</span>     <span class="s">&#39;_xorig&#39;</span><span class="p">,</span>       <span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">),</span>
+        <span class="s">&#39;zorig&#39;</span><span class="p">:</span>        <span class="p">(</span><span class="bp">False</span><span class="p">,</span>     <span class="s">&#39;_zorig&#39;</span><span class="p">,</span>       <span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">),</span>
+        <span class="s">&#39;dx&#39;</span><span class="p">:</span>           <span class="p">(</span><span class="bp">False</span><span class="p">,</span>     <span class="s">&#39;_dx&#39;</span><span class="p">,</span>          <span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">),</span>
+        <span class="s">&#39;dy&#39;</span><span class="p">:</span>           <span class="p">(</span><span class="bp">False</span><span class="p">,</span>     <span class="s">&#39;_dx&#39;</span><span class="p">,</span>          <span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">),</span>
+        <span class="s">&#39;dz&#39;</span><span class="p">:</span>           <span class="p">(</span><span class="bp">False</span><span class="p">,</span>     <span class="s">&#39;_dz&#39;</span><span class="p">,</span>          <span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">),</span>
+        <span class="s">&#39;freeSurf&#39;</span><span class="p">:</span>     <span class="p">(</span><span class="bp">False</span><span class="p">,</span>     <span class="s">&#39;_freeSurf&#39;</span><span class="p">,</span>    <span class="nb">tuple</span><span class="p">),</span>
+    <span class="p">}</span>
+    
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">xorig</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s">&#39;_xorig&#39;</span><span class="p">,</span> <span class="mf">0.</span><span class="p">)</span>
+    
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">yorig</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s">&#39;ny&#39;</span><span class="p">):</span>
+            <span class="k">return</span> <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s">&#39;_yorig&#39;</span><span class="p">,</span> <span class="mf">0.</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">AttributeError</span><span class="p">(</span><span class="s">&#39;</span><span class="si">%s</span><span class="s"> object is not 3D&#39;</span><span class="o">%</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__class__</span><span class="o">.</span><span class="n">__name__</span><span class="p">,))</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">zorig</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s">&#39;_zorig&#39;</span><span class="p">,</span> <span class="mf">0.</span><span class="p">)</span>
+    
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">dx</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s">&#39;_dx&#39;</span><span class="p">,</span> <span class="mf">1.</span><span class="p">)</span>
+    
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">dy</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s">&#39;ny&#39;</span><span class="p">):</span>
+            <span class="k">return</span> <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s">&#39;_dy&#39;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">dx</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">AttributeError</span><span class="p">(</span><span class="s">&#39;</span><span class="si">%s</span><span class="s"> object is not 3D&#39;</span><span class="o">%</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__class__</span><span class="o">.</span><span class="n">__name__</span><span class="p">,))</span>
+    
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">dz</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s">&#39;_dz&#39;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">dx</span><span class="p">)</span>
+            
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">freeSurf</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">if</span> <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s">&#39;_freeSurf&#39;</span><span class="p">,</span> <span class="bp">None</span><span class="p">)</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_freeSurf</span> <span class="o">=</span> <span class="p">(</span><span class="bp">False</span><span class="p">,</span> <span class="bp">False</span><span class="p">,</span> <span class="bp">False</span><span class="p">,</span> <span class="bp">False</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_freeSurf</span>
+    
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">modelDims</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s">&#39;ny&#39;</span><span class="p">):</span>
+            <span class="k">return</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">nz</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">ny</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">nx</span><span class="p">)</span>
+        <span class="k">return</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">nz</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">nx</span><span class="p">)</span>
+    
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">nrow</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">prod</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">modelDims</span><span class="p">)</span>
+    
+    <span class="k">def</span> <span class="nf">toLinearIndex</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">vec</span><span class="p">):</span>
+<div class="viewcode-block" id="BaseModelDependent.toLinearIndex"><a class="viewcode-back" href="../../../zephyr.backend.html#zephyr.backend.meta.BaseModelDependent.toLinearIndex">[docs]</a>        
+        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s">&#39;ny&#39;</span><span class="p">):</span>
+            <span class="k">return</span> <span class="n">vec</span><span class="p">[:,</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">nx</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">ny</span> <span class="o">+</span> <span class="n">vec</span><span class="p">[:,</span><span class="mi">1</span><span class="p">]</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">nx</span> <span class="o">+</span> <span class="n">vec</span><span class="p">[:,</span><span class="mi">2</span><span class="p">]</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">vec</span><span class="p">[:,</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">nx</span> <span class="o">+</span> <span class="n">vec</span><span class="p">[:,</span><span class="mi">1</span><span class="p">]</span>
+
+    <span class="k">def</span> <span class="nf">toVecIndex</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">lind</span><span class="p">):</span></div>
+<div class="viewcode-block" id="BaseModelDependent.toVecIndex"><a class="viewcode-back" href="../../../zephyr.backend.html#zephyr.backend.meta.BaseModelDependent.toVecIndex">[docs]</a>        
+        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s">&#39;ny&#39;</span><span class="p">):</span>
+            <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">lind</span> <span class="o">/</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">nx</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">ny</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">mod</span><span class="p">(</span><span class="n">lind</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">nx</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">mod</span><span class="p">(</span><span class="n">lind</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">ny</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">nx</span><span class="p">)])</span><span class="o">.</span><span class="n">T</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">lind</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">nx</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">mod</span><span class="p">(</span><span class="n">lind</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">nx</span><span class="p">)])</span><span class="o">.</span><span class="n">T</span>
+</pre></div></div></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="../../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../../zephyr.html">Zephyr devel documentation</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="../../index.html" >Module code</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &copy; Copyright 2015, Brendan Smithyman.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.3.1.
+    </div>
+  </body>
+</html>

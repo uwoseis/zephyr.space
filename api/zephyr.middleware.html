@@ -1,0 +1,407 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>zephyr.middleware package &mdash; Zephyr devel documentation</title>
+    
+    <link rel="stylesheet" href="_static/classic.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     'devel',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="Zephyr devel documentation" href="zephyr.html" />
+    <link rel="prev" title="zephyr.frontend package" href="zephyr.frontend.html" /> 
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="zephyr.frontend.html" title="zephyr.frontend package"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="zephyr.html">Zephyr devel documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="zephyr-middleware-package">
+<h1>zephyr.middleware package<a class="headerlink" href="#zephyr-middleware-package" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="subpackages">
+<h2>Subpackages<a class="headerlink" href="#subpackages" title="Permalink to this headline">¶</a></h2>
+<div class="toctree-wrapper compound">
+<ul class="simple">
+</ul>
+</div>
+</div>
+<div class="section" id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="module-zephyr.middleware.fields">
+<span id="zephyr-middleware-fields-module"></span><h2>zephyr.middleware.fields module<a class="headerlink" href="#module-zephyr.middleware.fields" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="zephyr.middleware.fields.HelmFields">
+<em class="property">class </em><code class="descclassname">zephyr.middleware.fields.</code><code class="descname">HelmFields</code><span class="sig-paren">(</span><em>mesh</em>, <em>survey</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/zephyr/middleware/fields.html#HelmFields"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zephyr.middleware.fields.HelmFields" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">SimPEG.Fields.Fields</span></code></p>
+<p>Fancy Field Storage for frequency domain problems
+u[:,&#8217;phi&#8217;, freqInd] = phi
+print u[src0,&#8217;phi&#8217;]</p>
+<dl class="attribute">
+<dt id="zephyr.middleware.fields.HelmFields.aliasFields">
+<code class="descname">aliasFields</code><em class="property"> = None</em><a class="headerlink" href="#zephyr.middleware.fields.HelmFields.aliasFields" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="zephyr.middleware.fields.HelmFields.dtype">
+<code class="descname">dtype</code><a class="headerlink" href="#zephyr.middleware.fields.HelmFields.dtype" title="Permalink to this definition">¶</a></dt>
+<dd><p>alias of <code class="xref py py-class docutils literal"><span class="pre">complex128</span></code></p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="zephyr.middleware.fields.HelmFields.knownFields">
+<code class="descname">knownFields</code><em class="property"> = {'u': 'N'}</em><a class="headerlink" href="#zephyr.middleware.fields.HelmFields.knownFields" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="zephyr.middleware.fields.HelmFields.startup">
+<code class="descname">startup</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/zephyr/middleware/fields.html#HelmFields.startup"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zephyr.middleware.fields.HelmFields.startup" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-zephyr.middleware.problem">
+<span id="zephyr-middleware-problem-module"></span><h2>zephyr.middleware.problem module<a class="headerlink" href="#module-zephyr.middleware.problem" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="zephyr.middleware.problem.Helm25DProblem">
+<em class="property">class </em><code class="descclassname">zephyr.middleware.problem.</code><code class="descname">Helm25DProblem</code><span class="sig-paren">(</span><em>systemConfig</em>, <em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/zephyr/middleware/problem.html#Helm25DProblem"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zephyr.middleware.problem.Helm25DProblem" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#zephyr.middleware.problem.HelmBaseProblem" title="zephyr.middleware.problem.HelmBaseProblem"><code class="xref py py-class docutils literal"><span class="pre">zephyr.middleware.problem.HelmBaseProblem</span></code></a></p>
+<dl class="attribute">
+<dt id="zephyr.middleware.problem.Helm25DProblem.initMap">
+<code class="descname">initMap</code><em class="property"> = {'freeSurf': (False, '_freeSurf', &lt;type 'tuple'&gt;), 'xorig': (False, '_xorig', &lt;type 'numpy.float64'&gt;), 'zorig': (False, '_zorig', &lt;type 'numpy.float64'&gt;), 'nx': (True, None, &lt;type 'numpy.int64'&gt;), 'ny': (False, None, &lt;type 'numpy.int64'&gt;), 'nz': (True, None, &lt;type 'numpy.int64'&gt;), 'dz': (False, '_dz', &lt;type 'numpy.float64'&gt;), 'dx': (False, '_dx', &lt;type 'numpy.float64'&gt;), 'dy': (False, '_dx', &lt;type 'numpy.float64'&gt;), 'yorig': (False, '_xorig', &lt;type 'numpy.float64'&gt;)}</em><a class="headerlink" href="#zephyr.middleware.problem.Helm25DProblem.initMap" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="zephyr.middleware.problem.Helm25DProblem.surveyPair">
+<code class="descname">surveyPair</code><a class="headerlink" href="#zephyr.middleware.problem.Helm25DProblem.surveyPair" title="Permalink to this definition">¶</a></dt>
+<dd><p>alias of <code class="xref py py-class docutils literal"><span class="pre">Helm25DSurvey</span></code></p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="zephyr.middleware.problem.Helm2DProblem">
+<em class="property">class </em><code class="descclassname">zephyr.middleware.problem.</code><code class="descname">Helm2DProblem</code><span class="sig-paren">(</span><em>systemConfig</em>, <em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/zephyr/middleware/problem.html#Helm2DProblem"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zephyr.middleware.problem.Helm2DProblem" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#zephyr.middleware.problem.HelmBaseProblem" title="zephyr.middleware.problem.HelmBaseProblem"><code class="xref py py-class docutils literal"><span class="pre">zephyr.middleware.problem.HelmBaseProblem</span></code></a></p>
+<dl class="attribute">
+<dt id="zephyr.middleware.problem.Helm2DProblem.initMap">
+<code class="descname">initMap</code><em class="property"> = {'freeSurf': (False, '_freeSurf', &lt;type 'tuple'&gt;), 'xorig': (False, '_xorig', &lt;type 'numpy.float64'&gt;), 'zorig': (False, '_zorig', &lt;type 'numpy.float64'&gt;), 'nx': (True, None, &lt;type 'numpy.int64'&gt;), 'ny': (False, None, &lt;type 'numpy.int64'&gt;), 'nz': (True, None, &lt;type 'numpy.int64'&gt;), 'dz': (False, '_dz', &lt;type 'numpy.float64'&gt;), 'dx': (False, '_dx', &lt;type 'numpy.float64'&gt;), 'dy': (False, '_dx', &lt;type 'numpy.float64'&gt;), 'yorig': (False, '_xorig', &lt;type 'numpy.float64'&gt;)}</em><a class="headerlink" href="#zephyr.middleware.problem.Helm2DProblem.initMap" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="zephyr.middleware.problem.Helm2DProblem.surveyPair">
+<code class="descname">surveyPair</code><a class="headerlink" href="#zephyr.middleware.problem.Helm2DProblem.surveyPair" title="Permalink to this definition">¶</a></dt>
+<dd><p>alias of <code class="xref py py-class docutils literal"><span class="pre">Helm2DSurvey</span></code></p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="zephyr.middleware.problem.HelmBaseProblem">
+<em class="property">class </em><code class="descclassname">zephyr.middleware.problem.</code><code class="descname">HelmBaseProblem</code><span class="sig-paren">(</span><em>systemConfig</em>, <em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/zephyr/middleware/problem.html#HelmBaseProblem"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zephyr.middleware.problem.HelmBaseProblem" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">SimPEG.Problem.BaseProblem</span></code>, <a class="reference internal" href="zephyr.backend.html#zephyr.backend.meta.BaseModelDependent" title="zephyr.backend.meta.BaseModelDependent"><code class="xref py py-class docutils literal"><span class="pre">zephyr.backend.meta.BaseModelDependent</span></code></a>, <a class="reference internal" href="zephyr.backend.html#zephyr.backend.meta.BaseSCCache" title="zephyr.backend.meta.BaseSCCache"><code class="xref py py-class docutils literal"><span class="pre">zephyr.backend.meta.BaseSCCache</span></code></a></p>
+<dl class="method">
+<dt id="zephyr.middleware.problem.HelmBaseProblem.Jtvec">
+<code class="descname">Jtvec</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/zephyr/middleware/problem.html#HelmBaseProblem.Jtvec"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zephyr.middleware.problem.HelmBaseProblem.Jtvec" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="zephyr.middleware.problem.HelmBaseProblem.SystemWrapper">
+<code class="descname">SystemWrapper</code><a class="headerlink" href="#zephyr.middleware.problem.HelmBaseProblem.SystemWrapper" title="Permalink to this definition">¶</a></dt>
+<dd><p>alias of <code class="xref py py-class docutils literal"><span class="pre">MultiFreq</span></code></p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="zephyr.middleware.problem.HelmBaseProblem.cacheItems">
+<code class="descname">cacheItems</code><em class="property"> = ['_system']</em><a class="headerlink" href="#zephyr.middleware.problem.HelmBaseProblem.cacheItems" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="zephyr.middleware.problem.HelmBaseProblem.fields">
+<code class="descname">fields</code><span class="sig-paren">(</span><em>m=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/zephyr/middleware/problem.html#HelmBaseProblem.fields"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zephyr.middleware.problem.HelmBaseProblem.fields" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="zephyr.middleware.problem.HelmBaseProblem.initMap">
+<code class="descname">initMap</code><em class="property"> = {'freeSurf': (False, '_freeSurf', &lt;type 'tuple'&gt;), 'dx': (False, '_dx', &lt;type 'numpy.float64'&gt;), 'zorig': (False, '_zorig', &lt;type 'numpy.float64'&gt;), 'nx': (True, None, &lt;type 'numpy.int64'&gt;), 'ny': (False, None, &lt;type 'numpy.int64'&gt;), 'nz': (True, None, &lt;type 'numpy.int64'&gt;), 'dz': (False, '_dz', &lt;type 'numpy.float64'&gt;), 'xorig': (False, '_xorig', &lt;type 'numpy.float64'&gt;), 'dy': (False, '_dx', &lt;type 'numpy.float64'&gt;), 'yorig': (False, '_xorig', &lt;type 'numpy.float64'&gt;)}</em><a class="headerlink" href="#zephyr.middleware.problem.HelmBaseProblem.initMap" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="zephyr.middleware.problem.HelmBaseProblem.surveyPair">
+<code class="descname">surveyPair</code><a class="headerlink" href="#zephyr.middleware.problem.HelmBaseProblem.surveyPair" title="Permalink to this definition">¶</a></dt>
+<dd><p>alias of <code class="xref py py-class docutils literal"><span class="pre">HelmBaseSurvey</span></code></p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="zephyr.middleware.problem.HelmBaseProblem.system">
+<code class="descname">system</code><a class="headerlink" href="#zephyr.middleware.problem.HelmBaseProblem.system" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="zephyr.middleware.problem.HelmBaseProblem.updateModel">
+<code class="descname">updateModel</code><span class="sig-paren">(</span><em>m</em>, <em>loneKey='c'</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/zephyr/middleware/problem.html#HelmBaseProblem.updateModel"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zephyr.middleware.problem.HelmBaseProblem.updateModel" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-zephyr.middleware.survey">
+<span id="zephyr-middleware-survey-module"></span><h2>zephyr.middleware.survey module<a class="headerlink" href="#module-zephyr.middleware.survey" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="zephyr.middleware.survey.Helm25DSurvey">
+<em class="property">class </em><code class="descclassname">zephyr.middleware.survey.</code><code class="descname">Helm25DSurvey</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/zephyr/middleware/survey.html#Helm25DSurvey"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zephyr.middleware.survey.Helm25DSurvey" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#zephyr.middleware.survey.HelmBaseSurvey" title="zephyr.middleware.survey.HelmBaseSurvey"><code class="xref py py-class docutils literal"><span class="pre">zephyr.middleware.survey.HelmBaseSurvey</span></code></a></p>
+<dl class="attribute">
+<dt id="zephyr.middleware.survey.Helm25DSurvey.initMap">
+<code class="descname">initMap</code><em class="property"> = {'freqs': (True, None, &lt;type 'tuple'&gt;), 'geom': (True, None, &lt;type 'dict'&gt;)}</em><a class="headerlink" href="#zephyr.middleware.survey.Helm25DSurvey.initMap" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="zephyr.middleware.survey.Helm2DSurvey">
+<em class="property">class </em><code class="descclassname">zephyr.middleware.survey.</code><code class="descname">Helm2DSurvey</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/zephyr/middleware/survey.html#Helm2DSurvey"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zephyr.middleware.survey.Helm2DSurvey" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#zephyr.middleware.survey.HelmBaseSurvey" title="zephyr.middleware.survey.HelmBaseSurvey"><code class="xref py py-class docutils literal"><span class="pre">zephyr.middleware.survey.HelmBaseSurvey</span></code></a></p>
+<dl class="attribute">
+<dt id="zephyr.middleware.survey.Helm2DSurvey.initMap">
+<code class="descname">initMap</code><em class="property"> = {'freqs': (True, None, &lt;type 'tuple'&gt;), 'geom': (True, None, &lt;type 'dict'&gt;)}</em><a class="headerlink" href="#zephyr.middleware.survey.Helm2DSurvey.initMap" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="zephyr.middleware.survey.HelmBaseSurvey">
+<em class="property">class </em><code class="descclassname">zephyr.middleware.survey.</code><code class="descname">HelmBaseSurvey</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/zephyr/middleware/survey.html#HelmBaseSurvey"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zephyr.middleware.survey.HelmBaseSurvey" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">SimPEG.Survey.BaseSurvey</span></code>, <a class="reference internal" href="zephyr.backend.html#zephyr.backend.meta.BaseSCCache" title="zephyr.backend.meta.BaseSCCache"><code class="xref py py-class docutils literal"><span class="pre">zephyr.backend.meta.BaseSCCache</span></code></a></p>
+<dl class="method">
+<dt id="zephyr.middleware.survey.HelmBaseSurvey.dpred">
+<code class="descname">dpred</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/zephyr/middleware/survey.html#HelmBaseSurvey.dpred"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zephyr.middleware.survey.HelmBaseSurvey.dpred" title="Permalink to this definition">¶</a></dt>
+<dd><div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p>To use survey.dpred(), SimPEG requires that a problem be bound to the survey.
+If a problem has not been bound, an Exception will be raised.
+To bind a problem to the Data object:</p>
+<div class="last highlight-python"><div class="highlight"><pre><span class="n">survey</span><span class="o">.</span><span class="n">pair</span><span class="p">(</span><span class="n">myProblem</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="zephyr.middleware.survey.HelmBaseSurvey.geom">
+<code class="descname">geom</code><a class="headerlink" href="#zephyr.middleware.survey.HelmBaseSurvey.geom" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="zephyr.middleware.survey.HelmBaseSurvey.initMap">
+<code class="descname">initMap</code><em class="property"> = {'geom': (True, None, &lt;type 'dict'&gt;), 'freqs': (True, None, &lt;type 'tuple'&gt;)}</em><a class="headerlink" href="#zephyr.middleware.survey.HelmBaseSurvey.initMap" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="zephyr.middleware.survey.HelmBaseSurvey.mode">
+<code class="descname">mode</code><a class="headerlink" href="#zephyr.middleware.survey.HelmBaseSurvey.mode" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="zephyr.middleware.survey.HelmBaseSurvey.nD">
+<code class="descname">nD</code><a class="headerlink" href="#zephyr.middleware.survey.HelmBaseSurvey.nD" title="Permalink to this definition">¶</a></dt>
+<dd><p>Number of data</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="zephyr.middleware.survey.HelmBaseSurvey.nfreq">
+<code class="descname">nfreq</code><a class="headerlink" href="#zephyr.middleware.survey.HelmBaseSurvey.nfreq" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="zephyr.middleware.survey.HelmBaseSurvey.nrec">
+<code class="descname">nrec</code><a class="headerlink" href="#zephyr.middleware.survey.HelmBaseSurvey.nrec" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="zephyr.middleware.survey.HelmBaseSurvey.nsrc">
+<code class="descname">nsrc</code><a class="headerlink" href="#zephyr.middleware.survey.HelmBaseSurvey.nsrc" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="zephyr.middleware.survey.HelmBaseSurvey.projectFields">
+<code class="descname">projectFields</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/zephyr/middleware/survey.html#HelmBaseSurvey.projectFields"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zephyr.middleware.survey.HelmBaseSurvey.projectFields" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="zephyr.middleware.survey.HelmBaseSurvey.rLocs">
+<code class="descname">rLocs</code><a class="headerlink" href="#zephyr.middleware.survey.HelmBaseSurvey.rLocs" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="zephyr.middleware.survey.HelmBaseSurvey.rTerms">
+<code class="descname">rTerms</code><a class="headerlink" href="#zephyr.middleware.survey.HelmBaseSurvey.rTerms" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="zephyr.middleware.survey.HelmBaseSurvey.rVec">
+<code class="descname">rVec</code><span class="sig-paren">(</span><em>isrc</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/zephyr/middleware/survey.html#HelmBaseSurvey.rVec"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zephyr.middleware.survey.HelmBaseSurvey.rVec" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="zephyr.middleware.survey.HelmBaseSurvey.rVecs">
+<code class="descname">rVecs</code><a class="headerlink" href="#zephyr.middleware.survey.HelmBaseSurvey.rVecs" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="zephyr.middleware.survey.HelmBaseSurvey.rhsGenerator">
+<code class="descname">rhsGenerator</code><a class="headerlink" href="#zephyr.middleware.survey.HelmBaseSurvey.rhsGenerator" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="zephyr.middleware.survey.HelmBaseSurvey.sLocs">
+<code class="descname">sLocs</code><a class="headerlink" href="#zephyr.middleware.survey.HelmBaseSurvey.sLocs" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="zephyr.middleware.survey.HelmBaseSurvey.sTerms">
+<code class="descname">sTerms</code><a class="headerlink" href="#zephyr.middleware.survey.HelmBaseSurvey.sTerms" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="zephyr.middleware.survey.HelmBaseSurvey.sVecs">
+<code class="descname">sVecs</code><a class="headerlink" href="#zephyr.middleware.survey.HelmBaseSurvey.sVecs" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="zephyr.middleware.survey.HelmBaseSurvey.srcPair">
+<code class="descname">srcPair</code><a class="headerlink" href="#zephyr.middleware.survey.HelmBaseSurvey.srcPair" title="Permalink to this definition">¶</a></dt>
+<dd><p>alias of <a class="reference internal" href="#zephyr.middleware.survey.HelmSrc" title="zephyr.middleware.survey.HelmSrc"><code class="xref py py-class docutils literal"><span class="pre">HelmSrc</span></code></a></p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="zephyr.middleware.survey.HelmBaseSurvey.vnD">
+<code class="descname">vnD</code><a class="headerlink" href="#zephyr.middleware.survey.HelmBaseSurvey.vnD" title="Permalink to this definition">¶</a></dt>
+<dd><p>Vector number of data</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="zephyr.middleware.survey.HelmRx">
+<em class="property">class </em><code class="descclassname">zephyr.middleware.survey.</code><code class="descname">HelmRx</code><span class="sig-paren">(</span><em>locs</em>, <em>rxType=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/zephyr/middleware/survey.html#HelmRx"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zephyr.middleware.survey.HelmRx" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">SimPEG.Survey.BaseRx</span></code></p>
+</dd></dl>
+
+<dl class="class">
+<dt id="zephyr.middleware.survey.HelmSrc">
+<em class="property">class </em><code class="descclassname">zephyr.middleware.survey.</code><code class="descname">HelmSrc</code><span class="sig-paren">(</span><em>rxList</em>, <em>loc</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/zephyr/middleware/survey.html#HelmSrc"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zephyr.middleware.survey.HelmSrc" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">SimPEG.Survey.BaseSrc</span></code></p>
+</dd></dl>
+
+</div>
+<div class="section" id="zephyr-middleware-util-module">
+<h2>zephyr.middleware.util module<a class="headerlink" href="#zephyr-middleware-util-module" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="module-zephyr.middleware">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-zephyr.middleware" title="Permalink to this headline">¶</a></h2>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="zephyr.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">zephyr.middleware package</a><ul>
+<li><a class="reference internal" href="#subpackages">Subpackages</a></li>
+<li><a class="reference internal" href="#submodules">Submodules</a></li>
+<li><a class="reference internal" href="#module-zephyr.middleware.fields">zephyr.middleware.fields module</a></li>
+<li><a class="reference internal" href="#module-zephyr.middleware.problem">zephyr.middleware.problem module</a></li>
+<li><a class="reference internal" href="#module-zephyr.middleware.survey">zephyr.middleware.survey module</a></li>
+<li><a class="reference internal" href="#zephyr-middleware-util-module">zephyr.middleware.util module</a></li>
+<li><a class="reference internal" href="#module-zephyr.middleware">Module contents</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="zephyr.frontend.html"
+                        title="previous chapter">zephyr.frontend package</a></p>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/zephyr.middleware.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="zephyr.frontend.html" title="zephyr.frontend package"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="zephyr.html">Zephyr devel documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &copy; Copyright 2015, Brendan Smithyman.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.3.1.
+    </div>
+  </body>
+</html>
