@@ -10,6 +10,7 @@ install: deploy
 
 deploy:
 	mkdocs gh-deploy
+	git push github gh-pages
 
 api:
 	sphinx-apidoc -o sphinx `python -c "import zephyr, os; print(os.path.split(zephyr.__file__)[0])"`
