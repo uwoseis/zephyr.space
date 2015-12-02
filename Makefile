@@ -8,7 +8,7 @@ serve: build
 
 install: deploy
 
-commit: api
+commit: build
 	git add .
 	git commit
 
