@@ -7,6 +7,7 @@ copyright: © 2014–2015 Brendan Smithyman
 pages:
 - Intro: index.md
 - Background: background.md
+- Design: design.md
 - Usage: usage.md
 - About: about.md
 theme: flatly
