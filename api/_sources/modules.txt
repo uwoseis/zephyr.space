@@ -1,7 +1,0 @@
-zephyr
-======
-
-.. toctree::
-   :maxdepth: 4
-
-   zephyr
