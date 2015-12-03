@@ -9,8 +9,7 @@
     
     <link rel="stylesheet" href="_static/basic.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
-    <link rel="stylesheet" href="_static/bootswatch-2.3.2/flatly/bootstrap.min.css" type="text/css" />
-    <link rel="stylesheet" href="_static/bootstrap-2.3.2/css/bootstrap-responsive.min.css" type="text/css" />
+    <link rel="stylesheet" href="_static/bootswatch-3.3.4/flatly/bootstrap.min.css" type="text/css" />
     <link rel="stylesheet" href="_static/bootstrap-sphinx.css" type="text/css" />
     
     <script type="text/javascript">
@@ -28,7 +27,7 @@
     <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <script type="text/javascript" src="_static/js/jquery-1.11.0.min.js"></script>
     <script type="text/javascript" src="_static/js/jquery-fix.js"></script>
-    <script type="text/javascript" src="_static/bootstrap-2.3.2/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="_static/bootstrap-3.3.4/js/bootstrap.min.js"></script>
     <script type="text/javascript" src="_static/bootstrap-sphinx.js"></script>
     <link rel="top" title="Zephyr devel documentation" href="zephyr.html" />
     <link rel="up" title="zephyr.backend package" href="zephyr.backend.html" />
@@ -42,23 +41,22 @@
   </head>
   <body role="document">
 
-  <div id="navbar" class="navbar navbar-fixed-top">
-    <div class="navbar-inner">
-      <div class="container">
+  <div id="navbar" class="navbar navbar-default navbar-fixed-top">
+    <div class="container">
+      <div class="navbar-header">
         <!-- .btn-navbar is used as the toggle for collapsed navbar content -->
-        <button class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".nav-collapse">
           <span class="icon-bar"></span>
           <span class="icon-bar"></span>
           <span class="icon-bar"></span>
         </button>
-
-        <a class="brand" href="zephyr.html">
+        <a class="navbar-brand" href="zephyr.html">
           zephyr.space</a>
-        <span class="navbar-text pull-left"><b>devel</b></span>
+        <span class="navbar-text navbar-version pull-left"><b>devel</b></span>
+      </div>
 
-        <div class="nav-collapse">
-          <ul class="nav">
-            <li class="divider-vertical"></li>
+        <div class="collapse navbar-collapse nav-collapse">
+          <ul class="nav navbar-nav">
             
                 <li><a href="/">Intro</a></li>
                 <li><a href="/background/">Background</a></li>
@@ -140,13 +138,12 @@
 </form>
           
         </div>
-      </div>
     </div>
   </div>
 
 <div class="container">
   <div class="row">
-    <div class="span12 content">
+    <div class="col-md-12 content">
       
   <div class="section" id="zephyr-backend-tests-package">
 <h1>zephyr.backend.Tests package<a class="headerlink" href="#zephyr-backend-tests-package" title="Permalink to this headline">¶</a></h1>
