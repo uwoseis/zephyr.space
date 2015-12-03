@@ -1,0 +1,1 @@
+<script language='JavaScript'>window.location.href = "/api/zephyr.html"</script>

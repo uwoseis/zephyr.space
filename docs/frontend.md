@@ -1,4 +1,4 @@
-# Usage
+# Frontend / User Interface
 
 The Zephyr project aims to fulfill two main goals:
 
