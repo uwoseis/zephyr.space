@@ -136,7 +136,7 @@ html_theme_options = {
     'navbar_pagenav':       False,
     'globaltoc_depth':      -1,
     'source_link_position': 'none',
-    'bootstrap_version':    '2',
+    'bootstrap_version':    '3',
 }
 
 # Add any paths that contain custom themes here, relative to this directory.
