@@ -255,7 +255,7 @@ Wavefields</td>
 <dl class="class">
 <dt id="zephyr.backend.eurus.Eurus">
 <em class="property">class </em><code class="descclassname">zephyr.backend.eurus.</code><code class="descname">Eurus</code><span class="sig-paren">(</span><em>systemConfig</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/uwoseis/zephyr/blob/master/zephyr/backend/eurus.py"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zephyr.backend.eurus.Eurus" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="#zephyr.backend.discretization.BaseDiscretization" title="zephyr.backend.discretization.BaseDiscretization"><code class="xref py py-class docutils literal"><span class="pre">zephyr.backend.discretization.BaseDiscretization</span></code></a></p>
+<dd><p>Bases: <a class="reference internal" href="#zephyr.backend.discretization.BaseDiscretization" title="zephyr.backend.discretization.BaseDiscretization"><code class="xref py py-class docutils literal"><span class="pre">zephyr.backend.discretization.BaseDiscretization</span></code></a>, <a class="reference internal" href="#zephyr.backend.meta.BaseAnisotropic" title="zephyr.backend.meta.BaseAnisotropic"><code class="xref py py-class docutils literal"><span class="pre">zephyr.backend.meta.BaseAnisotropic</span></code></a></p>
 <dl class="attribute">
 <dt id="zephyr.backend.eurus.Eurus.A">
 <code class="descname">A</code><a class="reference external" href="https://github.com/uwoseis/zephyr/blob/master/zephyr/backend/eurus.py"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zephyr.backend.eurus.Eurus.A" title="Permalink to this definition">¶</a></dt>
@@ -272,18 +272,8 @@ Wavefields</td>
 <dd></dd></dl>
 
 <dl class="attribute">
-<dt id="zephyr.backend.eurus.Eurus.delta">
-<code class="descname">delta</code><a class="reference external" href="https://github.com/uwoseis/zephyr/blob/master/zephyr/backend/eurus.py"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zephyr.backend.eurus.Eurus.delta" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="attribute">
-<dt id="zephyr.backend.eurus.Eurus.eps">
-<code class="descname">eps</code><a class="reference external" href="https://github.com/uwoseis/zephyr/blob/master/zephyr/backend/eurus.py"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zephyr.backend.eurus.Eurus.eps" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="attribute">
 <dt id="zephyr.backend.eurus.Eurus.initMap">
-<code class="descname">initMap</code><em class="property"> = {'tau': (False, '_tau', &lt;type 'numpy.float64'&gt;), 'rho': (False, '_rho', &lt;type 'numpy.float64'&gt;), 'Solver': (False, '_Solver', None), 'delta': (False, '_delta', &lt;type 'numpy.float64'&gt;), 'zorig': (False, '_zorig', &lt;type 'numpy.float64'&gt;), 'c': (True, '_c', &lt;type 'numpy.complex128'&gt;), 'dz': (False, '_dz', &lt;type 'numpy.float64'&gt;), 'dx': (False, '_dx', &lt;type 'numpy.float64'&gt;), 'dy': (False, '_dx', &lt;type 'numpy.float64'&gt;), 'freq': (True, None, &lt;type 'numpy.complex128'&gt;), 'yorig': (False, '_xorig', &lt;type 'numpy.float64'&gt;), 'freeSurf': (False, '_freeSurf', &lt;type 'tuple'&gt;), 'eps': (False, '_eps', &lt;type 'numpy.float64'&gt;), 'nPML': (False, '_nPML', &lt;type 'numpy.int64'&gt;), 'nx': (True, None, &lt;type 'numpy.int64'&gt;), 'ny': (False, None, &lt;type 'numpy.int64'&gt;), 'nz': (True, None, &lt;type 'numpy.int64'&gt;), 'xorig': (False, '_xorig', &lt;type 'numpy.float64'&gt;), 'theta': (False, '_theta', &lt;type 'numpy.float64'&gt;), 'cPML': (False, '_cPML', &lt;type 'numpy.float64'&gt;), 'mord': (False, '_mord', &lt;type 'tuple'&gt;)}</em><a class="reference external" href="https://github.com/uwoseis/zephyr/blob/master/zephyr/backend/eurus.py"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zephyr.backend.eurus.Eurus.initMap" title="Permalink to this definition">¶</a></dt>
+<code class="descname">initMap</code><em class="property"> = {'nPML': (False, '_nPML', &lt;type 'numpy.int64'&gt;), 'rho': (False, '_rho', &lt;type 'numpy.float64'&gt;), 'Solver': (False, '_Solver', None), 'delta': (False, '_delta', &lt;type 'numpy.float64'&gt;), 'zorig': (False, '_zorig', &lt;type 'numpy.float64'&gt;), 'c': (True, '_c', &lt;type 'numpy.complex128'&gt;), 'dz': (False, '_dz', &lt;type 'numpy.float64'&gt;), 'dx': (False, '_dx', &lt;type 'numpy.float64'&gt;), 'dy': (False, '_dx', &lt;type 'numpy.float64'&gt;), 'freq': (True, None, &lt;type 'numpy.complex128'&gt;), 'yorig': (False, '_xorig', &lt;type 'numpy.float64'&gt;), 'freeSurf': (False, '_freeSurf', &lt;type 'tuple'&gt;), 'eps': (False, '_eps', &lt;type 'numpy.float64'&gt;), 'tau': (False, '_tau', &lt;type 'numpy.float64'&gt;), 'nx': (True, None, &lt;type 'numpy.int64'&gt;), 'ny': (False, None, &lt;type 'numpy.int64'&gt;), 'nz': (True, None, &lt;type 'numpy.int64'&gt;), 'xorig': (False, '_xorig', &lt;type 'numpy.float64'&gt;), 'theta': (False, '_theta', &lt;type 'numpy.float64'&gt;), 'cPML': (False, '_cPML', &lt;type 'numpy.float64'&gt;), 'mord': (False, '_mord', &lt;type 'tuple'&gt;)}</em><a class="reference external" href="https://github.com/uwoseis/zephyr/blob/master/zephyr/backend/eurus.py"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zephyr.backend.eurus.Eurus.initMap" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="attribute">
@@ -294,11 +284,6 @@ Wavefields</td>
 <dl class="attribute">
 <dt id="zephyr.backend.eurus.Eurus.nPML">
 <code class="descname">nPML</code><a class="reference external" href="https://github.com/uwoseis/zephyr/blob/master/zephyr/backend/eurus.py"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zephyr.backend.eurus.Eurus.nPML" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="attribute">
-<dt id="zephyr.backend.eurus.Eurus.theta">
-<code class="descname">theta</code><a class="reference external" href="https://github.com/uwoseis/zephyr/blob/master/zephyr/backend/eurus.py"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zephyr.backend.eurus.Eurus.theta" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
@@ -369,6 +354,32 @@ typecast to a float.</p>
 <dl class="attribute">
 <dt id="zephyr.backend.meta.AttributeMapper.required">
 <code class="descname">required</code><em class="property"> = set([])</em><a class="reference external" href="https://github.com/uwoseis/zephyr/blob/master/zephyr/backend/meta.py"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zephyr.backend.meta.AttributeMapper.required" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="zephyr.backend.meta.BaseAnisotropic">
+<em class="property">class </em><code class="descclassname">zephyr.backend.meta.</code><code class="descname">BaseAnisotropic</code><span class="sig-paren">(</span><em>systemConfig</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/uwoseis/zephyr/blob/master/zephyr/backend/meta.py"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zephyr.backend.meta.BaseAnisotropic" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#zephyr.backend.meta.BaseModelDependent" title="zephyr.backend.meta.BaseModelDependent"><code class="xref py py-class docutils literal"><span class="pre">zephyr.backend.meta.BaseModelDependent</span></code></a></p>
+<dl class="attribute">
+<dt id="zephyr.backend.meta.BaseAnisotropic.delta">
+<code class="descname">delta</code><a class="reference external" href="https://github.com/uwoseis/zephyr/blob/master/zephyr/backend/meta.py"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zephyr.backend.meta.BaseAnisotropic.delta" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="zephyr.backend.meta.BaseAnisotropic.eps">
+<code class="descname">eps</code><a class="reference external" href="https://github.com/uwoseis/zephyr/blob/master/zephyr/backend/meta.py"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zephyr.backend.meta.BaseAnisotropic.eps" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="zephyr.backend.meta.BaseAnisotropic.initMap">
+<code class="descname">initMap</code><em class="property"> = {'freeSurf': (False, '_freeSurf', &lt;type 'tuple'&gt;), 'dx': (False, '_dx', &lt;type 'numpy.float64'&gt;), 'delta': (False, '_delta', &lt;type 'numpy.float64'&gt;), 'zorig': (False, '_zorig', &lt;type 'numpy.float64'&gt;), 'eps': (False, '_eps', &lt;type 'numpy.float64'&gt;), 'nx': (True, None, &lt;type 'numpy.int64'&gt;), 'ny': (False, None, &lt;type 'numpy.int64'&gt;), 'nz': (True, None, &lt;type 'numpy.int64'&gt;), 'dz': (False, '_dz', &lt;type 'numpy.float64'&gt;), 'xorig': (False, '_xorig', &lt;type 'numpy.float64'&gt;), 'dy': (False, '_dx', &lt;type 'numpy.float64'&gt;), 'theta': (False, '_theta', &lt;type 'numpy.float64'&gt;), 'yorig': (False, '_xorig', &lt;type 'numpy.float64'&gt;)}</em><a class="reference external" href="https://github.com/uwoseis/zephyr/blob/master/zephyr/backend/meta.py"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zephyr.backend.meta.BaseAnisotropic.initMap" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="zephyr.backend.meta.BaseAnisotropic.theta">
+<code class="descname">theta</code><a class="reference external" href="https://github.com/uwoseis/zephyr/blob/master/zephyr/backend/meta.py"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zephyr.backend.meta.BaseAnisotropic.theta" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
@@ -742,6 +753,22 @@ Fourier quadrature; i.e., an inverse DFT.</p>
 <span id="zephyr-backend-source-module"></span><h2>zephyr.backend.source module<a class="headerlink" href="#module-zephyr.backend.source" title="Permalink to this headline">¶</a></h2>
 <p>Source-generating routines for Zephyr</p>
 <dl class="class">
+<dt id="zephyr.backend.source.AnisotropicKaiserSource">
+<em class="property">class </em><code class="descclassname">zephyr.backend.source.</code><code class="descname">AnisotropicKaiserSource</code><span class="sig-paren">(</span><em>systemConfig</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/uwoseis/zephyr/blob/master/zephyr/backend/source.py"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zephyr.backend.source.AnisotropicKaiserSource" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#zephyr.backend.source.SparseKaiserSource" title="zephyr.backend.source.SparseKaiserSource"><code class="xref py py-class docutils literal"><span class="pre">zephyr.backend.source.SparseKaiserSource</span></code></a>, <a class="reference internal" href="#zephyr.backend.meta.BaseAnisotropic" title="zephyr.backend.meta.BaseAnisotropic"><code class="xref py py-class docutils literal"><span class="pre">zephyr.backend.meta.BaseAnisotropic</span></code></a></p>
+<dl class="attribute">
+<dt id="zephyr.backend.source.AnisotropicKaiserSource.initMap">
+<code class="descname">initMap</code><em class="property"> = {'delta': (False, '_delta', &lt;type 'numpy.float64'&gt;), 'zorig': (False, '_zorig', &lt;type 'numpy.float64'&gt;), 'dz': (False, '_dz', &lt;type 'numpy.float64'&gt;), 'dx': (False, '_dx', &lt;type 'numpy.float64'&gt;), 'dy': (False, '_dx', &lt;type 'numpy.float64'&gt;), 'ireg': (False, '_ireg', &lt;type 'numpy.int64'&gt;), 'yorig': (False, '_xorig', &lt;type 'numpy.float64'&gt;), 'freeSurf': (False, '_freeSurf', &lt;type 'tuple'&gt;), 'eps': (False, '_eps', &lt;type 'numpy.float64'&gt;), 'nx': (True, None, &lt;type 'numpy.int64'&gt;), 'ny': (False, None, &lt;type 'numpy.int64'&gt;), 'nz': (True, None, &lt;type 'numpy.int64'&gt;), 'xorig': (False, '_xorig', &lt;type 'numpy.float64'&gt;), 'theta': (False, '_theta', &lt;type 'numpy.float64'&gt;)}</em><a class="reference external" href="https://github.com/uwoseis/zephyr/blob/master/zephyr/backend/source.py"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zephyr.backend.source.AnisotropicKaiserSource.initMap" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="zephyr.backend.source.AnisotropicKaiserSource.modifyGrid">
+<code class="descname">modifyGrid</code><span class="sig-paren">(</span><em>Zi</em>, <em>Xi</em>, <em>aZi</em>, <em>aXi</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/uwoseis/zephyr/blob/master/zephyr/backend/source.py"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zephyr.backend.source.AnisotropicKaiserSource.modifyGrid" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
 <dt id="zephyr.backend.source.BaseSource">
 <em class="property">class </em><code class="descclassname">zephyr.backend.source.</code><code class="descname">BaseSource</code><span class="sig-paren">(</span><em>systemConfig</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/uwoseis/zephyr/blob/master/zephyr/backend/source.py"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zephyr.backend.source.BaseSource" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="#zephyr.backend.meta.BaseModelDependent" title="zephyr.backend.meta.BaseModelDependent"><code class="xref py py-class docutils literal"><span class="pre">zephyr.backend.meta.BaseModelDependent</span></code></a></p>
@@ -886,7 +913,7 @@ for interpolating between grid points.</p>
 
 <dl class="method">
 <dt id="zephyr.backend.source.SparseKaiserSource.kws">
-<code class="descname">kws</code><span class="sig-paren">(</span><em>offset</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/uwoseis/zephyr/blob/master/zephyr/backend/source.py"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zephyr.backend.source.SparseKaiserSource.kws" title="Permalink to this definition">¶</a></dt>
+<code class="descname">kws</code><span class="sig-paren">(</span><em>offset</em>, <em>aZi</em>, <em>aXi</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/uwoseis/zephyr/blob/master/zephyr/backend/source.py"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zephyr.backend.source.SparseKaiserSource.kws" title="Permalink to this definition">¶</a></dt>
 <dd><p>Finds 2D source terms to approximate a band-limited point source, based on
 Hicks, Graham J. (2002) Arbitrary source and receiver positioning in finite-difference</p>
 <blockquote>
@@ -908,6 +935,11 @@ point (in 2D coordinates, in units of cells).</td>
 </tbody>
 </table>
 </dd></dl>
+
+<dl class="method">
+<dt id="zephyr.backend.source.SparseKaiserSource.modifyGrid">
+<code class="descname">modifyGrid</code><span class="sig-paren">(</span><em>Zi</em>, <em>Xi</em>, <em>aZi</em>, <em>aXi</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/uwoseis/zephyr/blob/master/zephyr/backend/source.py"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zephyr.backend.source.SparseKaiserSource.modifyGrid" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
 
 </dd></dl>
 
