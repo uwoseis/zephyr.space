@@ -146,26 +146,24 @@
 <h2 id="command-line-interface-zephyrfrontendcli">Command-line interface (<code>zephyr.frontend.CLI</code>)</h2>
 <p>NB: Work in progress</p>
 <p>In order to provide a lightweight, non-interactive batch-mode for production and cluster computations, we have implemented a command-line based frontend to Zephyr. This command-line interface presents several sub commands that control the different functions.</p>
-<div class="codehilite"><pre><span class="n">Usage</span><span class="o">:</span> <span class="n">zephyr</span> <span class="o">[</span><span class="n">OPTIONS</span><span class="o">]</span> <span class="n">COMMAND</span> <span class="o">[</span><span class="n">ARGS</span><span class="o">]...</span>
+<pre><code>Usage: zephyr [OPTIONS] COMMAND [ARGS]...
 
-  <span class="n">A</span> <span class="n">command</span><span class="o">-</span><span class="n">line</span> <span class="kd">interface</span> <span class="k">for</span> <span class="n">Zephyr</span>
+  A command-line interface for Zephyr
 
-<span class="n">Options</span><span class="o">:</span>
-  <span class="o">--</span><span class="n">version</span>  <span class="n">Show</span> <span class="n">the</span> <span class="n">version</span> <span class="n">and</span> <span class="n">exit</span><span class="o">.</span>
-  <span class="o">--</span><span class="n">help</span>     <span class="n">Show</span> <span class="k">this</span> <span class="n">message</span> <span class="n">and</span> <span class="n">exit</span><span class="o">.</span>
+Options:
+  --version  Show the version and exit.
+  --help     Show this message and exit.
 
-<span class="n">Commands</span><span class="o">:</span>
-  <span class="n">clean</span>    <span class="n">Clean</span> <span class="n">up</span> <span class="n">project</span> <span class="n">results</span> <span class="o">/</span> <span class="n">outputs</span>
-  <span class="n">init</span>     <span class="n">Set</span> <span class="n">up</span> <span class="n">a</span> <span class="k">new</span> <span class="n">modelling</span> <span class="n">or</span> <span class="n">inversion</span> <span class="n">project</span>
-  <span class="n">inspect</span>  <span class="n">Print</span> <span class="n">information</span> <span class="n">about</span> <span class="n">an</span> <span class="n">existing</span> <span class="n">project</span>
-  <span class="n">invert</span>   <span class="n">Run</span> <span class="n">an</span> <span class="n">inversion</span> <span class="n">project</span>
-  <span class="n">migrate</span>  <span class="n">Run</span> <span class="n">a</span> <span class="n">migration</span>
-  <span class="n">model</span>    <span class="n">Run</span> <span class="n">a</span> <span class="n">forward</span> <span class="n">model</span>
-  <span class="n">pack</span>     <span class="n">Collect</span> <span class="n">configuration</span> <span class="n">into</span> <span class="n">an</span> <span class="n">HDF5</span> <span class="n">datafile</span>
-  <span class="n">unpack</span>   <span class="n">Extract</span> <span class="n">configuration</span> <span class="n">from</span> <span class="n">an</span> <span class="n">HDF5</span> <span class="n">datafile</span>
-</pre></div>
-
-
+Commands:
+  clean    Clean up project results / outputs
+  init     Set up a new modelling or inversion project
+  inspect  Print information about an existing project
+  invert   Run an inversion project
+  migrate  Run a migration
+  model    Run a forward model
+  pack     Collect configuration into an HDF5 datafile
+  unpack   Extract configuration from an HDF5 datafile
+</code></pre>
 <h3 id="zephyr-clean">zephyr clean</h3>
 <p><em>Clean up project results / outputs</em></p>
 <p>The purpose of the <code>clean</code> command is to remove output files from the working directory and prepare to restart / relaunch the one of the commands <code>invert</code>, <code>migrate</code> or <code>model</code>. The <code>clean</code> command will always prompt with a list of files to delete.</p>
