@@ -3,9 +3,9 @@
 Zephyr is written to make heavy use of object-oriented programming techniques, including [class multiple inheritance](https://en.wikipedia.org/wiki/Multiple_inheritance). The majority of programming constructs in the Zephyr implementation are subclasses of `AttributeMapper`, which automatically handles configuring new objects based on a global `systemConfig` dictionary (i.e., a key/value store).[^metaclass]
 
 The interrelation between different packages (i.e., sub-modules) and object classes in Zephyr is easiest to understand visually. The following graphs were designed using `pylint`'s `pyreverse` command, and can be recreated by running
-```bash
-make graphs
-```
+
+    make graphs
+
 in the base directory of Zephyr's source code.
 
 ## Submodule structure and design goals
@@ -30,30 +30,27 @@ An `AttributeMapper` subclass defines a dictionary `initMap`, which
 includes keys for mappable inputs expected from the systemConfig
 parameter. The class definition takes the form:
 
-```python
-class BaseModelDependent(AttributeMapper):
-    '''
-    AttributeMapper subclass that implements model-dependent properties,
-    such as grid coordinates and free-surface conditions.
-    '''
-    
-    initMap = {
-    #   Argument        Required    Rename as ...   Store as type
-        'nx':           (True,      None,           np.int64),
-        'ny':           (False,     None,           np.int64),
-        'nz':           (True,      None,           np.int64),
-        'xorig':        (False,     '_xorig',       np.float64),
-        'yorig':        (False,     '_xorig',       np.float64),
-        'zorig':        (False,     '_zorig',       np.float64),
-        'dx':           (False,     '_dx',          np.float64),
-        'dy':           (False,     '_dx',          np.float64),
-        'dz':           (False,     '_dz',          np.float64),
-        'freeSurf':     (False,     '_freeSurf',    tuple),
-    }
+    class BaseModelDependent(AttributeMapper):
+        '''
+        AttributeMapper subclass that implements model-dependent properties,
+        such as grid coordinates and free-surface conditions.
+        '''
+        
+        initMap = {
+        #   Argument        Required    Rename as ...   Store as type
+            'nx':           (True,      None,           np.int64),
+            'ny':           (False,     None,           np.int64),
+            'nz':           (True,      None,           np.int64),
+            'xorig':        (False,     '_xorig',       np.float64),
+            'yorig':        (False,     '_xorig',       np.float64),
+            'zorig':        (False,     '_zorig',       np.float64),
+            'dx':           (False,     '_dx',          np.float64),
+            'dy':           (False,     '_dx',          np.float64),
+            'dz':           (False,     '_dz',          np.float64),
+            'freeSurf':     (False,     '_freeSurf',    tuple),
+        }
+        ...
 
-    ...
-```
-    
 - Each value in the dictionary is a tuple, which is interpreted by
 the `AttributeMapper`[^metaclass] to determine how to process the
 value corresponding to the same key in `systemConfig`.

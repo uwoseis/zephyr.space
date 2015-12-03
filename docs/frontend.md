@@ -13,25 +13,23 @@ NB: Work in progress
 
 In order to provide a lightweight, non-interactive batch-mode for production and cluster computations, we have implemented a command-line based frontend to Zephyr. This command-line interface presents several sub commands that control the different functions.
 
-```
-Usage: zephyr [OPTIONS] COMMAND [ARGS]...
+    Usage: zephyr [OPTIONS] COMMAND [ARGS]...
 
-  A command-line interface for Zephyr
+      A command-line interface for Zephyr
 
-Options:
-  --version  Show the version and exit.
-  --help     Show this message and exit.
+    Options:
+      --version  Show the version and exit.
+      --help     Show this message and exit.
 
-Commands:
-  clean    Clean up project results / outputs
-  init     Set up a new modelling or inversion project
-  inspect  Print information about an existing project
-  invert   Run an inversion project
-  migrate  Run a migration
-  model    Run a forward model
-  pack     Collect configuration into an HDF5 datafile
-  unpack   Extract configuration from an HDF5 datafile
-```
+    Commands:
+      clean    Clean up project results / outputs
+      init     Set up a new modelling or inversion project
+      inspect  Print information about an existing project
+      invert   Run an inversion project
+      migrate  Run a migration
+      model    Run a forward model
+      pack     Collect configuration into an HDF5 datafile
+      unpack   Extract configuration from an HDF5 datafile
 
 ### zephyr clean
 

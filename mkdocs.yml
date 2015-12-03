@@ -16,7 +16,6 @@ pages:
 theme: flatly
 markdown_extensions:
 - abbr
-- codehilite
 - def_list
 - footnotes
 - markdown_include.include:
