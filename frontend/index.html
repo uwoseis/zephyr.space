@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        
+        <meta name="author" content="Brendan Smithyman">
+        <link rel="canonical" href="https://zephyr.space/frontend/">
+        <link rel="shortcut icon" href="../img/favicon.ico">
+
+	<title>Frontend / UI - zephyr.space</title>
+
+        <link href="../css/bootstrap-custom.min.css" rel="stylesheet">
+        <link href="../css/font-awesome-4.0.3.css" rel="stylesheet">
+        <link rel="stylesheet" href="../css/highlight.css">
+        <link href="../css/base.css" rel="stylesheet">
+
+        <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+        <!--[if lt IE 9]>
+            <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+            <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+        <![endif]-->
+
+        
+    </head>
+
+    <body>
+
+        <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+
+        <!-- Collapsed navigation -->
+        <div class="navbar-header">
+            <!-- Expander button -->
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+
+            <!-- Main title -->
+            <a class="navbar-brand" href="..">zephyr.space</a>
+        </div>
+
+        <!-- Expanded navigation -->
+        <div class="navbar-collapse collapse">
+            <!-- Main navigation -->
+            <ul class="nav navbar-nav">
+            
+            
+                <li >
+                    <a href="..">Intro</a>
+                </li>
+            
+            
+            
+                <li >
+                    <a href="../background/">Background</a>
+                </li>
+            
+            
+            
+                <li class="dropdown active">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">Design <b class="caret"></b></a>
+                    <ul class="dropdown-menu">
+                    
+                        <li >
+                            <a href="../design/">Overview</a>
+                        </li>
+                    
+                        <li class="active">
+                            <a href="./">Frontend / UI</a>
+                        </li>
+                    
+                    </ul>
+                </li>
+            
+            
+            
+                <li >
+                    <a href="../about/">About</a>
+                </li>
+            
+            
+            </ul>
+
+            <!-- Search, Navigation and Repo links -->
+            <ul class="nav navbar-nav navbar-right">
+                <li >
+                    <a rel="next" href="../design/">
+                        <i class="fa fa-arrow-left"></i> Previous
+                    </a>
+                </li>
+                <li >
+                    <a rel="prev" href="../about/">
+                        Next <i class="fa fa-arrow-right"></i>
+                    </a>
+                </li>
+                
+                <li>
+                    <a href="https://github.com/uwoseis/zephyr/">
+                        
+                            <i class="fa fa-github"></i>
+                        
+                        GitHub
+                    </a>
+                </li>
+                
+            </ul>
+        </div>
+    </div>
+</div>
+
+        <div class="container">
+            <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
+    <ul class="nav bs-sidenav">
+    
+        <li class="main active"><a href="#frontend-user-interface">Frontend / User Interface</a></li>
+        
+            <li><a href="#command-line-interface-zephyrfrontendcli">Command-line interface (zephyr.frontend.CLI)</a></li>
+        
+    
+    </ul>
+</div></div>
+            <div class="col-md-9" role="main">
+
+<h1 id="frontend-user-interface">Frontend / User Interface</h1>
+<p>The Zephyr project aims to fulfill two main goals:</p>
+<ol>
+<li>To support interactive research computing and designing new algorithms, with a focus on seismic waveform inversion, and</li>
+<li>to provide a flexible interface to run waveform inversion computations on parallel computing environments.</li>
+</ol>
+<p>Furthermore, Zephyr makes use of distributed computing tools from IPython, which are leveraged in both operating modes. IPython (and Jupyter) combine to produce the notebook interface that is quickly becoming the standard for interactive scientific computing in Python and other interpreted languages.</p>
+<h2 id="command-line-interface-zephyrfrontendcli">Command-line interface (<code>zephyr.frontend.CLI</code>)</h2>
+<p>NB: Work in progress</p>
+<p>In order to provide a lightweight, non-interactive batch-mode for production and cluster computations, we have implemented a command-line based frontend to Zephyr. This command-line interface presents several sub commands that control the different functions.</p>
+<div class="codehilite"><pre><span class="n">Usage</span><span class="o">:</span> <span class="n">zephyr</span> <span class="o">[</span><span class="n">OPTIONS</span><span class="o">]</span> <span class="n">COMMAND</span> <span class="o">[</span><span class="n">ARGS</span><span class="o">]...</span>
+
+  <span class="n">A</span> <span class="n">command</span><span class="o">-</span><span class="n">line</span> <span class="kd">interface</span> <span class="k">for</span> <span class="n">Zephyr</span>
+
+<span class="n">Options</span><span class="o">:</span>
+  <span class="o">--</span><span class="n">version</span>  <span class="n">Show</span> <span class="n">the</span> <span class="n">version</span> <span class="n">and</span> <span class="n">exit</span><span class="o">.</span>
+  <span class="o">--</span><span class="n">help</span>     <span class="n">Show</span> <span class="k">this</span> <span class="n">message</span> <span class="n">and</span> <span class="n">exit</span><span class="o">.</span>
+
+<span class="n">Commands</span><span class="o">:</span>
+  <span class="n">clean</span>    <span class="n">Clean</span> <span class="n">up</span> <span class="n">project</span> <span class="n">results</span> <span class="o">/</span> <span class="n">outputs</span>
+  <span class="n">init</span>     <span class="n">Set</span> <span class="n">up</span> <span class="n">a</span> <span class="k">new</span> <span class="n">modelling</span> <span class="n">or</span> <span class="n">inversion</span> <span class="n">project</span>
+  <span class="n">inspect</span>  <span class="n">Print</span> <span class="n">information</span> <span class="n">about</span> <span class="n">an</span> <span class="n">existing</span> <span class="n">project</span>
+  <span class="n">invert</span>   <span class="n">Run</span> <span class="n">an</span> <span class="n">inversion</span> <span class="n">project</span>
+  <span class="n">migrate</span>  <span class="n">Run</span> <span class="n">a</span> <span class="n">migration</span>
+  <span class="n">model</span>    <span class="n">Run</span> <span class="n">a</span> <span class="n">forward</span> <span class="n">model</span>
+  <span class="n">pack</span>     <span class="n">Collect</span> <span class="n">configuration</span> <span class="n">into</span> <span class="n">an</span> <span class="n">HDF5</span> <span class="n">datafile</span>
+  <span class="n">unpack</span>   <span class="n">Extract</span> <span class="n">configuration</span> <span class="n">from</span> <span class="n">an</span> <span class="n">HDF5</span> <span class="n">datafile</span>
+</pre></div>
+
+
+<h3 id="zephyr-clean">zephyr clean</h3>
+<p><em>Clean up project results / outputs</em></p>
+<p>The purpose of the <code>clean</code> command is to remove output files from the working directory and prepare to restart / relaunch the one of the commands <code>invert</code>, <code>migrate</code> or <code>model</code>. The <code>clean</code> command will always prompt with a list of files to delete.</p>
+<h3 id="zephyr-init">zephyr init</h3>
+<p><em>Set up a new modelling or inversion project</em></p>
+<p>The purpose of the <code>init</code> command is to generate the required files to run <code>invert</code>, <code>migrate</code> or <code>model</code>. These files and configurations may then be modified to configure the inversion.</p>
+<h3 id="zephyr-inspect">zephyr inspect</h3>
+<p><em>Print information about an existing project</em></p></div>
+        </div>
+
+        <footer class="col-md-12">
+            <hr>
+            
+                <center>© 2014–2015 Brendan Smithyman</center>
+            
+            <center>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a>.</center>
+        </footer>
+
+        <script src="../js/jquery-1.10.2.min.js"></script>
+        <script src="../js/bootstrap-3.0.3.min.js"></script>
+        <script src="../js/highlight.pack.js"></script>
+        <script src="../js/base.js"></script>
+        <script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML"></script>
+        <script src="../scripts/mathjaxhelper.js"></script>
+    </body>
+</html>

@@ -9,7 +9,7 @@
         <link rel="canonical" href="https://zephyr.space/design/">
         <link rel="shortcut icon" href="../img/favicon.ico">
 
-	<title>Design - zephyr.space</title>
+	<title>Overview - zephyr.space</title>
 
         <link href="../css/bootstrap-custom.min.css" rel="stylesheet">
         <link href="../css/font-awesome-4.0.3.css" rel="stylesheet">
@@ -62,14 +62,19 @@
             
             
             
-                <li class="active">
-                    <a href="./">Design</a>
-                </li>
-            
-            
-            
-                <li >
-                    <a href="../usage/">Usage</a>
+                <li class="dropdown active">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">Design <b class="caret"></b></a>
+                    <ul class="dropdown-menu">
+                    
+                        <li class="active">
+                            <a href="./">Overview</a>
+                        </li>
+                    
+                        <li >
+                            <a href="../frontend/">Frontend / UI</a>
+                        </li>
+                    
+                    </ul>
                 </li>
             
             
@@ -89,7 +94,7 @@
                     </a>
                 </li>
                 <li >
-                    <a rel="prev" href="../usage/">
+                    <a rel="prev" href="../frontend/">
                         Next <i class="fa fa-arrow-right"></i>
                     </a>
                 </li>
@@ -114,9 +119,11 @@
     
         <li class="main active"><a href="#design">Design</a></li>
         
-            <li><a href="#submodules">Submodules</a></li>
+            <li><a href="#submodule-structure-and-design-goals">Submodule structure and design goals</a></li>
         
-            <li><a href="#classes">Classes</a></li>
+            <li><a href="#class-inheritance-graph">Class inheritance graph</a></li>
+        
+            <li><a href="#object-hierarchy-and-attributemapper">Object hierarchy and AttributeMapper</a></li>
         
     
     </ul>
@@ -124,10 +131,84 @@
             <div class="col-md-9" role="main">
 
 <h1 id="design">Design</h1>
-<h2 id="submodules">Submodules</h2>
-<p><a href="../images/packages_zephyr.svg"><img alt="" src="../images/packages_zephyr_small.png" /></a></p>
-<h2 id="classes">Classes</h2>
-<p><a href="../images/classes_zephyr.svg"><img alt="" src="../images/classes_zephyr_small.png" /></a></p></div>
+<p>Zephyr is written to make heavy use of object-oriented programming techniques, including <a href="https://en.wikipedia.org/wiki/Multiple_inheritance">class multiple inheritance</a>. The majority of programming constructs in the Zephyr implementation are subclasses of <code>AttributeMapper</code>, which automatically handles configuring new objects based on a global <code>systemConfig</code> dictionary (i.e., a key/value store).<sup id="fnref:metaclass"><a class="footnote-ref" href="#fn:metaclass" rel="footnote">1</a></sup></p>
+<p>The interrelation between different packages (i.e., sub-modules) and object classes in Zephyr is easiest to understand visually. The following graphs were designed using <code>pylint</code>'s <code>pyreverse</code> command, and can be recreated by running</p>
+<div class="codehilite"><pre>make graphs
+</pre></div>
+
+
+<p>in the base directory of Zephyr's source code.</p>
+<h2 id="submodule-structure-and-design-goals">Submodule structure and design goals</h2>
+<p>This graph shows the linkages between Zephyr's submodules, including which submodules depend on others. It is important to note that <code>zephyr.backend</code> is intended to be minimally dependent on non-standard external packages, to enable solvers to be <a href="embedding.md">easily embedded in existing code</a>. The <code>zephyr.middleware</code> layer is dependent on features in SimPEG and other libraries to enable waveform inversion.</p>
+<p><a href="../images/packages_zephyr.svg"><img alt="" src="../images/packages_zephyr_small.png" />
+Click to expand</a></p>
+<p>The <code>zephyr.frontend</code> layer is designed to encompass user-facing features, including the <a href="../frontend/">command-line interface</a>.</p>
+<h2 id="class-inheritance-graph">Class inheritance graph</h2>
+<p>This graph shows the interrelation between the object classes in Zephyr. The dependencies for <code>zephyr.backend</code> are largely internal, whereas several features of <code>zephyr.middleware</code> depend on SimPEG.</p>
+<p><a href="../images/classes_zephyr.svg"><img alt="" src="../images/classes_zephyr_small.png" />
+Click to expand</a></p>
+<h2 id="object-hierarchy-and-attributemapper">Object hierarchy and <code>AttributeMapper</code></h2>
+<p>An <code>AttributeMapper</code> subclass defines a dictionary <code>initMap</code>, which
+includes keys for mappable inputs expected from the systemConfig
+parameter. The class definition takes the form:</p>
+<div class="codehilite"><pre><span class="k">class</span> <span class="nc">BaseModelDependent</span><span class="p">(</span><span class="n">AttributeMapper</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    AttributeMapper subclass that implements model-dependent properties,</span>
+<span class="sd">    such as grid coordinates and free-surface conditions.</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+
+    <span class="n">initMap</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="c">#   Argument        Required    Rename as ...   Store as type</span>
+        <span class="s">&#39;nx&#39;</span><span class="p">:</span>           <span class="p">(</span><span class="bp">True</span><span class="p">,</span>      <span class="bp">None</span><span class="p">,</span>           <span class="n">np</span><span class="o">.</span><span class="n">int64</span><span class="p">),</span>
+        <span class="s">&#39;ny&#39;</span><span class="p">:</span>           <span class="p">(</span><span class="bp">False</span><span class="p">,</span>     <span class="bp">None</span><span class="p">,</span>           <span class="n">np</span><span class="o">.</span><span class="n">int64</span><span class="p">),</span>
+        <span class="s">&#39;nz&#39;</span><span class="p">:</span>           <span class="p">(</span><span class="bp">True</span><span class="p">,</span>      <span class="bp">None</span><span class="p">,</span>           <span class="n">np</span><span class="o">.</span><span class="n">int64</span><span class="p">),</span>
+        <span class="s">&#39;xorig&#39;</span><span class="p">:</span>        <span class="p">(</span><span class="bp">False</span><span class="p">,</span>     <span class="s">&#39;_xorig&#39;</span><span class="p">,</span>       <span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">),</span>
+        <span class="s">&#39;yorig&#39;</span><span class="p">:</span>        <span class="p">(</span><span class="bp">False</span><span class="p">,</span>     <span class="s">&#39;_xorig&#39;</span><span class="p">,</span>       <span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">),</span>
+        <span class="s">&#39;zorig&#39;</span><span class="p">:</span>        <span class="p">(</span><span class="bp">False</span><span class="p">,</span>     <span class="s">&#39;_zorig&#39;</span><span class="p">,</span>       <span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">),</span>
+        <span class="s">&#39;dx&#39;</span><span class="p">:</span>           <span class="p">(</span><span class="bp">False</span><span class="p">,</span>     <span class="s">&#39;_dx&#39;</span><span class="p">,</span>          <span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">),</span>
+        <span class="s">&#39;dy&#39;</span><span class="p">:</span>           <span class="p">(</span><span class="bp">False</span><span class="p">,</span>     <span class="s">&#39;_dx&#39;</span><span class="p">,</span>          <span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">),</span>
+        <span class="s">&#39;dz&#39;</span><span class="p">:</span>           <span class="p">(</span><span class="bp">False</span><span class="p">,</span>     <span class="s">&#39;_dz&#39;</span><span class="p">,</span>          <span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">),</span>
+        <span class="s">&#39;freeSurf&#39;</span><span class="p">:</span>     <span class="p">(</span><span class="bp">False</span><span class="p">,</span>     <span class="s">&#39;_freeSurf&#39;</span><span class="p">,</span>    <span class="nb">tuple</span><span class="p">),</span>
+    <span class="p">}</span>
+
+    <span class="o">...</span>
+</pre></div>
+
+
+<ul>
+<li>
+<p>Each value in the dictionary is a tuple, which is interpreted by
+the <code>AttributeMapper</code><sup id="fnref:metaclass"><a class="footnote-ref" href="#fn:metaclass" rel="footnote">1</a></sup> to determine how to process the
+value corresponding to the same key in <code>systemConfig</code>.</p>
+</li>
+<li>
+<p>An exception will be raised if the first element in the tuple
+is set to true, but the corresponding key does not exist in the
+systemConfig parameter.</p>
+</li>
+<li>
+<p>If the second element in the tuple is set to <code>None</code>, the key will be
+defined in the subclass's attribute dictionary as it stands, whereas
+if the second element is a string then that overrides the key.</p>
+</li>
+<li>
+<p>If the third element in the tuple is set to <code>None</code>, the input argument
+will be set in the subclass dictionary unmodified; however, if the
+third element is a callable then it will be applied to the element
+(e.g., to allow copying and/or typecasting of inputs).</p>
+</li>
+</ul>
+<p>NB: Complex <code>numpy</code> arguments are handled specially: the real part of
+the value is kept and the imaginary part is discarded when they are
+typecast to a float.</p>
+<div class="footnote">
+<hr />
+<ol>
+<li id="fn:metaclass">
+<p>In fact, most of the assembly of objects is handled by <code>zephyr.backend.meta.AMMetaClass</code>, which is the <a href="http://blog.ionelmc.ro/2015/02/09/understanding-python-metaclasses/">metaclass</a> for <code>AttributeMapper</code> and its descendants. All of this happens before the call to <code>AttributeMapper.__init__</code>. This enables the <code>initMap</code> class attribute to be merged automatically and inherit keys from the subclass's bases.&#160;<a class="footnote-backref" href="#fnref:metaclass" rev="footnote" title="Jump back to footnote 1 in the text">&#8617;</a></p>
+</li>
+</ol>
+</div></div>
         </div>
 
         <footer class="col-md-12">
