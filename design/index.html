@@ -74,6 +74,10 @@
                             <a href="../frontend/">Frontend / UI</a>
                         </li>
                     
+                        <li >
+                            <a href="../embedding/">Embedding</a>
+                        </li>
+                    
                     </ul>
                 </li>
             
@@ -81,6 +85,12 @@
             
                 <li >
                     <a href="../about/">About</a>
+                </li>
+            
+            
+            
+                <li >
+                    <a href="../autodocs/">Autodocs</a>
                 </li>
             
             
@@ -139,7 +149,7 @@
 
 <p>in the base directory of Zephyr's source code.</p>
 <h2 id="submodule-structure-and-design-goals">Submodule structure and design goals</h2>
-<p>This graph shows the linkages between Zephyr's submodules, including which submodules depend on others. It is important to note that <code>zephyr.backend</code> is intended to be minimally dependent on non-standard external packages, to enable solvers to be <a href="embedding.md">easily embedded in existing code</a>. The <code>zephyr.middleware</code> layer is dependent on features in SimPEG and other libraries to enable waveform inversion.</p>
+<p>This graph shows the linkages between Zephyr's submodules, including which submodules depend on others. It is important to note that <code>zephyr.backend</code> is intended to be minimally dependent on non-standard external packages, to enable solvers to be <a href="../embedding/">easily embedded in existing code</a>. The <code>zephyr.middleware</code> layer is dependent on features in SimPEG and other libraries to enable waveform inversion.</p>
 <p><a href="../images/packages_zephyr.svg"><img alt="" src="../images/packages_zephyr_small.png" />
 Click to expand</a></p>
 <p>The <code>zephyr.frontend</code> layer is designed to encompass user-facing features, including the <a href="../frontend/">command-line interface</a>.</p>

@@ -9,7 +9,8 @@
     
     <link rel="stylesheet" href="_static/basic.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
-    <link rel="stylesheet" href="_static/bootswatch-3.3.4/journal/bootstrap.min.css" type="text/css" />
+    <link rel="stylesheet" href="_static/bootswatch-2.3.2/flatly/bootstrap.min.css" type="text/css" />
+    <link rel="stylesheet" href="_static/bootstrap-2.3.2/css/bootstrap-responsive.min.css" type="text/css" />
     <link rel="stylesheet" href="_static/bootstrap-sphinx.css" type="text/css" />
     
     <script type="text/javascript">
@@ -27,7 +28,7 @@
     <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <script type="text/javascript" src="_static/js/jquery-1.11.0.min.js"></script>
     <script type="text/javascript" src="_static/js/jquery-fix.js"></script>
-    <script type="text/javascript" src="_static/bootstrap-3.3.4/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="_static/bootstrap-2.3.2/js/bootstrap.min.js"></script>
     <script type="text/javascript" src="_static/bootstrap-sphinx.js"></script>
     <link rel="top" title="Zephyr devel documentation" href="#" />
     <link rel="next" title="zephyr.backend package" href="zephyr.backend.html" />
@@ -39,22 +40,28 @@
   </head>
   <body role="document">
 
-  <div id="navbar" class="navbar navbar-default navbar-fixed-top">
-    <div class="container">
-      <div class="navbar-header">
+  <div id="navbar" class="navbar navbar-fixed-top">
+    <div class="navbar-inner">
+      <div class="container">
         <!-- .btn-navbar is used as the toggle for collapsed navbar content -->
-        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".nav-collapse">
+        <button class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
           <span class="icon-bar"></span>
           <span class="icon-bar"></span>
           <span class="icon-bar"></span>
         </button>
-        <a class="navbar-brand" href="#">
-          Zephyr</a>
-        <span class="navbar-text navbar-version pull-left"><b>devel</b></span>
-      </div>
 
-        <div class="collapse navbar-collapse nav-collapse">
-          <ul class="nav navbar-nav">
+        <a class="brand" href="#">
+          zephyr.space</a>
+        <span class="navbar-text pull-left"><b>devel</b></span>
+
+        <div class="nav-collapse">
+          <ul class="nav">
+            <li class="divider-vertical"></li>
+            
+                <li><a href="/">Intro</a></li>
+                <li><a href="/background/">Background</a></li>
+                <li><a href="/design/">Design</a></li>
+                <li><a href="/about/">About</a></li>
             
             
               <li class="dropdown globaltoc-container">
@@ -62,53 +69,61 @@
      id="dLabelGlobalToc"
      data-toggle="dropdown"
      data-target="#"
-     href="#">Site <b class="caret"></b></a>
+     href="#">Autodocs <b class="caret"></b></a>
   <ul class="dropdown-menu globaltoc"
       role="menu"
       aria-labelledby="dLabelGlobalToc"><ul>
-<li class="toctree-l1"><a class="reference internal" href="zephyr.backend.html">zephyr.backend package</a></li>
-<li class="toctree-l1"><a class="reference internal" href="zephyr.frontend.html">zephyr.frontend package</a></li>
-<li class="toctree-l1"><a class="reference internal" href="zephyr.middleware.html">zephyr.middleware package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="zephyr.backend.html">zephyr.backend package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="zephyr.backend.html#subpackages">Subpackages</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="zephyr.backend.Tests.html">zephyr.backend.Tests package</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="zephyr.backend.Tests.html#submodules">Submodules</a></li>
+<li class="toctree-l4"><a class="reference internal" href="zephyr.backend.Tests.html#module-zephyr.backend.Tests.test_Analytical">zephyr.backend.Tests.test_Analytical module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="zephyr.backend.Tests.html#module-zephyr.backend.Tests.test_Eurus">zephyr.backend.Tests.test_Eurus module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="zephyr.backend.Tests.html#module-zephyr.backend.Tests.test_Meta">zephyr.backend.Tests.test_Meta module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="zephyr.backend.Tests.html#module-zephyr.backend.Tests.test_MiniZephyr">zephyr.backend.Tests.test_MiniZephyr module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="zephyr.backend.Tests.html#module-zephyr.backend.Tests.test_Sources">zephyr.backend.Tests.test_Sources module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="zephyr.backend.Tests.html#module-zephyr.backend.Tests">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="zephyr.backend.html#submodules">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="zephyr.backend.html#module-zephyr.backend.analytical">zephyr.backend.analytical module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="zephyr.backend.html#module-zephyr.backend.discretization">zephyr.backend.discretization module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="zephyr.backend.html#module-zephyr.backend.eurus">zephyr.backend.eurus module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="zephyr.backend.html#module-zephyr.backend.meta">zephyr.backend.meta module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="zephyr.backend.html#module-zephyr.backend.minizephyr">zephyr.backend.minizephyr module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="zephyr.backend.html#module-zephyr.backend.solver">zephyr.backend.solver module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="zephyr.backend.html#module-zephyr.backend.source">zephyr.backend.source module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="zephyr.backend.html#module-zephyr.backend">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="zephyr.frontend.html">zephyr.frontend package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="zephyr.frontend.html#submodules">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="zephyr.frontend.html#module-zephyr.frontend.cli">zephyr.frontend.cli module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="zephyr.frontend.html#module-zephyr.frontend">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="zephyr.middleware.html">zephyr.middleware package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="zephyr.middleware.html#subpackages">Subpackages</a><ul class="simple">
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="zephyr.middleware.html#submodules">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="zephyr.middleware.html#module-zephyr.middleware.fields">zephyr.middleware.fields module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="zephyr.middleware.html#module-zephyr.middleware.problem">zephyr.middleware.problem module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="zephyr.middleware.html#module-zephyr.middleware.survey">zephyr.middleware.survey module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="zephyr.middleware.html#zephyr-middleware-util-module">zephyr.middleware.util module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="zephyr.middleware.html#module-zephyr.middleware">Module contents</a></li>
+</ul>
+</li>
 </ul>
 </ul>
 </li>
               
-                <li class="dropdown">
-  <a role="button"
-     id="dLabelLocalToc"
-     data-toggle="dropdown"
-     data-target="#"
-     href="#">Page <b class="caret"></b></a>
-  <ul class="dropdown-menu localtoc"
-      role="menu"
-      aria-labelledby="dLabelLocalToc"><ul>
-<li><a class="reference internal" href="#">zephyr package</a><ul>
-<li><a class="reference internal" href="#subpackages">Subpackages</a></li>
-<li><a class="reference internal" href="#module-zephyr">Module contents</a></li>
-</ul>
-</li>
-</ul>
-</ul>
-</li>
-              
-            
-            
-              
-                
-  <li>
-    <a href="zephyr.backend.html" title="Next Chapter: zephyr.backend package"><span class="glyphicon glyphicon-chevron-right visible-sm"></span><span class="hidden-sm hidden-tablet">zephyr.backen... &raquo;</span>
-    </a>
-  </li>
-              
             
             
             
             
-              <li class="hidden-sm">
-<div id="sourcelink">
-  <a href="_sources/zephyr.txt"
-     rel="nofollow">Source</a>
-</div></li>
             
           </ul>
 
@@ -123,12 +138,13 @@
 </form>
           
         </div>
+      </div>
     </div>
   </div>
 
 <div class="container">
   <div class="row">
-    <div class="col-md-12 content">
+    <div class="span12 content">
       
   <div class="section" id="zephyr-package">
 <h1>zephyr package<a class="headerlink" href="#zephyr-package" title="Permalink to this headline">¶</a></h1>
