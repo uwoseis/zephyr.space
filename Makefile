@@ -26,8 +26,10 @@ clean:
 	rm -rf site/api
 	rm -rf sphinx/*.rst
 	rm -rf docs/images/classes_*.png docs/images/packages_*.png
+	rm -rf docs/images/classes_*.svg docs/images/packages_*.svg
 
 graph:
 	cd docs/images && pyreverse -my -A -o png -p zephyr $(ZEPHYRPATH)/**/**.py
+	cd docs/images && pyreverse -my -A -o svg -p zephyr $(ZEPHYRPATH)/**/**.py
 	cd docs/images && convert classes_zephyr.png -resize 800x800 classes_zephyr_small.png
 	cd docs/images && convert packages_zephyr.png -resize 800x800 packages_zephyr_small.png

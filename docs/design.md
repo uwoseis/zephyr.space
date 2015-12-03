@@ -2,8 +2,8 @@
 
 ## Submodules
 
-[![](images/packages_zephyr_small.png =100%)](images/packages_zephyr.png)
+[![](images/packages_zephyr_small.png)](images/packages_zephyr.svg)
 
 ## Classes
 
-[![](images/classes_zephyr_small.png =100%)](images/classes_zephyr.png)
+[![](images/classes_zephyr_small.png)](images/classes_zephyr.svg)
