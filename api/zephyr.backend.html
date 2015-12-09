@@ -108,11 +108,11 @@
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="zephyr.middleware.html#submodules">Submodules</a></li>
-<li class="toctree-l2"><a class="reference internal" href="zephyr.middleware.html#module-zephyr.middleware.fields">zephyr.middleware.fields module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="zephyr.middleware.html#module-zephyr.middleware.problem">zephyr.middleware.problem module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="zephyr.middleware.html#module-zephyr.middleware.survey">zephyr.middleware.survey module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="zephyr.middleware.html#zephyr-middleware-fields-module">zephyr.middleware.fields module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="zephyr.middleware.html#zephyr-middleware-problem-module">zephyr.middleware.problem module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="zephyr.middleware.html#zephyr-middleware-survey-module">zephyr.middleware.survey module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="zephyr.middleware.html#zephyr-middleware-util-module">zephyr.middleware.util module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="zephyr.middleware.html#module-zephyr.middleware">Module contents</a></li>
+<li class="toctree-l2"><a class="reference internal" href="zephyr.middleware.html#module-contents">Module contents</a></li>
 </ul>
 </li>
 </ul>
@@ -266,6 +266,11 @@ to different systems.</p>
 <dd></dd></dl>
 
 <dl class="attribute">
+<dt id="zephyr.backend.discretization.DiscretizationWrapper.maskKeys">
+<code class="descname">maskKeys</code><em class="property"> = set(['scaleTerm'])</em><a class="reference external" href="https://github.com/uwoseis/zephyr/blob/master/zephyr/backend/discretization.py"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zephyr.backend.discretization.DiscretizationWrapper.maskKeys" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
 <dt id="zephyr.backend.discretization.DiscretizationWrapper.scaleTerm">
 <code class="descname">scaleTerm</code><a class="reference external" href="https://github.com/uwoseis/zephyr/blob/master/zephyr/backend/discretization.py"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zephyr.backend.discretization.DiscretizationWrapper.scaleTerm" title="Permalink to this definition">¶</a></dt>
 <dd><p>A scaling term to apply to the output wavefield.</p>
@@ -280,62 +285,6 @@ to different systems.</p>
 <dt id="zephyr.backend.discretization.DiscretizationWrapper.subProblems">
 <code class="descname">subProblems</code><a class="reference external" href="https://github.com/uwoseis/zephyr/blob/master/zephyr/backend/discretization.py"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zephyr.backend.discretization.DiscretizationWrapper.subProblems" title="Permalink to this definition">¶</a></dt>
 <dd><p>Returns subProblem instances based on the discretization.</p>
-</dd></dl>
-
-</dd></dl>
-
-<dl class="class">
-<dt id="zephyr.backend.discretization.MultiFreq">
-<em class="property">class </em><code class="descclassname">zephyr.backend.discretization.</code><code class="descname">MultiFreq</code><span class="sig-paren">(</span><em>systemConfig</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/uwoseis/zephyr/blob/master/zephyr/backend/discretization.py"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zephyr.backend.discretization.MultiFreq" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="#zephyr.backend.discretization.DiscretizationWrapper" title="zephyr.backend.discretization.DiscretizationWrapper"><code class="xref py py-class docutils literal"><span class="pre">zephyr.backend.discretization.DiscretizationWrapper</span></code></a></p>
-<p>Wrapper to carry out forward-modelling using the stored
-discretization over a series of frequencies.</p>
-<dl class="method">
-<dt id="zephyr.backend.discretization.MultiFreq.__mul__">
-<code class="descname">__mul__</code><span class="sig-paren">(</span><em>rhs</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/uwoseis/zephyr/blob/master/zephyr/backend/discretization.py"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zephyr.backend.discretization.MultiFreq.__mul__" title="Permalink to this definition">¶</a></dt>
-<dd><p>Carries out the multiplication of the composite system
-by the right-hand-side vector(s).</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>rhs</strong> (<em>array-like or list thereof</em>) &#8211; Source vectors</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><strong>u</strong> &#8211;
-Wavefields</td>
-</tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">iterator over np.ndarrays</td>
-</tr>
-</tbody>
-</table>
-</dd></dl>
-
-<dl class="attribute">
-<dt id="zephyr.backend.discretization.MultiFreq.disc">
-<code class="descname">disc</code><a class="reference external" href="https://github.com/uwoseis/zephyr/blob/master/zephyr/backend/discretization.py"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zephyr.backend.discretization.MultiFreq.disc" title="Permalink to this definition">¶</a></dt>
-<dd><p>The discretization to instantiate</p>
-</dd></dl>
-
-<dl class="attribute">
-<dt id="zephyr.backend.discretization.MultiFreq.initMap">
-<code class="descname">initMap</code><em class="property"> = {'scaleTerm': (False, '_scaleTerm', &lt;type 'numpy.complex128'&gt;), 'disc': (True, '_disc', None), 'freqs': (True, None, &lt;type 'list'&gt;), 'parallel': (False, '_parallel', &lt;type 'bool'&gt;)}</em><a class="reference external" href="https://github.com/uwoseis/zephyr/blob/master/zephyr/backend/discretization.py"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zephyr.backend.discretization.MultiFreq.initMap" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="attribute">
-<dt id="zephyr.backend.discretization.MultiFreq.maskKeys">
-<code class="descname">maskKeys</code><em class="property"> = ['disc', 'freqs', 'parallel']</em><a class="reference external" href="https://github.com/uwoseis/zephyr/blob/master/zephyr/backend/discretization.py"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zephyr.backend.discretization.MultiFreq.maskKeys" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="attribute">
-<dt id="zephyr.backend.discretization.MultiFreq.parallel">
-<code class="descname">parallel</code><a class="reference external" href="https://github.com/uwoseis/zephyr/blob/master/zephyr/backend/discretization.py"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zephyr.backend.discretization.MultiFreq.parallel" title="Permalink to this definition">¶</a></dt>
-<dd><p>Determines whether to operate in parallel</p>
-</dd></dl>
-
-<dl class="attribute">
-<dt id="zephyr.backend.discretization.MultiFreq.spUpdates">
-<code class="descname">spUpdates</code><a class="reference external" href="https://github.com/uwoseis/zephyr/blob/master/zephyr/backend/discretization.py"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zephyr.backend.discretization.MultiFreq.spUpdates" title="Permalink to this definition">¶</a></dt>
-<dd><p>Updates for frequency subProblems</p>
 </dd></dl>
 
 </dd></dl>
@@ -595,7 +544,7 @@ systemConfig object used to initialize it.</p>
 
 <dl class="attribute">
 <dt id="zephyr.backend.meta.BaseSCCache.maskKeys">
-<code class="descname">maskKeys</code><em class="property"> = []</em><a class="reference external" href="https://github.com/uwoseis/zephyr/blob/master/zephyr/backend/meta.py"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zephyr.backend.meta.BaseSCCache.maskKeys" title="Permalink to this definition">¶</a></dt>
+<code class="descname">maskKeys</code><em class="property"> = set([])</em><a class="reference external" href="https://github.com/uwoseis/zephyr/blob/master/zephyr/backend/meta.py"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zephyr.backend.meta.BaseSCCache.maskKeys" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="attribute">
@@ -750,7 +699,7 @@ Equal weights for each sample correspond to an inverse DFT.</p>
 
 <dl class="attribute">
 <dt id="zephyr.backend.minizephyr.MiniZephyr25D.maskKeys">
-<code class="descname">maskKeys</code><em class="property"> = ['nky', 'disc', 'parallel']</em><a class="reference external" href="https://github.com/uwoseis/zephyr/blob/master/zephyr/backend/minizephyr.py"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zephyr.backend.minizephyr.MiniZephyr25D.maskKeys" title="Permalink to this definition">¶</a></dt>
+<code class="descname">maskKeys</code><em class="property"> = set(['scaleTerm', 'disc', 'parallel', 'nky'])</em><a class="reference external" href="https://github.com/uwoseis/zephyr/blob/master/zephyr/backend/minizephyr.py"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zephyr.backend.minizephyr.MiniZephyr25D.maskKeys" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="attribute">
