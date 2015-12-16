@@ -35,15 +35,46 @@ In order to provide a lightweight, non-interactive batch-mode for production and
 
 *Clean up project results / outputs*
 
-The purpose of the `clean` command is to remove output files from the working directory and prepare to restart / relaunch the one of the commands `invert`, `migrate` or `model`. The `clean` command will always prompt with a list of files to delete.
+Remove output files from the working directory and prepare to restart / relaunch the one of the commands `invert`, `migrate` or `model`. The `clean` command will always prompt with a list of files to delete.
 
 ### zephyr init
 
 *Set up a new modelling or inversion project*
 
-The purpose of the `init` command is to generate the required files to run `invert`, `migrate` or `model`. These files and configurations may then be modified to configure the inversion.
+Generate the required files to run `invert`, `migrate` or `model`. These files and configurations may then be modified to configure the inversion.
 
 ### zephyr inspect
 
 *Print information about an existing project*
 
+Generate a report including a basic or extended summary of the project.
+
+### zephyr invert
+
+*Perform waveform inversion*
+
+Carry out waveform inversion using the configuration files present in the current working directory. Configuration will be read from an HDF5 file matching the project name if it exists, but files present in the working directory augment and override entries in the project HDF5 file.
+
+### zephyr migrate
+
+*Perform reverse-time migration*
+
+Carry out reverse-time migration using the configuration files present in the current working directory. Configuration will be read from an HDF5 file matching the project name if it exists, but files present in the working directory augment and override entries in the project HDF5 file.
+
+### zephyr model
+
+*Perform forward modelling*
+
+Carry out forward modelling using the configuration files present in the current working directory. Configuration will be read from an HDF5 file matching the project name if it exists, but files present in the working directory augment and override entries in the project HDF5 file.
+
+### zephyr pack
+
+*Pack up configuration and data*
+
+Take existing configuration files, data and models in the working directory, and combine them into a project HDF5 file.
+
+### zephyr unpack
+
+*Unpack configuration and data*
+
+Unpack configuration items, data and models into the working directory, from a project HDF5 file.
