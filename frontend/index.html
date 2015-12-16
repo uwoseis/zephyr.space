@@ -166,12 +166,28 @@ Commands:
 </code></pre>
 <h3 id="zephyr-clean">zephyr clean</h3>
 <p><em>Clean up project results / outputs</em></p>
-<p>The purpose of the <code>clean</code> command is to remove output files from the working directory and prepare to restart / relaunch the one of the commands <code>invert</code>, <code>migrate</code> or <code>model</code>. The <code>clean</code> command will always prompt with a list of files to delete.</p>
+<p>Remove output files from the working directory and prepare to restart / relaunch the one of the commands <code>invert</code>, <code>migrate</code> or <code>model</code>. The <code>clean</code> command will always prompt with a list of files to delete.</p>
 <h3 id="zephyr-init">zephyr init</h3>
 <p><em>Set up a new modelling or inversion project</em></p>
-<p>The purpose of the <code>init</code> command is to generate the required files to run <code>invert</code>, <code>migrate</code> or <code>model</code>. These files and configurations may then be modified to configure the inversion.</p>
+<p>Generate the required files to run <code>invert</code>, <code>migrate</code> or <code>model</code>. These files and configurations may then be modified to configure the inversion.</p>
 <h3 id="zephyr-inspect">zephyr inspect</h3>
-<p><em>Print information about an existing project</em></p></div>
+<p><em>Print information about an existing project</em></p>
+<p>Generate a report including a basic or extended summary of the project.</p>
+<h3 id="zephyr-invert">zephyr invert</h3>
+<p><em>Perform waveform inversion</em></p>
+<p>Carry out waveform inversion using the configuration files present in the current working directory. Configuration will be read from an HDF5 file matching the project name if it exists, but files present in the working directory augment and override entries in the project HDF5 file.</p>
+<h3 id="zephyr-migrate">zephyr migrate</h3>
+<p><em>Perform reverse-time migration</em></p>
+<p>Carry out reverse-time migration using the configuration files present in the current working directory. Configuration will be read from an HDF5 file matching the project name if it exists, but files present in the working directory augment and override entries in the project HDF5 file.</p>
+<h3 id="zephyr-model">zephyr model</h3>
+<p><em>Perform forward modelling</em></p>
+<p>Carry out forward modelling using the configuration files present in the current working directory. Configuration will be read from an HDF5 file matching the project name if it exists, but files present in the working directory augment and override entries in the project HDF5 file.</p>
+<h3 id="zephyr-pack">zephyr pack</h3>
+<p><em>Pack up configuration and data</em></p>
+<p>Take existing configuration files, data and models in the working directory, and combine them into a project HDF5 file.</p>
+<h3 id="zephyr-unpack">zephyr unpack</h3>
+<p><em>Unpack configuration and data</em></p>
+<p>Unpack configuration items, data and models into the working directory, from a project HDF5 file.</p></div>
         </div>
 
         <footer class="col-md-12">
